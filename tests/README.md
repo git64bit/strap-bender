@@ -30,3 +30,11 @@ The analytical path uses the finished inside edge as its explicit reference axis
 - `concave_polygon_contract.scad` preserves one concave right turn and its independent radius.
 - `polygon_feasibility_contract.scad` detects neighboring tangent setbacks that consume an edge.
 - `vertex_polygon_workbench_wrapper_contract.scad` executes the complete named-polygon route through `main.scad`.
+
+
+## Batch 006 regular-polygon contracts
+
+- `regular_polygon_contract.scad` verifies equilateral-triangle generation, resolved sharp dimensions, convex turns, and exact closure.
+- `regular_polygon_dimension_modes_contract.scad` proves equivalent side-length, circumradius, and apothem authorities generate the same rounded square and analytical path.
+- `regular_polygon_radius_schedule_contract.scad` preserves an explicit mixed-radius pentagon through vertex and bend-command provenance.
+- `regular_polygon_workbench_wrapper_contract.scad` executes the complete scalar Customizer route through `main.scad`.

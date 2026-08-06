@@ -242,3 +242,69 @@ module report_polygon_compilation(
         echo(str("Notes: ", polygon_compilation_notes(compilation)));
     }
 }
+
+
+module report_regular_polygon(polygon, report_level = "full") {
+    radii = regular_polygon_corner_radii(polygon);
+
+    echo("--- Strap Bender regular polygon ---");
+    echo(str("Source: ", regular_polygon_name(polygon)));
+    echo(str("Sides: ", regular_polygon_side_count(polygon)));
+    echo(str(
+        "Governing dimension: ",
+        regular_polygon_dimension_kind(polygon),
+        " = ", regular_polygon_dimension_value(polygon), " mm"
+    ));
+    echo(str(
+        "Corner radii: ",
+        is_num(radii)
+            ? str("common ", radii, " mm")
+            : str(len(radii), " explicit values")
+    ));
+    echo(str(
+        "Center: [", sb_point_x(regular_polygon_center(polygon)),
+        ", ", sb_point_y(regular_polygon_center(polygon)), "] mm"
+    ));
+    echo(str(
+        "First sharp vertex angle: ",
+        regular_polygon_first_vertex_angle_degrees(polygon),
+        " degrees"
+    ));
+
+    if (report_level == "full") {
+        if (is_list(radii))
+            echo(str("Resolved source radius list: ", radii));
+        echo(str("Start vertex index: ",
+            regular_polygon_start_vertex_index(polygon)));
+        echo(str("Notes: ", regular_polygon_notes(polygon)));
+    }
+}
+
+module report_regular_polygon_compilation(
+    compilation,
+    report_level = "full"
+) {
+    vertices = regular_polygon_compilation_vertices(compilation);
+
+    echo("--- Strap Bender regular-polygon compilation ---");
+    echo(str("Source: ",
+        regular_polygon_compilation_source_name(compilation)));
+    echo(str("Resolved sharp circumradius: ",
+        regular_polygon_compilation_circumradius(compilation), " mm"));
+    echo(str("Resolved sharp apothem: ",
+        regular_polygon_compilation_apothem(compilation), " mm"));
+    echo(str("Resolved sharp side length: ",
+        regular_polygon_compilation_side_length(compilation), " mm"));
+    echo(str("Generated sharp vertices: ", len(vertices)));
+
+    if (report_level == "full") {
+        for (vertex_index = [0 : len(vertices) - 1])
+            echo(str(
+                "Vertex ", vertex_index, ": [",
+                sb_point_x(vertices[vertex_index]), ", ",
+                sb_point_y(vertices[vertex_index]), "]"
+            ));
+        echo(str("Notes: ",
+            regular_polygon_compilation_notes(compilation)));
+    }
+}

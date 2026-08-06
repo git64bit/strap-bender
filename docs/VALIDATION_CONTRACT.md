@@ -36,6 +36,17 @@ Validation protects the authored contract. It must reject invalid records and re
 
 Batch 005 implements these checks except polygon self-intersection analysis, which remains a separate later diagnostic. Radius infeasibility is exposed both as a Boolean predicate for non-failing contract tests and as an asserting source-record validator for production routing.
 
+## Regular-polygon validation
+
+- side count is an integer of at least three;
+- governing dimension kind is `side_length`, `circumradius`, or `apothem`;
+- governing dimension and all requested radii are finite and positive;
+- radius input is one scalar or exactly one value per side;
+- center and first-vertex angle are finite;
+- generated vertices share one circumradius and one edge length;
+- generated order is counter-clockwise;
+- the generated vertex polygon passes all existing tangent-setback and closure validations.
+
 ## Pattern validation
 
 - pattern expansion terminates;

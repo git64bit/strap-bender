@@ -112,3 +112,33 @@ function polygon_compilation_edges(compilation) = compilation[PX_EDGES];
 function polygon_compilation_normalized_shape(compilation) =
     compilation[PX_NORMALIZED_SHAPE];
 function polygon_compilation_notes(compilation) = compilation[PX_NOTES];
+
+
+function regular_polygon_name(polygon) = polygon[RP_NAME];
+function regular_polygon_side_count(polygon) = polygon[RP_SIDE_COUNT];
+function regular_polygon_dimension_kind(polygon) =
+    polygon[RP_DIMENSION_KIND];
+function regular_polygon_dimension_value(polygon) =
+    polygon[RP_DIMENSION_VALUE];
+function regular_polygon_corner_radii(polygon) = polygon[RP_CORNER_RADII];
+function regular_polygon_center(polygon) = polygon[RP_CENTER];
+function regular_polygon_first_vertex_angle_degrees(polygon) =
+    polygon[RP_FIRST_VERTEX_ANGLE_DEGREES];
+function regular_polygon_start_vertex_index(polygon) =
+    polygon[RP_START_VERTEX_INDEX];
+function regular_polygon_notes(polygon) = polygon[RP_NOTES];
+
+function regular_polygon_compilation_source_name(compilation) =
+    compilation[RX_SOURCE_POLYGON_NAME];
+function regular_polygon_compilation_circumradius(compilation) =
+    compilation[RX_RESOLVED_CIRCUMRADIUS];
+function regular_polygon_compilation_apothem(compilation) =
+    compilation[RX_RESOLVED_APOTHEM];
+function regular_polygon_compilation_side_length(compilation) =
+    compilation[RX_RESOLVED_SIDE_LENGTH];
+function regular_polygon_compilation_vertices(compilation) =
+    compilation[RX_VERTICES];
+function regular_polygon_compilation_vertex_polygon(compilation) =
+    compilation[RX_GENERATED_VERTEX_POLYGON];
+function regular_polygon_compilation_notes(compilation) =
+    compilation[RX_NOTES];

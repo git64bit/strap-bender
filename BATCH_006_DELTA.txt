@@ -1,0 +1,122 @@
+STRAP BENDER — BATCH 006 DELTA
+
+Base repository:
+ https://github.com/git64bit/strap-bender
+
+Required base commit:
+ 2812ad6
+ 2812ad66eeb4df2f34792eb784a1e70ed9409d0e
+
+Scope:
+ Phase 2B regular-polygon front end.
+
+ Implements native regular-polygon source and compilation records. A regular
+ source defines side count, one governing sharp dimension, center, orientation,
+ start vertex, and common or explicit desired finished inside radii. Supported
+ governing dimensions are sharp side length, sharp circumradius, and sharp
+ apothem. The compiler resolves all three dimensions, generates ordered
+ counter-clockwise sharp vertices, and creates a standard vertex-polygon record.
+ That record then uses the accepted rounded-polygon, bend-program, analytical,
+ sampling, reporting, and diagnostic-rendering pipeline.
+
+ The executable Regular Polygon workbench exposes scalar Customizer controls for
+ side count, governing dimension, common corner radius, first-vertex angle, and
+ center. It does not establish a fixed internal side or bend count. Named
+ Laboratory examples cover a triangle, square, and mixed-radius pentagon.
+
+Authority and provenance:
+ The regular-polygon source record remains authoritative authoring intent. Its
+ governing sharp dimension is not rewritten by corner rounding. Resolved
+ dimensions, generated sharp vertices, and the generated vertex-polygon record
+ are derived compilation data. After vertex generation, existing E# and V#
+ labels preserve source edge and vertex identities through normalized commands
+ and exact analytical primitives.
+
+Not included:
+ No periodic, formula-based, or index-derived radius schedule grammar.
+ No polygon self-intersection or near-intersection diagnostic.
+ No pattern or long-wave compiler.
+ No strap solid, material calibration, neutral-axis cut length, or fixture.
+
+New files:
+ BATCH_006_DELTA.txt
+ config/regular_polygons.scad
+ lib/regular_polygon_validation.scad
+ paths/compile_regular_polygon.scad
+ paths/regular_polygon_math.scad
+ registries/laboratory_regular_polygons.scad
+ tests/regular_polygon_contract.scad
+ tests/regular_polygon_dimension_modes_contract.scad
+ tests/regular_polygon_radius_schedule_contract.scad
+ tests/regular_polygon_workbench_wrapper_contract.scad
+ workbenches/regular-polygon.scad
+
+Changed files:
+ README.md
+ config/defaults.scad
+ config/projects.scad
+ config/workbenches.scad
+ default.scad
+ docs/ARCHITECTURE.md
+ docs/DATA_MODEL.md
+ docs/GEOMETRY_CONVENTIONS.md
+ docs/ROADMAP.md
+ docs/SHAPE_DESCRIPTION.md
+ docs/VALIDATION_CONTRACT.md
+ lib/accessors.scad
+ lib/indices.scad
+ lib/lookup.scad
+ lib/reporting.scad
+ lib/schema.scad
+ lib/validation.scad
+ main.scad
+ registries/laboratory_projects.scad
+ strap_bender.scad
+ tests/README.md
+ tests/public_foundation_contract.scad
+ tests/workbench_registry_contract.scad
+
+Deleted files:
+ None.
+
+Upload:
+ 1. Confirm the repository is at commit 2812ad6.
+ 2. Upload all files from this archive as complete files while preserving
+    repository-relative paths.
+ 3. Create the new config, lib, paths, registries, tests, and workbench files
+    exactly as named above.
+ 4. Do not replace or modify LICENSE, earlier BATCH_*_DELTA files, or unrelated
+    source files.
+
+OpenSCAD verification:
+ 1. Open tests/public_foundation_contract.scad and press F5.
+ 2. Confirm: STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+ 3. Open tests/regular_polygon_contract.scad and press F5.
+ 4. Confirm the contract verifies a 100 mm equilateral triangle, three convex
+    120 degree turns, and exact positional and tangent closure.
+ 5. Confirm: STRAP BENDER REGULAR-POLYGON CONTRACT: PASS
+ 6. Open tests/regular_polygon_dimension_modes_contract.scad and press F5.
+ 7. Confirm: STRAP BENDER REGULAR-POLYGON DIMENSION MODES CONTRACT: PASS
+ 8. Open tests/regular_polygon_radius_schedule_contract.scad and press F5.
+ 9. Confirm source vertex V2 retains the 5 mm radius while the other pentagon
+    vertices retain 1.6 mm.
+10. Confirm: STRAP BENDER REGULAR-POLYGON RADIUS SCHEDULE CONTRACT: PASS
+11. Open tests/workbench_registry_contract.scad and press F5.
+12. Confirm: STRAP BENDER WORKBENCH REGISTRY CONTRACT: PASS
+13. Open tests/regular_polygon_workbench_wrapper_contract.scad and press F5.
+14. Confirm a five-sided diagnostic path renders with tangent markers.
+15. Confirm regular source, regular compilation, vertex source, polygon
+    compilation, normalized bend-program, analytical-path, sampled-path,
+    render, workbench, and project PASS messages appear.
+16. Open workbenches/regular-polygon.scad and press F5.
+17. Change side_count to 3, 4, and 5; confirm each shape updates without a
+    Bend A/B/C style fixed command interface.
+18. Change dimension_kind among side_length, circumradius, and apothem and
+    confirm the report clearly labels both the governing and resolved values.
+19. Set show_diagnostic_preview false and press F5. Confirm no geometry renders
+    while all source and analytical reports remain available.
+20. Re-run the accepted Batch 005 vertex-polygon contracts and confirm no
+    warnings or errors.
+
+After acceptance:
+ Commit the batch and provide the resulting commit SHA for reconciliation.

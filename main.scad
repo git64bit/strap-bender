@@ -11,9 +11,11 @@ include <registries/laboratory_projects.scad>
 include <registries/catalog_projects.scad>
 include <registries/laboratory_bend_programs.scad>
 include <registries/laboratory_vertex_polygons.scad>
+include <registries/laboratory_regular_polygons.scad>
 include <config/projects.scad>
 include <config/programs.scad>
 include <config/polygons.scad>
+include <config/regular_polygons.scad>
 include <config/workbenches.scad>
 
 module run_normalized_shape_pipeline(shape) {
@@ -57,6 +59,36 @@ module run_normalized_shape_pipeline(shape) {
     }
 }
 
+module run_vertex_polygon_pipeline(polygon) {
+    validate_vertex_polygon(polygon);
+    report_vertex_polygon(polygon, wb_report_level);
+    echo("STRAP BENDER VERTEX-POLYGON SOURCE VALIDATION: PASS");
+
+    compilation = compile_vertex_polygon(polygon);
+    validate_polygon_compilation(compilation, polygon);
+    report_polygon_compilation(compilation, wb_report_level);
+    echo("STRAP BENDER POLYGON COMPILATION VALIDATION: PASS");
+
+    run_normalized_shape_pipeline(
+        polygon_compilation_normalized_shape(compilation)
+    );
+}
+
+module run_regular_polygon_pipeline(polygon) {
+    validate_regular_polygon(polygon);
+    report_regular_polygon(polygon, wb_report_level);
+    echo("STRAP BENDER REGULAR-POLYGON SOURCE VALIDATION: PASS");
+
+    compilation = compile_regular_polygon(polygon);
+    validate_regular_polygon_compilation(compilation, polygon);
+    report_regular_polygon_compilation(compilation, wb_report_level);
+    echo("STRAP BENDER REGULAR-POLYGON COMPILATION VALIDATION: PASS");
+
+    run_vertex_polygon_pipeline(
+        regular_polygon_compilation_vertex_polygon(compilation)
+    );
+}
+
 module run_strap_bender_project() {
     validate_workbench_selection(
         wb_workbench_name,
@@ -84,18 +116,14 @@ module run_strap_bender_project() {
             wb_polygon_name,
             "vertex polygon"
         );
-        validate_vertex_polygon(polygon);
-        report_vertex_polygon(polygon, wb_report_level);
-        echo("STRAP BENDER VERTEX-POLYGON SOURCE VALIDATION: PASS");
-
-        compilation = compile_vertex_polygon(polygon);
-        validate_polygon_compilation(compilation, polygon);
-        report_polygon_compilation(compilation, wb_report_level);
-        echo("STRAP BENDER POLYGON COMPILATION VALIDATION: PASS");
-
-        run_normalized_shape_pipeline(
-            polygon_compilation_normalized_shape(compilation)
+        run_vertex_polygon_pipeline(polygon);
+    } else if (project_kind(project) == "regular_polygon") {
+        regular_polygon = named_record(
+            REGULAR_POLYGONS,
+            wb_regular_polygon_name,
+            "regular polygon"
         );
+        run_regular_polygon_pipeline(regular_polygon);
     } else {
         echo("Strap Bender Catalog contains no accepted geometry.");
     }

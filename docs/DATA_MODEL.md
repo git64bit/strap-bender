@@ -40,6 +40,14 @@ Represents one ordered straight, bend, pattern instance, or other explicitly sup
 
 Batch 005 records a closed polygon name, ordered sharp XY vertices, one resolved desired finished inside radius per corner, a selected start vertex, and notes. A scalar radius is expanded deterministically to the complete corner list by the constructor.
 
+### Regular-polygon source
+
+Batch 006 records a name, integer side count, one governing sharp-dimension kind and value, common or explicit desired finished inside radii, center, first-sharp-vertex angle, selected start vertex, and notes. Supported governing dimensions are sharp side length, sharp circumradius, and sharp apothem.
+
+### Regular-polygon compilation
+
+A generated compilation record stores the source identity, resolved sharp circumradius, apothem, side length, counter-clockwise sharp vertices, and generated vertex-polygon record. It is derived execution data. The regular-polygon source remains the authoring authority.
+
 ### Polygon corner and edge derivations
 
 Generated corner records preserve source-vertex index, signed turn, orientation-independent convex/concave classification, radius, tangent setback, entry/exit tangent points, and normalized bend-command index. Generated edge records preserve source-edge index, tangent endpoints, retained straight length, heading, and normalized straight-command index.

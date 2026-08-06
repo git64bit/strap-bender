@@ -18,6 +18,9 @@ STRAP_BENDER_POLYGON_CORNER_RECORD = "strap_bender_polygon_corner";
 STRAP_BENDER_POLYGON_EDGE_RECORD = "strap_bender_polygon_edge";
 STRAP_BENDER_POLYGON_COMPILATION_RECORD =
     "strap_bender_polygon_compilation";
+STRAP_BENDER_REGULAR_POLYGON_RECORD = "strap_bender_regular_polygon";
+STRAP_BENDER_REGULAR_POLYGON_COMPILATION_RECORD =
+    "strap_bender_regular_polygon_compilation";
 
 function project_spec(
     name,
@@ -279,5 +282,52 @@ function polygon_compilation_spec(
     corners,
     edges,
     normalized_shape,
+    notes
+];
+
+
+function regular_polygon_spec(
+    name,
+    side_count,
+    dimension_kind,
+    dimension_value,
+    corner_radii,
+    center = [0, 0],
+    first_vertex_angle_degrees = 90,
+    start_vertex_index = 0,
+    notes = "",
+    schema_version = STRAP_BENDER_SCHEMA_VERSION
+) = [
+    STRAP_BENDER_REGULAR_POLYGON_RECORD,
+    schema_version,
+    name,
+    side_count,
+    dimension_kind,
+    dimension_value,
+    corner_radii,
+    center,
+    first_vertex_angle_degrees,
+    start_vertex_index,
+    notes
+];
+
+function regular_polygon_compilation_spec(
+    source_polygon_name,
+    resolved_circumradius,
+    resolved_apothem,
+    resolved_side_length,
+    vertices,
+    generated_vertex_polygon,
+    notes = "",
+    schema_version = STRAP_BENDER_SCHEMA_VERSION
+) = [
+    STRAP_BENDER_REGULAR_POLYGON_COMPILATION_RECORD,
+    schema_version,
+    source_polygon_name,
+    resolved_circumradius,
+    resolved_apothem,
+    resolved_side_length,
+    vertices,
+    generated_vertex_polygon,
     notes
 ];

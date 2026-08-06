@@ -14,6 +14,7 @@ function sb_schema_version_valid(value) =
 function sb_project_kind_valid(kind) =
     kind == "bend_program" ||
     kind == "vertex_polygon" ||
+    kind == "regular_polygon" ||
     kind == "catalog";
 function sb_project_status_valid(status) =
     status == "stub" ||

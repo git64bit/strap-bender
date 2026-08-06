@@ -120,3 +120,13 @@ Exact lines and circular arcs remain authoritative. A line contributes only its 
 The first and last point of every primitive are retained exactly, while shared primitive boundaries appear only once in the sampled point list. The resulting chordal polyline is expected to be slightly shorter than the exact curved path. Its length, bounds, and point count are diagnostic values only.
 
 The Batch 004 renderer shows a thin extrusion of the sampled **finished inside-edge reference path** and optional markers at analytical primitive boundaries. It is not a strap solid, neutral-axis representation, mandrel, or production fixture.
+
+## Regular-polygon governing dimensions
+
+Batch 006 defines three unambiguous authorities on the sharp, unrounded regular polygon:
+
+- `side_length`: distance between adjacent sharp vertices;
+- `circumradius`: distance from center to a sharp vertex;
+- `apothem`: perpendicular distance from center to a sharp side line.
+
+The generator resolves the other two values analytically. `first_vertex_angle_degrees` locates the ray from center to source vertex 0. Vertices advance counter-clockwise in equal angular increments. Corner rounding occurs after sharp-vertex generation and does not redefine the governing dimension.

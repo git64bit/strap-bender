@@ -25,5 +25,15 @@ LABORATORY_PROJECTS = [
             "tangent corners and retained straight lengths, then normalizes ",
             "the result to the shared bend-program and analytical-path route."
         )
+    ),
+    project_spec(
+        name = "REGULAR_POLYGON_LAB",
+        kind = "regular_polygon",
+        status = "laboratory",
+        notes = str(
+            "Mutable regular-polygon laboratory. It resolves one governing ",
+            "sharp dimension, generates ordered vertices, then enters the ",
+            "shared vertex-polygon and analytical-path pipeline."
+        )
     )
 ];

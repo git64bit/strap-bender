@@ -19,6 +19,8 @@ assert(STRAP_BENDER_SAMPLED_PATH_CONTRACT_VERSION == 1,
     "Unexpected sampled-path contract version.");
 assert(STRAP_BENDER_VERTEX_POLYGON_CONTRACT_VERSION == 1,
     "Unexpected vertex-polygon contract version.");
+assert(STRAP_BENDER_REGULAR_POLYGON_CONTRACT_VERSION == 1,
+    "Unexpected regular-polygon contract version.");
 
 project = project_spec("TEST_PROJECT", "bend_program", "laboratory");
 pose = start_pose_spec(10, -5, 30);
@@ -43,6 +45,17 @@ polygon = vertex_polygon_spec(
     [[0, 0], [20, 0], [20, 20], [0, 20]],
     2
 );
+regular_polygon = regular_polygon_spec(
+    "TEST_REGULAR_POLYGON",
+    5,
+    "side_length",
+    40,
+    2,
+    [10, -10],
+    90,
+    0
+);
+regular_compilation = compile_regular_polygon(regular_polygon);
 
 assert(project_name(project) == "TEST_PROJECT",
     "Project accessor contract failed.");
@@ -65,5 +78,18 @@ assert(vertex_polygon_name(polygon) == "TEST_POLYGON" &&
     len(vertex_polygon_corner_radii(polygon)) == 4 &&
     vertex_polygon_corner_radii(polygon)[2] == 2,
     "Vertex-polygon constructor or accessor contract failed.");
+assert(regular_polygon_name(regular_polygon) ==
+    "TEST_REGULAR_POLYGON" &&
+    regular_polygon_side_count(regular_polygon) == 5 &&
+    regular_polygon_dimension_kind(regular_polygon) == "side_length" &&
+    regular_polygon_dimension_value(regular_polygon) == 40 &&
+    regular_polygon_center(regular_polygon) == [10, -10],
+    "Regular-polygon constructor or accessor contract failed.");
+assert(len(regular_polygon_compilation_vertices(
+    regular_compilation
+)) == 5 && regular_polygon_compilation_source_name(
+    regular_compilation
+) == "TEST_REGULAR_POLYGON",
+    "Regular-polygon compilation accessor contract failed.");
 
 echo("STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS");

@@ -18,6 +18,24 @@ wb_program_name = is_undef(program_name_selected)
     ? "OPEN_MIXED_RADIUS_EXAMPLE" : program_name_selected;
 wb_polygon_name = is_undef(polygon_name_selected)
     ? "ROUNDED_SQUARE_EXAMPLE" : polygon_name_selected;
+wb_regular_polygon_name = is_undef(regular_polygon_name_selected)
+    ? "REGULAR_TRIANGLE_SIDE_100_R5"
+    : regular_polygon_name_selected;
+wb_regular_side_count = is_undef(regular_side_count)
+    ? 5 : regular_side_count;
+wb_regular_dimension_kind = is_undef(regular_dimension_kind)
+    ? "side_length" : regular_dimension_kind;
+wb_regular_dimension_value_mm = is_undef(regular_dimension_value_mm)
+    ? 100 : regular_dimension_value_mm;
+wb_regular_corner_radius_mm = is_undef(regular_corner_radius_mm)
+    ? 5 : regular_corner_radius_mm;
+wb_regular_first_vertex_angle_degrees =
+    is_undef(regular_first_vertex_angle_degrees)
+        ? 90 : regular_first_vertex_angle_degrees;
+wb_regular_center_x_mm = is_undef(regular_center_x_mm)
+    ? 0 : regular_center_x_mm;
+wb_regular_center_y_mm = is_undef(regular_center_y_mm)
+    ? 0 : regular_center_y_mm;
 
 wb_sample_chord_error_mm = is_undef(sample_chord_error_mm)
     ? SB_DEFAULT_SAMPLE_CHORD_ERROR_MM : sample_chord_error_mm;

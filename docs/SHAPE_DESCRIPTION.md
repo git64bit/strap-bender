@@ -65,7 +65,7 @@ Batch 005 implements this for named closed vertex polygons. Sharp source vertice
 
 ### Regular polygon generator
 
-A convenience front end may define side count, size authority, orientation, and common or scheduled corner radii. It compiles to the same bend program and analytical path as an explicitly entered polygon.
+Batch 006 defines side count, one governing sharp dimension (`side_length`, `circumradius`, or `apothem`), center, first-vertex angle, start vertex, and common or explicit corner radii. It generates counter-clockwise sharp vertices, then compiles through the same rounded vertex-polygon, bend-program, and analytical-path route as explicitly entered vertices. The scalar Customizer workbench exposes one common radius; explicit per-corner lists remain available in Laboratory records.
 
 ### Repeated pattern and wave generator
 

@@ -12,7 +12,9 @@ function record_name(record) =
             ? shape_name(record)
             : record[0] == STRAP_BENDER_VERTEX_POLYGON_RECORD
                 ? vertex_polygon_name(record)
-                : undef;
+                : record[0] == STRAP_BENDER_REGULAR_POLYGON_RECORD
+                    ? regular_polygon_name(record)
+                    : undef;
 
 function records_named(records, name) =
     [for (record = records) if (record_name(record) == name) record];

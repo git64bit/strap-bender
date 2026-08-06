@@ -2,13 +2,14 @@
 // LibFile: workbenches.scad
 // Project: Strap Bender
 // FileGroup: Workbench Routing
-// FileSummary: Defines development, Bend Program, and Catalog routes.
+// FileSummary: Defines development, authoring, and Catalog routes.
 //////////////////////////////////////////////////////////////////////
 
 WORKBENCH_NAMES = [
     "development",
     "bend_program",
     "vertex_polygon",
+    "regular_polygon",
     "catalog"
 ];
 
@@ -21,7 +22,8 @@ function workbench_render_mode_allowed(name, mode) =
         ? mode == "report_only"
         : (name == "development" ||
             name == "bend_program" ||
-            name == "vertex_polygon") &&
+            name == "vertex_polygon" ||
+            name == "regular_polygon") &&
             (mode == "report_only" || mode == "diagnostic_path");
 
 module validate_workbench_selection(

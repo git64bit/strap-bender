@@ -41,7 +41,8 @@ Implementation status:
 
 Implementation status:
 - Batch 005 covers named closed vertex-polygon records, common or explicit per-corner radii, orientation-independent convex/concave classification, exact circular tangent setbacks, retained-edge feasibility, normalized bend-program generation, source edge/vertex provenance, a diagnostic workbench, and explicit-program equivalence testing.
-- The regular-polygon generator, broader radius schedule grammar, and self-intersection diagnostics remain later bounded work.
+- Batch 006 covers regular-polygon source and compilation records, side-length/circumradius/apothem authorities, counter-clockwise sharp-vertex generation, common or explicit radius propagation, a scalar Customizer workbench, and triangle/square/pentagon contracts.
+- Broader periodic or formula-based radius schedule grammar and polygon self-intersection diagnostics remain later bounded work.
 
 ## Phase 3 — patterns and long paths
 
