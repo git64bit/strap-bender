@@ -30,9 +30,9 @@ geometry dispatch
 
 `default.scad` will remain a maintainer-oriented route rather than the primary user workbench.
 
-## Candidate workbenches
+## Workbench plan
 
-The initial workbench set is a design proposal, not implemented in this batch:
+The Bend Program and Catalog routes are implemented. Regular-polygon and wave-pattern routes remain planned:
 
 ```text
 workbenches/bend-program.scad      explicit ordered straights and bends
@@ -49,7 +49,7 @@ Additional shape-specific workbenches should exist only when they provide a focu
 api/          versioned public constructors and execution modules
 config/       defaults and active workbench selection
 lib/          record accessors, mathematics, validation, reporting
-geometry/     strap preview and fixture solids
+geometry/     diagnostic preview, future strap preview, and fixture solids
 paths/        bend-program compilation and analytical path operations
 registries/   exact-name registries
 objects/      immutable accepted recipes
@@ -69,7 +69,7 @@ All authoring front ends terminate at one Strap Bender analytical path contract.
 
 ## Exact geometry and rendering boundary
 
-Line and circular-arc primitives are authoritative. Batch 003 implements this boundary for explicit bend programs using the desired finished inside edge as the named analytical reference axis. Sampled points exist only for consumers that require them. Preview resolution must not alter validation, measurements, or fixture datum positions.
+Line and circular-arc primitives are authoritative. Batch 003 implements this boundary for explicit bend programs using the desired finished inside edge as the named analytical reference axis. Batch 004 adds a sampled-path consumer controlled by maximum chord error and maximum angular step, plus a thin diagnostic renderer. The sampled record is derived display data. Preview resolution may change point count and chordal display length, but it must not alter analytical validation, measurements, exact bounds, stations, or fixture datum positions.
 
 ## Target and fixture boundary
 
@@ -104,7 +104,7 @@ BOSL2 is a candidate implementation library for path and geometry operations. Th
 - Validation returns contract failures and diagnostics.
 - Reporting explains resolved records and derived measurements.
 - Mathematics compiles and measures paths.
-- Geometry renders the strap or fixture.
+- Geometry renders diagnostic paths, future strap solids, or fixtures.
 
 A render module must not be the only place where an invalid path is detected.
 

@@ -16,3 +16,19 @@ wb_report_level = is_undef(report_level)
 
 wb_program_name = is_undef(program_name_selected)
     ? "OPEN_MIXED_RADIUS_EXAMPLE" : program_name_selected;
+
+wb_sample_chord_error_mm = is_undef(sample_chord_error_mm)
+    ? SB_DEFAULT_SAMPLE_CHORD_ERROR_MM : sample_chord_error_mm;
+wb_sample_max_angle_step_degrees =
+    is_undef(sample_max_angle_step_degrees)
+        ? SB_DEFAULT_SAMPLE_MAX_ANGLE_STEP_DEGREES
+        : sample_max_angle_step_degrees;
+wb_diagnostic_path_width_mm = is_undef(diagnostic_path_width_mm)
+    ? 0.8 : diagnostic_path_width_mm;
+wb_diagnostic_path_height_mm = is_undef(diagnostic_path_height_mm)
+    ? 0.4 : diagnostic_path_height_mm;
+wb_show_tangent_points = is_undef(show_tangent_points)
+    ? true : show_tangent_points;
+wb_tangent_marker_diameter_mm =
+    is_undef(tangent_marker_diameter_mm)
+        ? 1.6 : tangent_marker_diameter_mm;

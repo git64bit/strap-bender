@@ -139,3 +139,35 @@ module report_analytical_path(path, report_level = "full") {
         echo(str("Notes: ", analytical_path_notes(path)));
     }
 }
+
+module report_sampled_path(
+    sampled_path,
+    analytical_path,
+    report_level = "summary"
+) {
+    points = sampled_path_points(sampled_path);
+    polyline_length = sampled_path_polyline_length(sampled_path);
+    analytical_length = analytical_path_length(analytical_path);
+
+    echo("--- Strap Bender sampled display path ---");
+    echo(str("Path: ", sampled_path_name(sampled_path)));
+    echo(str("Reference axis: ",
+        sampled_path_reference_axis(sampled_path)));
+    echo(str("Sample points: ", len(points)));
+    echo(str("Requested maximum chord error: ",
+        sampled_path_chord_error_mm(sampled_path), " mm"));
+    echo(str("Maximum angular step: ",
+        sampled_path_max_angle_step_degrees(sampled_path), " degrees"));
+    echo(str("Display polyline length: ", polyline_length, " mm"));
+    echo(str("Exact analytical reference length: ",
+        analytical_length, " mm"));
+    echo(str("Chordal length shortfall: ",
+        analytical_length - polyline_length, " mm"));
+    echo(str(
+        "Sampling warning: sampled points are display data only and may not ",
+        "replace exact analytical measurements, bounds, stations, or datums."
+    ));
+
+    if (report_level == "full")
+        echo(str("Notes: ", sampled_path_notes(sampled_path)));
+}

@@ -58,3 +58,12 @@ function analytical_path_length(path) =
                 len(analytical_path_primitives(path)) - 1
             ]
         );
+
+function sampled_path_name(path) = path[SP_NAME];
+function sampled_path_reference_axis(path) = path[SP_REFERENCE_AXIS];
+function sampled_path_closure(path) = path[SP_CLOSURE];
+function sampled_path_points(path) = path[SP_POINTS];
+function sampled_path_chord_error_mm(path) = path[SP_CHORD_ERROR_MM];
+function sampled_path_max_angle_step_degrees(path) =
+    path[SP_MAX_ANGLE_STEP_DEGREES];
+function sampled_path_notes(path) = path[SP_NOTES];

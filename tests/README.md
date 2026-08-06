@@ -16,4 +16,9 @@ Open each `.scad` file in this directory directly and press F5. A successful tes
 - `closed_path_contract.scad` verifies positional and tangent closure plus circular-arc extrema for a rounded square.
 - `analytical_scale_contract.scad` compiles the accepted 73-command scale example and verifies arbitrary-length continuity and source provenance.
 
-Batch 003 remains non-rendering. The analytical path uses the finished inside edge as its explicit reference axis. Its reported station length is not a neutral-axis developed length or a cut length.
+## Sampled diagnostic path
+
+- `sampled_path_contract.scad` verifies chord-error control, exact endpoint retention, nonduplicated primitive boundaries, and sampling invariance of analytical length.
+- `diagnostic_render_contract.scad` renders a closed diagnostic path with analytical tangent-point markers.
+
+The analytical path uses the finished inside edge as its explicit reference axis. Its reported station length is not a neutral-axis developed length or a cut length. The sampled polyline is display-only and its approximate chordal length is not an analytical measurement.

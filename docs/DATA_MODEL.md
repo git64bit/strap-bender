@@ -52,6 +52,10 @@ A derived line or circular arc containing exact geometric state and source prove
 
 A generated ordered container for analytical primitives. Batch 003 records the source shape name, closure policy, explicit `finished_inside_edge` reference axis, start and end poses, exact XY bounds, and notes identifying the limits of the reference-axis length. It does not claim neutral-axis developed length or cut length.
 
+### Sampled display path
+
+A generated, non-authoritative container for a display polyline. Batch 004 records the source path name, reference axis, closure policy, sampled XY points, requested maximum chord error, maximum angular step, and explanatory notes. It deliberately does not duplicate exact analytical bounds, stations, or length. Changing sampling resolution may change point count and approximate polyline length without changing the analytical path.
+
 ### Forming calibration
 
 Relates target geometry to fixture geometry for one physical strap and forming process. Expected fields include:

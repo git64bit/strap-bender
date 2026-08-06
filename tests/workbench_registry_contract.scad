@@ -52,6 +52,10 @@ assert(workbench_name_valid("bend_program"),
     "Bend Program workbench must be registered.");
 assert(workbench_render_mode_allowed("bend_program", "report_only"),
     "Bend Program report-only route must be allowed.");
+assert(workbench_render_mode_allowed("bend_program", "diagnostic_path"),
+    "Bend Program diagnostic-path route must be allowed.");
+assert(!workbench_render_mode_allowed("catalog", "diagnostic_path"),
+    "Catalog must reject mutable diagnostic rendering routes.");
 assert(!workbench_render_mode_allowed("bend_program", "fixture"),
     "Unimplemented geometry modes must remain rejected.");
 

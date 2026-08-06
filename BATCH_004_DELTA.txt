@@ -1,0 +1,112 @@
+STRAP BENDER — BATCH 004 DELTA
+
+Base repository:
+ https://github.com/git64bit/strap-bender
+
+Required base commit:
+ 7b7d622
+ 7b7d6226151d3f8c393244423320aea251a384cd
+
+Scope:
+ Phase 1C sampled display path and diagnostic rendering.
+ Derives a chordal display polyline from the exact finished-inside-edge
+ analytical line/arc path. Sampling is constrained independently by requested
+ maximum chord error and maximum angular step. Adds sampled-path records,
+ accessors, validation, reporting, point-count protection, and a thin 3D
+ diagnostic preview with analytical tangent-point markers.
+
+Authority boundary:
+ Exact analytical lines and circular arcs remain authoritative. Sampling may
+ change display point count and approximate chordal length, but may not alter
+ analytical length, exact bounds, stations, closure, or future fixture datums.
+ The diagnostic render is not a strap solid, neutral-axis model, mandrel, or
+ production fixture.
+
+Not included:
+ No polygon or regular-polygon front end.
+ No wave-pattern compiler or schedule grammar.
+ No strap specification, neutral-axis model, or cut-length calculation.
+ No forming compensation or radius calibration.
+ No production fixture geometry.
+ No self-intersection or near-intersection analysis.
+
+New files:
+ geometry/diagnostic_path.scad
+ paths/sample_analytical_path.scad
+ tests/diagnostic_render_contract.scad
+ tests/sampled_path_contract.scad
+ BATCH_004_DELTA.txt
+
+Changed files:
+ README.md
+ config/defaults.scad
+ config/workbenches.scad
+ docs/ARCHITECTURE.md
+ docs/DATA_MODEL.md
+ docs/GEOMETRY_CONVENTIONS.md
+ docs/ROADMAP.md
+ docs/VALIDATION_CONTRACT.md
+ lib/accessors.scad
+ lib/indices.scad
+ lib/reporting.scad
+ lib/schema.scad
+ lib/validation.scad
+ main.scad
+ strap_bender.scad
+ tests/README.md
+ tests/public_foundation_contract.scad
+ tests/workbench_registry_contract.scad
+ workbenches/bend-program.scad
+
+Deleted files:
+ None.
+
+Upload:
+ 1. Confirm the repository is at commit 7b7d622.
+ 2. Upload all files from this archive as complete files while preserving
+    repository-relative paths.
+ 3. Create the new geometry/ directory and preserve the new paths/ and tests/
+    filenames exactly.
+ 4. Do not replace or modify LICENSE, earlier BATCH_*_DELTA files, registries,
+    or unrelated source and documentation files.
+
+OpenSCAD verification:
+ 1. Open tests/public_foundation_contract.scad and press F5.
+ 2. Confirm: STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+ 3. Open tests/bend_program_records_contract.scad and press F5.
+ 4. Confirm: STRAP BENDER BEND-PROGRAM RECORDS CONTRACT: PASS
+ 5. Open tests/arbitrary_length_program_contract.scad and press F5.
+ 6. Confirm: STRAP BENDER ARBITRARY-LENGTH PROGRAM CONTRACT: PASS
+ 7. Open tests/analytical_path_contract.scad and press F5.
+ 8. Confirm: STRAP BENDER ANALYTICAL PATH CONTRACT: PASS
+ 9. Open tests/closed_path_contract.scad and press F5.
+10. Confirm: STRAP BENDER CLOSED PATH CONTRACT: PASS
+11. Open tests/analytical_scale_contract.scad and press F5.
+12. Confirm: STRAP BENDER ANALYTICAL SCALE CONTRACT: PASS
+13. Open tests/sampled_path_contract.scad and press F5.
+14. Confirm the report shows 21 fine sample points, 0.01 mm requested maximum
+    chord error, 10 degree maximum angular step, and a positive chordal length
+    shortfall.
+15. Confirm: STRAP BENDER SAMPLED PATH CONTRACT: PASS
+16. Open tests/diagnostic_render_contract.scad and press F5.
+17. Confirm a thin closed rounded-square diagnostic path renders with visible
+    tangent-point markers.
+18. Confirm: STRAP BENDER DIAGNOSTIC RENDER CONTRACT: PASS
+19. Open tests/workbench_registry_contract.scad and press F5.
+20. Confirm: STRAP BENDER WORKBENCH REGISTRY CONTRACT: PASS
+21. Open tests/workbench_wrapper_contract.scad and press F5.
+22. Confirm source-record, analytical-path, sampled-path, diagnostic-render,
+    workbench, and project PASS messages appear.
+23. Open workbenches/bend-program.scad.
+24. With OPEN_MIXED_RADIUS_EXAMPLE selected and show_diagnostic_preview true,
+    press F5. Confirm a thin open path and tangent-point markers render.
+25. Set show_diagnostic_preview false and press F5. Confirm no geometry renders
+    and the analytical report remains available.
+26. Restore show_diagnostic_preview true, select
+    THIRTY_SIX_BEND_SCALE_EXAMPLE, set report_level to summary, and press F5.
+27. Confirm the 73-command program renders without Bend A/B/C controls or a
+    fixed bend-count interface.
+28. Confirm no warnings or errors in all tests and workbench checks.
+
+After acceptance:
+ Commit the batch and provide the resulting commit SHA for reconciliation.

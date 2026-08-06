@@ -12,7 +12,10 @@ function workbench_name_valid(name) =
         if (candidate == name) candidate]) == 1;
 
 function workbench_render_mode_allowed(name, mode) =
-    workbench_name_valid(name) && mode == "report_only";
+    name == "catalog"
+        ? mode == "report_only"
+        : (name == "development" || name == "bend_program") &&
+            (mode == "report_only" || mode == "diagnostic_path");
 
 module validate_workbench_selection(
     workbench_name,

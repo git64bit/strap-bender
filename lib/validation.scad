@@ -338,3 +338,110 @@ module validate_analytical_path(path) {
             "Closed path endpoint exceeds heading tolerance.");
     }
 }
+
+function sb_point_inside_bounds(
+    point,
+    bounds,
+    tolerance = SB_NUMERIC_POSITION_TOLERANCE_MM
+) =
+    sb_point_x(point) >= sb_bounds_min_x(bounds) - tolerance &&
+    sb_point_x(point) <= sb_bounds_max_x(bounds) + tolerance &&
+    sb_point_y(point) >= sb_bounds_min_y(bounds) - tolerance &&
+    sb_point_y(point) <= sb_bounds_max_y(bounds) + tolerance;
+
+function sb_sampled_points_valid(points) =
+    is_list(points) && len(points) >= 2 &&
+    len([for (point = points) if (!sb_point_valid(point)) point]) == 0;
+
+function sb_sampled_segments_nonzero(
+    points,
+    tolerance = SB_NUMERIC_POSITION_TOLERANCE_MM
+) =
+    len([
+        for (point_index = [0 : len(points) - 2])
+            if (sb_point_distance(
+                points[point_index],
+                points[point_index + 1]
+            ) <= tolerance)
+                point_index
+    ]) == 0;
+
+function sb_sampled_points_inside_bounds(
+    points,
+    bounds,
+    tolerance = SB_NUMERIC_POSITION_TOLERANCE_MM
+) =
+    len([
+        for (point = points)
+            if (!sb_point_inside_bounds(point, bounds, tolerance)) point
+    ]) == 0;
+
+module validate_sampling_parameters(
+    chord_error_mm,
+    max_angle_step_degrees
+) {
+    assert(sb_sampling_chord_error_valid(chord_error_mm),
+        "Sampling chord error must be finite and greater than zero.");
+    assert(sb_sampling_max_angle_step_valid(max_angle_step_degrees),
+        str(
+            "Sampling maximum angular step must be finite, greater than ",
+            "zero, and no more than 180 degrees."
+        ));
+}
+
+module validate_sampled_path(sampled_path, analytical_path) {
+    assert(is_list(sampled_path) && len(sampled_path) == 9,
+        "Sampled path records must contain nine fields.");
+    assert(sampled_path[SP_RECORD_TYPE] ==
+        STRAP_BENDER_SAMPLED_PATH_RECORD,
+        "Invalid sampled path record type.");
+    assert(sb_schema_version_valid(sampled_path[SP_SCHEMA_VERSION]),
+        str("Unsupported sampled path schema version: ",
+            sampled_path[SP_SCHEMA_VERSION]));
+    assert(sampled_path_name(sampled_path) ==
+        analytical_path_name(analytical_path),
+        "Sampled path name must match its analytical source path.");
+    assert(sampled_path_reference_axis(sampled_path) ==
+        analytical_path_reference_axis(analytical_path),
+        "Sampled path reference axis must match its analytical source.");
+    assert(sampled_path_closure(sampled_path) ==
+        analytical_path_closure(analytical_path),
+        "Sampled path closure policy must match its analytical source.");
+    assert(is_string(sampled_path_notes(sampled_path)),
+        "Sampled path notes must be a string.");
+
+    validate_sampling_parameters(
+        sampled_path_chord_error_mm(sampled_path),
+        sampled_path_max_angle_step_degrees(sampled_path)
+    );
+
+    points = sampled_path_points(sampled_path);
+    assert(sb_sampled_points_valid(points),
+        "A sampled path must contain at least two finite XY points.");
+    assert(len(points) <= SB_MAX_SAMPLED_PATH_POINTS,
+        str("Sampled path exceeds the supported point limit of ",
+            SB_MAX_SAMPLED_PATH_POINTS, "."));
+    assert(sb_sampled_segments_nonzero(points),
+        "Sampled path may not contain zero-length consecutive segments.");
+    assert(sb_point_distance(
+        points[0],
+        sb_pose_point(analytical_path_start_pose(analytical_path))
+    ) <= SB_NUMERIC_POSITION_TOLERANCE_MM,
+        "Sampled path must begin at the exact analytical start point.");
+    assert(sb_point_distance(
+        points[len(points) - 1],
+        sb_pose_point(analytical_path_end_pose(analytical_path))
+    ) <= SB_NUMERIC_POSITION_TOLERANCE_MM,
+        "Sampled path must end at the exact analytical end point.");
+    assert(sb_sampled_points_inside_bounds(
+        points,
+        analytical_path_bounds(analytical_path)
+    ), "Sampled points must remain inside exact analytical bounds.");
+    assert(sampled_path_polyline_length(sampled_path) <=
+        analytical_path_length(analytical_path) +
+            SB_NUMERIC_STATION_TOLERANCE_MM,
+        str(
+            "A sampled chordal path may not exceed the exact analytical ",
+            "line-and-arc length."
+        ));
+}

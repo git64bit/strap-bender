@@ -43,6 +43,17 @@ Validation protects the authored contract. It must reject invalid records and re
 - expanded command count remains within an explicit implementation limit;
 - compact and expanded developed lengths agree.
 
+## Sampled-path validation
+
+- sampling chord error is finite and positive;
+- maximum angular step is finite, positive, and no greater than 180 degrees;
+- sampled points are finite and remain within exact analytical bounds;
+- the first and last sampled points equal the analytical endpoints within numerical tolerance;
+- shared primitive boundaries are not duplicated as zero-length consecutive segments;
+- sampled point count remains within an explicit implementation limit;
+- chordal display length does not exceed exact analytical line-and-arc length;
+- analytical measurements remain invariant when sampling parameters change.
+
 ## Geometric diagnostics
 
 The analytical path should report:

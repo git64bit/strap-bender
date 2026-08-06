@@ -98,3 +98,14 @@ The analytical path must detect and report non-neighboring intersections and nea
 ## Bounds
 
 Path bounds derive from exact line and arc extrema, not only from sampled display points. Fixture segmentation, print-bed packing, and material-length reports use analytical bounds whenever practical.
+
+## Sampling and diagnostic preview
+
+Exact lines and circular arcs remain authoritative. A line contributes only its endpoints to the sampled display path. A circular arc is divided into equal angular chords so that both of the following limits are respected:
+
+- requested maximum chord error;
+- requested maximum angular step.
+
+The first and last point of every primitive are retained exactly, while shared primitive boundaries appear only once in the sampled point list. The resulting chordal polyline is expected to be slightly shorter than the exact curved path. Its length, bounds, and point count are diagnostic values only.
+
+The Batch 004 renderer shows a thin extrusion of the sampled **finished inside-edge reference path** and optional markers at analytical primitive boundaries. It is not a strap solid, neutral-axis representation, mandrel, or production fixture.

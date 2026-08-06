@@ -2,7 +2,7 @@
 // LibFile: main.scad
 // Project: Strap Bender
 // FileGroup: Shared Workbench Orchestrator
-// FileSummary: Routes wrappers through validation and analytical compilation.
+// FileSummary: Routes wrappers through compilation, sampling, and rendering.
 //////////////////////////////////////////////////////////////////////
 
 include <strap_bender.scad>
@@ -41,6 +41,36 @@ module run_strap_bender_project() {
         validate_analytical_path(analytical_path);
         report_analytical_path(analytical_path, wb_report_level);
         echo("STRAP BENDER ANALYTICAL PATH VALIDATION: PASS");
+
+        if (wb_render_mode == "diagnostic_path") {
+            validate_sampling_parameters(
+                wb_sample_chord_error_mm,
+                wb_sample_max_angle_step_degrees
+            );
+            sampled_path = sample_analytical_path(
+                analytical_path,
+                wb_sample_chord_error_mm,
+                wb_sample_max_angle_step_degrees
+            );
+            validate_sampled_path(sampled_path, analytical_path);
+            report_sampled_path(
+                sampled_path,
+                analytical_path,
+                wb_report_level
+            );
+            echo("STRAP BENDER SAMPLED PATH VALIDATION: PASS");
+
+            render_diagnostic_path(
+                analytical_path = analytical_path,
+                sampled_path = sampled_path,
+                path_width_mm = wb_diagnostic_path_width_mm,
+                path_height_mm = wb_diagnostic_path_height_mm,
+                show_tangent_points = wb_show_tangent_points,
+                tangent_marker_diameter_mm =
+                    wb_tangent_marker_diameter_mm
+            );
+            echo("STRAP BENDER DIAGNOSTIC PATH RENDER: PASS");
+        }
     } else {
         echo("Strap Bender Catalog contains no accepted geometry.");
     }

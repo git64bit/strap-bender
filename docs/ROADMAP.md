@@ -18,7 +18,7 @@ Batch 001 covers this phase only.
 - implement native records and accessors;
 - compile explicit straight and bend commands;
 - calculate exact poses, arc centers, stations, bounds, and nominal length;
-- render a diagnostic strap center path;
+- render a diagnostic analytical reference path;
 - add direct-open F5 contract tests.
 
 No production fixture is required for this phase.
@@ -27,7 +27,8 @@ Implementation status:
 
 - Corrected Batch 002 covers the framework skeleton, source records, registries, validation, reporting, and arbitrary-length program routing.
 - Batch 003 covers explicit straight/bend compilation, exact poses, arc centers, stations, finished-inside-edge reference length, exact XY bounds, closure validation, and source provenance.
-- Analytical sampling and diagnostic path rendering remain for the next bounded Phase 1 batch.
+- Batch 004 adds bounded-error analytical sampling, sampled-path validation and reporting, and a thin diagnostic rendering of the finished-inside-edge reference path with tangent-point markers.
+- Phase 1 is complete at the analytical and diagnostic-preview boundary. Strap solids, material behavior, and production fixtures remain later phases.
 
 ## Phase 2 — polygon front end
 

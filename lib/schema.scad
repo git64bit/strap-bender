@@ -12,6 +12,7 @@ STRAP_BENDER_SHAPE_RECORD = "strap_bender_shape";
 STRAP_BENDER_ANALYTICAL_PRIMITIVE_RECORD =
     "strap_bender_analytical_primitive";
 STRAP_BENDER_ANALYTICAL_PATH_RECORD = "strap_bender_analytical_path";
+STRAP_BENDER_SAMPLED_PATH_RECORD = "strap_bender_sampled_path";
 
 function project_spec(
     name,
@@ -161,5 +162,26 @@ function analytical_path_spec(
     end_pose,
     primitives,
     bounds,
+    notes
+];
+
+function sampled_path_spec(
+    name,
+    reference_axis,
+    closure,
+    points,
+    chord_error_mm,
+    max_angle_step_degrees,
+    notes = "",
+    schema_version = STRAP_BENDER_SCHEMA_VERSION
+) = [
+    STRAP_BENDER_SAMPLED_PATH_RECORD,
+    schema_version,
+    name,
+    reference_axis,
+    closure,
+    points,
+    chord_error_mm,
+    max_angle_step_degrees,
     notes
 ];
