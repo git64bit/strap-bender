@@ -34,9 +34,10 @@ The strap path and the bending fixture are separate objects. One continuous path
 Open the required entry point directly:
 
 ```text
-workbenches/bend-program.scad   named arbitrary-length program selection
-workbenches/catalog.scad        read-only accepted-object route
-default.scad                    maintainer route
+workbenches/bend-program.scad    named arbitrary-length program selection
+workbenches/vertex-polygon.scad  named ordered-vertex polygon selection
+workbenches/catalog.scad         read-only accepted-object route
+default.scad                     maintainer route
 ```
 
 The Bend Program workbench does not expose `Bend A`, `Bend B`, or a hard-coded maximum bend count. It selects one complete bend-program record by exact name. The selected record may contain five commands or thousands; `main.scad` consumes the complete resolved command list without reconstructing it.
@@ -47,7 +48,7 @@ Mutable example records are registered in:
 registries/laboratory_bend_programs.scad
 ```
 
-The registry currently contains a small mixed-radius example and a synthetic 36-bend scale example. Either record compiles into exact line and circular-arc primitives with source provenance, poses, stations, arc centers, reference-axis length, and exact XY bounds. Batch 004 can derive a bounded-error display polyline and render a thin diagnostic preview with analytical tangent-point markers. Compact wave-pattern, polygon, and other authoring front ends remain later work.
+The bend-program registry contains a small mixed-radius example and a synthetic 36-bend scale example. The vertex-polygon registry contains a rounded square and a concave L-shaped example. Batch 005 classifies polygon turns independently of clockwise or counter-clockwise ordering, derives circular tangent points and retained straight lengths, rejects overlapping tangent setbacks, and normalizes the result to the same bend-program and analytical-path pipeline. A bounded-error diagnostic preview remains available for both routes.
 
 ## Tests
 
@@ -55,7 +56,7 @@ Open each file under `tests/` directly and use F5. Every successful contract pri
 
 The arbitrary-length source-record contract validates a 73-command program containing 36 bends and 37 straights. Every third bend uses a 5 mm finished inside radius; the remaining bends use 1.6 mm.
 
-The analytical contracts verify mixed left/right bends, unequal segment lengths, exact arc centers and bounds, rounded-square closure, and analytical compilation of the complete 73-command scale example. Sampling contracts verify chord-error control, exact endpoint retention, absence of duplicate primitive-boundary points, convergence toward exact arc length, and diagnostic geometry dispatch.
+The analytical contracts verify mixed left/right bends, unequal segment lengths, exact arc centers and bounds, rounded-square closure, and analytical compilation of the complete 73-command scale example. Sampling contracts verify chord-error control, exact endpoint retention, absence of duplicate primitive-boundary points, convergence toward exact arc length, and diagnostic geometry dispatch. Polygon contracts verify convex and concave classification, source-vertex provenance, tangent-setback feasibility, exact closure, and equivalence with an explicit bend program.
 
 ## Current status
 
@@ -65,7 +66,9 @@ Batch 003 added the first analytical path kernel. Explicit straight and bend com
 
 Batch 004 adds adaptive arc sampling and a diagnostic preview of the desired finished inside-edge reference path. Sampling is controlled by a requested maximum chord error and a separate maximum angular step. Sampled points remain display-only data; exact analytical length, bounds, stations, and future fixture datums do not depend on preview resolution.
 
-No strap solid, forming compensation, pattern compiler, polygon compiler, or production fixture geometry is implemented yet.
+Batch 005 begins Phase 2 with the named vertex-polygon front end. Ordered sharp vertices plus a common or explicit per-corner radius list compile to circular tangent corners and retained straights. Source edge and vertex identities remain attached to normalized command labels and derived compilation records.
+
+No regular-polygon generator, pattern compiler, self-intersection analysis, strap solid, forming compensation, or production fixture geometry is implemented yet.
 
 ## Design documents
 

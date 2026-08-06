@@ -1,0 +1,117 @@
+STRAP BENDER — BATCH 005 DELTA
+
+Base repository:
+ https://github.com/git64bit/strap-bender
+
+Required base commit:
+ 615e5ae
+ 615e5aec6e6572baa8a88edb6b4ac5232241ce1e
+
+Scope:
+ Phase 2A named vertex-polygon front end.
+
+ Implements closed ordered-vertex source records with a common radius or one
+ explicit desired finished inside radius per corner. Derives polygon orientation,
+ signed turns, orientation-independent convex/concave classification, circular
+ tangent setbacks, tangent entry/exit points, and retained straight lengths.
+ Feasible polygons normalize to the existing arbitrary-length bend-program
+ record and therefore use the same exact analytical path, sampling, reporting,
+ and diagnostic rendering pipeline.
+
+Authority and provenance:
+ Sharp ordered polygon vertices and requested corner radii remain the authoring
+ source. Generated corner and edge records are derived execution data. Each
+ derived bend records its source vertex and normalized bend-command index; each
+ retained straight records its source edge and normalized straight-command index.
+ Exact analytical line and circular-arc primitives remain authoritative after
+ normalization.
+
+Not included:
+ No regular triangle/square/pentagon generator.
+ No periodic or formula-based radius schedule grammar.
+ No polygon self-intersection or near-intersection analysis.
+ No strap solid, material calibration, cut length, or fixture geometry.
+
+New files:
+ config/polygons.scad
+ lib/polygon_validation.scad
+ paths/compile_vertex_polygon.scad
+ paths/polygon_math.scad
+ registries/laboratory_vertex_polygons.scad
+ tests/concave_polygon_contract.scad
+ tests/polygon_equivalence_contract.scad
+ tests/polygon_feasibility_contract.scad
+ tests/vertex_polygon_contract.scad
+ tests/vertex_polygon_workbench_wrapper_contract.scad
+ workbenches/vertex-polygon.scad
+ BATCH_005_DELTA.txt
+
+Changed files:
+ README.md
+ config/defaults.scad
+ config/projects.scad
+ config/workbenches.scad
+ default.scad
+ docs/ARCHITECTURE.md
+ docs/DATA_MODEL.md
+ docs/GEOMETRY_CONVENTIONS.md
+ docs/ROADMAP.md
+ docs/SHAPE_DESCRIPTION.md
+ docs/VALIDATION_CONTRACT.md
+ lib/accessors.scad
+ lib/indices.scad
+ lib/lookup.scad
+ lib/reporting.scad
+ lib/schema.scad
+ lib/validation.scad
+ main.scad
+ registries/laboratory_projects.scad
+ strap_bender.scad
+ tests/README.md
+ tests/public_foundation_contract.scad
+ tests/workbench_registry_contract.scad
+
+Deleted files:
+ None.
+
+Upload:
+ 1. Confirm the repository is at commit 615e5ae.
+ 2. Upload all files from this archive as complete files while preserving
+    repository-relative paths.
+ 3. Create the new config, lib, paths, registries, tests, and workbenches files
+    exactly as named above.
+ 4. Do not replace or modify LICENSE, earlier BATCH_*_DELTA files, or unrelated
+    source files.
+
+OpenSCAD verification:
+ 1. Open tests/public_foundation_contract.scad and press F5.
+ 2. Confirm: STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+ 3. Open tests/vertex_polygon_contract.scad and press F5.
+ 4. Confirm the report shows four convex corners, 80 mm retained straights,
+    exact closure, and 0–100 mm XY bounds.
+ 5. Confirm: STRAP BENDER VERTEX-POLYGON CONTRACT: PASS
+ 6. Open tests/polygon_equivalence_contract.scad and press F5.
+ 7. Confirm: STRAP BENDER POLYGON EQUIVALENCE CONTRACT: PASS
+ 8. Open tests/concave_polygon_contract.scad and press F5.
+ 9. Confirm the report shows five convex corners and one concave corner.
+10. Confirm: STRAP BENDER CONCAVE POLYGON CONTRACT: PASS
+11. Open tests/polygon_feasibility_contract.scad and press F5.
+12. Confirm: STRAP BENDER POLYGON FEASIBILITY CONTRACT: PASS
+13. Open tests/workbench_registry_contract.scad and press F5.
+14. Confirm: STRAP BENDER WORKBENCH REGISTRY CONTRACT: PASS
+15. Open tests/vertex_polygon_workbench_wrapper_contract.scad and press F5.
+16. Confirm a rounded-square diagnostic path renders with tangent markers.
+17. Confirm source, compilation, normalized-program, analytical-path,
+    sampled-path, render, workbench, and project PASS messages appear.
+18. Open workbenches/vertex-polygon.scad and press F5 with
+    ROUNDED_SQUARE_EXAMPLE selected.
+19. Select CONCAVE_L_EXAMPLE and press F5. Confirm the concave notch is retained
+    and the report identifies source vertex 3 as a -90 degree concave bend with
+    an 8 mm radius.
+20. Set show_diagnostic_preview false and press F5. Confirm no geometry renders
+    and the source, compilation, and analytical reports remain available.
+21. Re-run the previously accepted Batch 004 contracts if desired and confirm
+    no warnings or errors.
+
+After acceptance:
+ Commit the batch and provide the resulting commit SHA for reconciliation.

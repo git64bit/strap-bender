@@ -32,10 +32,11 @@ geometry dispatch
 
 ## Workbench plan
 
-The Bend Program and Catalog routes are implemented. Regular-polygon and wave-pattern routes remain planned:
+The Bend Program, Vertex Polygon, and Catalog routes are implemented. Regular-polygon and wave-pattern routes remain planned:
 
 ```text
 workbenches/bend-program.scad      explicit ordered straights and bends
+workbenches/vertex-polygon.scad    named ordered vertices and corner radii
 workbenches/regular-polygon.scad   regular polygon convenience generator
 workbenches/wave-pattern.scad      repeated long-form pattern generator
 workbenches/catalog.scad           read-only accepted-object route
@@ -65,7 +66,7 @@ Folders should be created only when the first implementation requires them.
 
 ## Shape boundary
 
-All authoring front ends terminate at one Strap Bender analytical path contract. Regular polygons, vertex polygons, waves, and explicit bend sequences may not bypass this boundary and directly generate unrelated fixture solids.
+All authoring front ends terminate at one Strap Bender analytical path contract. Batch 005 demonstrates this by normalizing a vertex polygon to the existing ordered bend-program record before analytical compilation. Regular polygons, waves, and explicit bend sequences may not bypass this boundary and directly generate unrelated fixture solids.
 
 ## Exact geometry and rendering boundary
 

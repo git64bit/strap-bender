@@ -13,6 +13,11 @@ STRAP_BENDER_ANALYTICAL_PRIMITIVE_RECORD =
     "strap_bender_analytical_primitive";
 STRAP_BENDER_ANALYTICAL_PATH_RECORD = "strap_bender_analytical_path";
 STRAP_BENDER_SAMPLED_PATH_RECORD = "strap_bender_sampled_path";
+STRAP_BENDER_VERTEX_POLYGON_RECORD = "strap_bender_vertex_polygon";
+STRAP_BENDER_POLYGON_CORNER_RECORD = "strap_bender_polygon_corner";
+STRAP_BENDER_POLYGON_EDGE_RECORD = "strap_bender_polygon_edge";
+STRAP_BENDER_POLYGON_COMPILATION_RECORD =
+    "strap_bender_polygon_compilation";
 
 function project_spec(
     name,
@@ -183,5 +188,96 @@ function sampled_path_spec(
     points,
     chord_error_mm,
     max_angle_step_degrees,
+    notes
+];
+
+function vertex_polygon_spec(
+    name,
+    vertices,
+    corner_radii,
+    start_vertex_index = 0,
+    notes = "",
+    schema_version = STRAP_BENDER_SCHEMA_VERSION
+) = let(
+    resolved_corner_radii =
+        is_num(corner_radii) && is_list(vertices) && len(vertices) > 0
+            ? [for (vertex_index = [0 : len(vertices) - 1]) corner_radii]
+            : corner_radii
+) [
+    STRAP_BENDER_VERTEX_POLYGON_RECORD,
+    schema_version,
+    name,
+    vertices,
+    resolved_corner_radii,
+    start_vertex_index,
+    notes
+];
+
+function polygon_corner_spec(
+    source_vertex_index,
+    vertex,
+    incoming_edge_index,
+    outgoing_edge_index,
+    turn_angle_degrees,
+    classification,
+    inside_radius,
+    tangent_setback,
+    entry_point,
+    exit_point,
+    bend_command_index,
+    schema_version = STRAP_BENDER_SCHEMA_VERSION
+) = [
+    STRAP_BENDER_POLYGON_CORNER_RECORD,
+    schema_version,
+    source_vertex_index,
+    vertex,
+    incoming_edge_index,
+    outgoing_edge_index,
+    turn_angle_degrees,
+    classification,
+    inside_radius,
+    tangent_setback,
+    entry_point,
+    exit_point,
+    bend_command_index
+];
+
+function polygon_edge_spec(
+    source_edge_index,
+    start_vertex_index,
+    end_vertex_index,
+    start_point,
+    end_point,
+    retained_length,
+    heading_degrees,
+    straight_command_index,
+    schema_version = STRAP_BENDER_SCHEMA_VERSION
+) = [
+    STRAP_BENDER_POLYGON_EDGE_RECORD,
+    schema_version,
+    source_edge_index,
+    start_vertex_index,
+    end_vertex_index,
+    start_point,
+    end_point,
+    retained_length,
+    heading_degrees,
+    straight_command_index
+];
+
+function polygon_compilation_spec(
+    source_polygon_name,
+    corners,
+    edges,
+    normalized_shape,
+    notes = "",
+    schema_version = STRAP_BENDER_SCHEMA_VERSION
+) = [
+    STRAP_BENDER_POLYGON_COMPILATION_RECORD,
+    schema_version,
+    source_polygon_name,
+    corners,
+    edges,
+    normalized_shape,
     notes
 ];

@@ -5,7 +5,12 @@
 // FileSummary: Defines development, Bend Program, and Catalog routes.
 //////////////////////////////////////////////////////////////////////
 
-WORKBENCH_NAMES = ["development", "bend_program", "catalog"];
+WORKBENCH_NAMES = [
+    "development",
+    "bend_program",
+    "vertex_polygon",
+    "catalog"
+];
 
 function workbench_name_valid(name) =
     len([for (candidate = WORKBENCH_NAMES)
@@ -14,7 +19,9 @@ function workbench_name_valid(name) =
 function workbench_render_mode_allowed(name, mode) =
     name == "catalog"
         ? mode == "report_only"
-        : (name == "development" || name == "bend_program") &&
+        : (name == "development" ||
+            name == "bend_program" ||
+            name == "vertex_polygon") &&
             (mode == "report_only" || mode == "diagnostic_path");
 
 module validate_workbench_selection(

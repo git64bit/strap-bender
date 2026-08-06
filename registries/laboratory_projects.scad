@@ -15,5 +15,15 @@ LABORATORY_PROJECTS = [
             "records and compiles them to exact finished-inside-edge line and ",
             "circular-arc analytical primitives."
         )
+    ),
+    project_spec(
+        name = "VERTEX_POLYGON_LAB",
+        kind = "vertex_polygon",
+        status = "laboratory",
+        notes = str(
+            "Mutable ordered-vertex polygon laboratory. It derives circular ",
+            "tangent corners and retained straight lengths, then normalizes ",
+            "the result to the shared bend-program and analytical-path route."
+        )
     )
 ];

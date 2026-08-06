@@ -36,6 +36,18 @@ Owns shape identity, open/closed state, start pose, authoring-front-end identity
 
 Represents one ordered straight, bend, pattern instance, or other explicitly supported command. Each command has a stable source index for diagnostics and fixture annotations.
 
+### Vertex-polygon source
+
+Batch 005 records a closed polygon name, ordered sharp XY vertices, one resolved desired finished inside radius per corner, a selected start vertex, and notes. A scalar radius is expanded deterministically to the complete corner list by the constructor.
+
+### Polygon corner and edge derivations
+
+Generated corner records preserve source-vertex index, signed turn, orientation-independent convex/concave classification, radius, tangent setback, entry/exit tangent points, and normalized bend-command index. Generated edge records preserve source-edge index, tangent endpoints, retained straight length, heading, and normalized straight-command index.
+
+### Polygon compilation
+
+A generated compilation record groups the source name, derived corners, derived edges, and the normalized closed bend-program shape. It is diagnostic execution data, not a second authoritative shape definition.
+
 ### Pattern definition
 
 Defines a reusable ordered command block. It may declare parameter slots for segment length, bend radius, bend angle, and other values.

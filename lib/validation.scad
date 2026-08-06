@@ -12,7 +12,9 @@ function sb_nonempty_string(value) = is_string(value) && len(value) > 0;
 function sb_schema_version_valid(value) =
     value == STRAP_BENDER_SCHEMA_VERSION;
 function sb_project_kind_valid(kind) =
-    kind == "bend_program" || kind == "catalog";
+    kind == "bend_program" ||
+    kind == "vertex_polygon" ||
+    kind == "catalog";
 function sb_project_status_valid(status) =
     status == "stub" ||
     status == "laboratory" ||

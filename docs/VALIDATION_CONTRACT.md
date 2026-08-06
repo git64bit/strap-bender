@@ -34,6 +34,8 @@ Validation protects the authored contract. It must reject invalid records and re
 - concave and convex turn directions are preserved;
 - the compiler reports the source vertex for every derived bend.
 
+Batch 005 implements these checks except polygon self-intersection analysis, which remains a separate later diagnostic. Radius infeasibility is exposed both as a Boolean predicate for non-failing contract tests and as an asserting source-record validator for production routing.
+
 ## Pattern validation
 
 - pattern expansion terminates;

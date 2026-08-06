@@ -16,6 +16,8 @@ wb_report_level = is_undef(report_level)
 
 wb_program_name = is_undef(program_name_selected)
     ? "OPEN_MIXED_RADIUS_EXAMPLE" : program_name_selected;
+wb_polygon_name = is_undef(polygon_name_selected)
+    ? "ROUNDED_SQUARE_EXAMPLE" : polygon_name_selected;
 
 wb_sample_chord_error_mm = is_undef(sample_chord_error_mm)
     ? SB_DEFAULT_SAMPLE_CHORD_ERROR_MM : sample_chord_error_mm;

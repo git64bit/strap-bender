@@ -12,5 +12,6 @@ DEVELOPMENT_PROJECTS = concat(
 
 PROJECTS =
     wb_workbench_name == "bend_program" ? LABORATORY_PROJECTS :
+    wb_workbench_name == "vertex_polygon" ? LABORATORY_PROJECTS :
     wb_workbench_name == "catalog" ? CATALOG_PROJECTS :
     DEVELOPMENT_PROJECTS;

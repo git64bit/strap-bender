@@ -17,6 +17,8 @@ assert(STRAP_BENDER_ANALYTICAL_PATH_CONTRACT_VERSION == 1,
     "Unexpected analytical-path contract version.");
 assert(STRAP_BENDER_SAMPLED_PATH_CONTRACT_VERSION == 1,
     "Unexpected sampled-path contract version.");
+assert(STRAP_BENDER_VERTEX_POLYGON_CONTRACT_VERSION == 1,
+    "Unexpected vertex-polygon contract version.");
 
 project = project_spec("TEST_PROJECT", "bend_program", "laboratory");
 pose = start_pose_spec(10, -5, 30);
@@ -36,6 +38,11 @@ sampled = sampled_path_spec(
     0.05,
     10
 );
+polygon = vertex_polygon_spec(
+    "TEST_POLYGON",
+    [[0, 0], [20, 0], [20, 20], [0, 20]],
+    2
+);
 
 assert(project_name(project) == "TEST_PROJECT",
     "Project accessor contract failed.");
@@ -53,5 +60,10 @@ assert(sampled_path_name(sampled) == "TEST_SHAPE" &&
     len(sampled_path_points(sampled)) == 2 &&
     sampled_path_chord_error_mm(sampled) == 0.05,
     "Sampled path constructor or accessor contract failed.");
+assert(vertex_polygon_name(polygon) == "TEST_POLYGON" &&
+    len(vertex_polygon_vertices(polygon)) == 4 &&
+    len(vertex_polygon_corner_radii(polygon)) == 4 &&
+    vertex_polygon_corner_radii(polygon)[2] == 2,
+    "Vertex-polygon constructor or accessor contract failed.");
 
 echo("STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS");

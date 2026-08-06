@@ -67,3 +67,48 @@ function sampled_path_chord_error_mm(path) = path[SP_CHORD_ERROR_MM];
 function sampled_path_max_angle_step_degrees(path) =
     path[SP_MAX_ANGLE_STEP_DEGREES];
 function sampled_path_notes(path) = path[SP_NOTES];
+
+function vertex_polygon_name(polygon) = polygon[VP_NAME];
+function vertex_polygon_vertices(polygon) = polygon[VP_VERTICES];
+function vertex_polygon_corner_radii(polygon) = polygon[VP_CORNER_RADII];
+function vertex_polygon_start_vertex_index(polygon) =
+    polygon[VP_START_VERTEX_INDEX];
+function vertex_polygon_notes(polygon) = polygon[VP_NOTES];
+
+function polygon_corner_source_vertex_index(corner) =
+    corner[PC_SOURCE_VERTEX_INDEX];
+function polygon_corner_vertex(corner) = corner[PC_VERTEX];
+function polygon_corner_incoming_edge_index(corner) =
+    corner[PC_INCOMING_EDGE_INDEX];
+function polygon_corner_outgoing_edge_index(corner) =
+    corner[PC_OUTGOING_EDGE_INDEX];
+function polygon_corner_turn_angle_degrees(corner) =
+    corner[PC_TURN_ANGLE_DEGREES];
+function polygon_corner_classification(corner) =
+    corner[PC_CLASSIFICATION];
+function polygon_corner_inside_radius(corner) = corner[PC_INSIDE_RADIUS];
+function polygon_corner_tangent_setback(corner) =
+    corner[PC_TANGENT_SETBACK];
+function polygon_corner_entry_point(corner) = corner[PC_ENTRY_POINT];
+function polygon_corner_exit_point(corner) = corner[PC_EXIT_POINT];
+function polygon_corner_bend_command_index(corner) =
+    corner[PC_BEND_COMMAND_INDEX];
+
+function polygon_edge_source_index(edge) = edge[PE_SOURCE_EDGE_INDEX];
+function polygon_edge_start_vertex_index(edge) =
+    edge[PE_START_VERTEX_INDEX];
+function polygon_edge_end_vertex_index(edge) = edge[PE_END_VERTEX_INDEX];
+function polygon_edge_start_point(edge) = edge[PE_START_POINT];
+function polygon_edge_end_point(edge) = edge[PE_END_POINT];
+function polygon_edge_retained_length(edge) = edge[PE_RETAINED_LENGTH];
+function polygon_edge_heading_degrees(edge) = edge[PE_HEADING_DEGREES];
+function polygon_edge_straight_command_index(edge) =
+    edge[PE_STRAIGHT_COMMAND_INDEX];
+
+function polygon_compilation_source_name(compilation) =
+    compilation[PX_SOURCE_POLYGON_NAME];
+function polygon_compilation_corners(compilation) = compilation[PX_CORNERS];
+function polygon_compilation_edges(compilation) = compilation[PX_EDGES];
+function polygon_compilation_normalized_shape(compilation) =
+    compilation[PX_NORMALIZED_SHAPE];
+function polygon_compilation_notes(compilation) = compilation[PX_NOTES];

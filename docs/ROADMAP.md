@@ -39,6 +39,10 @@ Implementation status:
 - regular triangle, square, pentagon, and higher-sided generator;
 - equivalence tests against explicit bend programs.
 
+Implementation status:
+- Batch 005 covers named closed vertex-polygon records, common or explicit per-corner radii, orientation-independent convex/concave classification, exact circular tangent setbacks, retained-edge feasibility, normalized bend-program generation, source edge/vertex provenance, a diagnostic workbench, and explicit-program equivalence testing.
+- The regular-polygon generator, broader radius schedule grammar, and self-intersection diagnostics remain later bounded work.
+
 ## Phase 3 — patterns and long paths
 
 - named pattern blocks;

@@ -2,7 +2,7 @@
 // LibFile: main.scad
 // Project: Strap Bender
 // FileGroup: Shared Workbench Orchestrator
-// FileSummary: Routes wrappers through compilation, sampling, and rendering.
+// FileSummary: Routes source front ends through one analytical path pipeline.
 //////////////////////////////////////////////////////////////////////
 
 include <strap_bender.scad>
@@ -10,9 +10,52 @@ include <config/defaults.scad>
 include <registries/laboratory_projects.scad>
 include <registries/catalog_projects.scad>
 include <registries/laboratory_bend_programs.scad>
+include <registries/laboratory_vertex_polygons.scad>
 include <config/projects.scad>
 include <config/programs.scad>
+include <config/polygons.scad>
 include <config/workbenches.scad>
+
+module run_normalized_shape_pipeline(shape) {
+    validate_bend_program_shape(shape);
+    report_bend_program_shape(shape, wb_report_level);
+    echo("STRAP BENDER NORMALIZED BEND-PROGRAM VALIDATION: PASS");
+
+    analytical_path = compile_bend_program(shape);
+    validate_analytical_path(analytical_path);
+    report_analytical_path(analytical_path, wb_report_level);
+    echo("STRAP BENDER ANALYTICAL PATH VALIDATION: PASS");
+
+    if (wb_render_mode == "diagnostic_path") {
+        validate_sampling_parameters(
+            wb_sample_chord_error_mm,
+            wb_sample_max_angle_step_degrees
+        );
+        sampled_path = sample_analytical_path(
+            analytical_path,
+            wb_sample_chord_error_mm,
+            wb_sample_max_angle_step_degrees
+        );
+        validate_sampled_path(sampled_path, analytical_path);
+        report_sampled_path(
+            sampled_path,
+            analytical_path,
+            wb_report_level
+        );
+        echo("STRAP BENDER SAMPLED PATH VALIDATION: PASS");
+
+        render_diagnostic_path(
+            analytical_path = analytical_path,
+            sampled_path = sampled_path,
+            path_width_mm = wb_diagnostic_path_width_mm,
+            path_height_mm = wb_diagnostic_path_height_mm,
+            show_tangent_points = wb_show_tangent_points,
+            tangent_marker_diameter_mm =
+                wb_tangent_marker_diameter_mm
+        );
+        echo("STRAP BENDER DIAGNOSTIC PATH RENDER: PASS");
+    }
+}
 
 module run_strap_bender_project() {
     validate_workbench_selection(
@@ -32,45 +75,27 @@ module run_strap_bender_project() {
             wb_program_name,
             "bend program"
         );
-
         validate_bend_program_shape(program);
-        report_bend_program_shape(program, wb_report_level);
-        echo("STRAP BENDER BEND-PROGRAM RECORD VALIDATION: PASS");
+        echo("STRAP BENDER BEND-PROGRAM SOURCE VALIDATION: PASS");
+        run_normalized_shape_pipeline(program);
+    } else if (project_kind(project) == "vertex_polygon") {
+        polygon = named_record(
+            VERTEX_POLYGONS,
+            wb_polygon_name,
+            "vertex polygon"
+        );
+        validate_vertex_polygon(polygon);
+        report_vertex_polygon(polygon, wb_report_level);
+        echo("STRAP BENDER VERTEX-POLYGON SOURCE VALIDATION: PASS");
 
-        analytical_path = compile_bend_program(program);
-        validate_analytical_path(analytical_path);
-        report_analytical_path(analytical_path, wb_report_level);
-        echo("STRAP BENDER ANALYTICAL PATH VALIDATION: PASS");
+        compilation = compile_vertex_polygon(polygon);
+        validate_polygon_compilation(compilation, polygon);
+        report_polygon_compilation(compilation, wb_report_level);
+        echo("STRAP BENDER POLYGON COMPILATION VALIDATION: PASS");
 
-        if (wb_render_mode == "diagnostic_path") {
-            validate_sampling_parameters(
-                wb_sample_chord_error_mm,
-                wb_sample_max_angle_step_degrees
-            );
-            sampled_path = sample_analytical_path(
-                analytical_path,
-                wb_sample_chord_error_mm,
-                wb_sample_max_angle_step_degrees
-            );
-            validate_sampled_path(sampled_path, analytical_path);
-            report_sampled_path(
-                sampled_path,
-                analytical_path,
-                wb_report_level
-            );
-            echo("STRAP BENDER SAMPLED PATH VALIDATION: PASS");
-
-            render_diagnostic_path(
-                analytical_path = analytical_path,
-                sampled_path = sampled_path,
-                path_width_mm = wb_diagnostic_path_width_mm,
-                path_height_mm = wb_diagnostic_path_height_mm,
-                show_tangent_points = wb_show_tangent_points,
-                tangent_marker_diameter_mm =
-                    wb_tangent_marker_diameter_mm
-            );
-            echo("STRAP BENDER DIAGNOSTIC PATH RENDER: PASS");
-        }
+        run_normalized_shape_pipeline(
+            polygon_compilation_normalized_shape(compilation)
+        );
     } else {
         echo("Strap Bender Catalog contains no accepted geometry.");
     }

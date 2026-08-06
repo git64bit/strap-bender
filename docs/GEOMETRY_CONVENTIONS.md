@@ -25,6 +25,17 @@ A specified straight length is the distance between neighboring bend tangent poi
 
 For a path beginning or ending with a straight, the distance is measured from the free end to the nearest bend tangent point.
 
+
+## Vertex-polygon tangent geometry
+
+A vertex-polygon source describes the sharp intersections of consecutive supporting edges on the desired finished-inside-edge path. For a corner with signed tangent turn `turn` and desired inside radius `r`, the tangent setback on both adjacent edges is:
+
+```text
+setback = r × tan(abs(turn) / 2)
+```
+
+The retained straight on each source edge is the edge length minus the setback at each endpoint. Batch 005 rejects any retained straight that is zero or negative within numerical tolerance. Clockwise and counter-clockwise polygons are both supported; convex or concave classification is determined by comparing each signed turn with the polygon orientation. Self-intersection analysis is not yet part of this batch.
+
 ## Radius layers
 
 The following radii are distinct:

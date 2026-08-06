@@ -61,6 +61,8 @@ Best for triangles, squares, pentagons, stars, shields, arrows, and similar cont
 
 The polygon front end must reject a radius that consumes more of an adjacent edge than is available. It must support convex and concave corners without changing turn direction silently.
 
+Batch 005 implements this for named closed vertex polygons. Sharp source vertices are ordered clockwise or counter-clockwise; orientation is derived from signed area. Each local signed turn is classified relative to that orientation, tangent setback is `radius × tan(abs(turn)/2)`, and every retained edge must remain strictly positive. The selected start vertex identifies the final closing bend, while source edge and vertex numbers are preserved in the normalized command mapping.
+
 ### Regular polygon generator
 
 A convenience front end may define side count, size authority, orientation, and common or scheduled corner radii. It compiles to the same bend program and analytical path as an explicitly entered polygon.

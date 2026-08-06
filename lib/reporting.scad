@@ -171,3 +171,74 @@ module report_sampled_path(
     if (report_level == "full")
         echo(str("Notes: ", sampled_path_notes(sampled_path)));
 }
+
+module report_vertex_polygon(polygon, report_level = "full") {
+    vertices = vertex_polygon_vertices(polygon);
+    compilation = compile_vertex_polygon(polygon);
+    corners = polygon_compilation_corners(compilation);
+    edges = polygon_compilation_edges(compilation);
+    convex_count = len([
+        for (corner = corners)
+            if (polygon_corner_classification(corner) == "convex") corner
+    ]);
+    concave_count = len(corners) - convex_count;
+    radii = vertex_polygon_corner_radii(polygon);
+
+    echo("--- Strap Bender vertex polygon ---");
+    echo(str("Polygon: ", vertex_polygon_name(polygon)));
+    echo(str("Vertices: ", len(vertices)));
+    echo(str("Orientation: ", sb_polygon_orientation_name(vertices)));
+    echo(str("Corners: ", convex_count, " convex, ",
+        concave_count, " concave"));
+    echo(str("Corner-radius range: ", min(radii), " to ",
+        max(radii), " mm"));
+    echo(str("Start vertex: ",
+        vertex_polygon_start_vertex_index(polygon)));
+    echo(str("Shortest retained straight: ", min([
+        for (edge = edges) polygon_edge_retained_length(edge)
+    ]), " mm"));
+
+    if (report_level == "full") {
+        for (corner = corners)
+            echo(str(
+                "Vertex ", polygon_corner_source_vertex_index(corner),
+                ": ", polygon_corner_classification(corner),
+                " turn ", polygon_corner_turn_angle_degrees(corner),
+                " degrees, radius ",
+                polygon_corner_inside_radius(corner),
+                " mm, setback ",
+                polygon_corner_tangent_setback(corner),
+                " mm, bend command ",
+                polygon_corner_bend_command_index(corner)
+            ));
+        echo(str("Notes: ", vertex_polygon_notes(polygon)));
+    }
+}
+
+module report_polygon_compilation(
+    compilation,
+    report_level = "full"
+) {
+    corners = polygon_compilation_corners(compilation);
+    edges = polygon_compilation_edges(compilation);
+
+    echo("--- Strap Bender polygon compilation ---");
+    echo(str("Source polygon: ",
+        polygon_compilation_source_name(compilation)));
+    echo(str("Derived corners: ", len(corners)));
+    echo(str("Derived retained straights: ", len(edges)));
+    echo(str("Normalized commands: ", len(shape_commands(
+        polygon_compilation_normalized_shape(compilation)
+    ))));
+
+    if (report_level == "full") {
+        for (edge = edges)
+            echo(str(
+                "Edge ", polygon_edge_source_index(edge),
+                ": retained ", polygon_edge_retained_length(edge),
+                " mm, straight command ",
+                polygon_edge_straight_command_index(edge)
+            ));
+        echo(str("Notes: ", polygon_compilation_notes(compilation)));
+    }
+}
