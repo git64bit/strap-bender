@@ -7,7 +7,7 @@
 
 function sb_compile_polygon_corner(polygon, vertex_index) = let(
     vertices = vertex_polygon_vertices(polygon),
-    radii = vertex_polygon_corner_radii(polygon),
+    radii = sb_vertex_polygon_resolved_corner_radii(polygon),
     vertex_count = len(vertices),
     previous_index = sb_polygon_previous_index(vertex_count, vertex_index),
     turn_angle = sb_polygon_vertex_turn_angle_degrees(

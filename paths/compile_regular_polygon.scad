@@ -16,10 +16,12 @@ function compile_regular_polygon(polygon) = let(
         circumradius
     ),
     vertices = sb_regular_polygon_vertices(polygon),
+    resolved_corner_radii =
+        sb_regular_polygon_resolved_corner_radii(polygon),
     generated_vertex_polygon = vertex_polygon_spec(
         name = regular_polygon_name(polygon),
         vertices = vertices,
-        corner_radii = regular_polygon_corner_radii(polygon),
+        corner_radii = resolved_corner_radii,
         start_vertex_index = regular_polygon_start_vertex_index(polygon),
         notes = str(
             "Generated from regular-polygon source '",

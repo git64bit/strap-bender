@@ -14,6 +14,18 @@ Validation protects the authored contract. It must reject invalid records and re
 - value schedules are nonempty and resolve deterministically;
 - exact-name registry lookup returns exactly one match.
 
+## Value-schedule validation
+
+- record type, schema version, kind, and label are valid;
+- constant schedules contain exactly one finite value;
+- explicit schedules contain exactly the consumer count;
+- periodic schedules contain a nonempty finite cycle;
+- every-nth schedules contain finite default and selected values;
+- interval is a positive integer;
+- first selected position is one-based and lies from 1 through interval;
+- a radius consumer additionally requires every resolved value to be positive;
+- resolution never changes the compact source record.
+
 ## Ordered-path validation
 
 - every command has a stable source index;
@@ -29,6 +41,7 @@ Validation protects the authored contract. It must reject invalid records and re
 - vertices are ordered and finite;
 - consecutive vertices are distinct;
 - no edge has zero length;
+- the radius source resolves to one finite positive value per vertex;
 - the requested corner radius is compatible with both adjacent edges;
 - neighboring tangent setbacks do not overlap;
 - concave and convex turn directions are preserved;
@@ -41,7 +54,8 @@ Batch 005 implements these checks except polygon self-intersection analysis, whi
 - side count is an integer of at least three;
 - governing dimension kind is `side_length`, `circumradius`, or `apothem`;
 - governing dimension and all requested radii are finite and positive;
-- radius input is one scalar or exactly one value per side;
+- radius input is a scalar, exact list, or valid compact schedule;
+- the resolved radius list contains exactly one positive value per side;
 - center and first-vertex angle are finite;
 - generated vertices share one circumradius and one edge length;
 - generated order is counter-clockwise;

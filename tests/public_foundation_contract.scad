@@ -17,6 +17,8 @@ assert(STRAP_BENDER_ANALYTICAL_PATH_CONTRACT_VERSION == 1,
     "Unexpected analytical-path contract version.");
 assert(STRAP_BENDER_SAMPLED_PATH_CONTRACT_VERSION == 1,
     "Unexpected sampled-path contract version.");
+assert(STRAP_BENDER_VALUE_SCHEDULE_CONTRACT_VERSION == 1,
+    "Unexpected value-schedule contract version.");
 assert(STRAP_BENDER_VERTEX_POLYGON_CONTRACT_VERSION == 1,
     "Unexpected vertex-polygon contract version.");
 assert(STRAP_BENDER_REGULAR_POLYGON_CONTRACT_VERSION == 1,
@@ -39,6 +41,13 @@ sampled = sampled_path_spec(
     [[10, -5], [20, 0]],
     0.05,
     10
+);
+schedule = value_schedule_every_nth(
+    default_value = 1.6,
+    selected_value = 5,
+    interval = 3,
+    first_position = 3,
+    label = "foundation schedule"
 );
 polygon = vertex_polygon_spec(
     "TEST_POLYGON",
@@ -73,6 +82,12 @@ assert(sampled_path_name(sampled) == "TEST_SHAPE" &&
     len(sampled_path_points(sampled)) == 2 &&
     sampled_path_chord_error_mm(sampled) == 0.05,
     "Sampled path constructor or accessor contract failed.");
+assert(value_schedule_kind(schedule) == "every_nth" &&
+    value_schedule_interval(schedule) == 3 &&
+    value_schedule_first_position(schedule) == 3 &&
+    sb_resolve_numeric_value_source(schedule, 5) ==
+        [1.6, 1.6, 5, 1.6, 1.6],
+    "Value-schedule constructor, accessors, or resolution failed.");
 assert(vertex_polygon_name(polygon) == "TEST_POLYGON" &&
     len(vertex_polygon_vertices(polygon)) == 4 &&
     len(vertex_polygon_corner_radii(polygon)) == 4 &&

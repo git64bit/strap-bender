@@ -172,6 +172,36 @@ module report_sampled_path(
         echo(str("Notes: ", sampled_path_notes(sampled_path)));
 }
 
+module report_value_schedule(
+    schedule,
+    resolved_count,
+    title = "Value schedule"
+) {
+    resolved = sb_resolve_numeric_value_source(schedule, resolved_count);
+    echo(str("--- ", title, " ---"));
+    echo(str("Kind: ", value_schedule_kind(schedule)));
+    echo(str("Resolved count: ", resolved_count));
+    if (value_schedule_kind(schedule) == "constant")
+        echo(str("Constant value: ", value_schedule_values(schedule)[0]));
+    else if (value_schedule_kind(schedule) == "explicit")
+        echo(str("Explicit values: ", value_schedule_values(schedule)));
+    else if (value_schedule_kind(schedule) == "periodic")
+        echo(str("Periodic cycle: ", value_schedule_values(schedule)));
+    else {
+        echo(str("Default value: ",
+            value_schedule_default_value(schedule)));
+        echo(str("Selected value: ",
+            value_schedule_selected_value(schedule)));
+        echo(str("Every ", value_schedule_interval(schedule),
+            " positions, first at position ",
+            value_schedule_first_position(schedule)));
+        echo("Position convention: one-based source order");
+    }
+    echo(str("Resolved values: ", resolved));
+    if (len(value_schedule_label(schedule)) > 0)
+        echo(str("Label: ", value_schedule_label(schedule)));
+}
+
 module report_vertex_polygon(polygon, report_level = "full") {
     vertices = vertex_polygon_vertices(polygon);
     compilation = compile_vertex_polygon(polygon);
@@ -182,7 +212,8 @@ module report_vertex_polygon(polygon, report_level = "full") {
             if (polygon_corner_classification(corner) == "convex") corner
     ]);
     concave_count = len(corners) - convex_count;
-    radii = vertex_polygon_corner_radii(polygon);
+    radius_source = vertex_polygon_corner_radii(polygon);
+    radii = sb_vertex_polygon_resolved_corner_radii(polygon);
 
     echo("--- Strap Bender vertex polygon ---");
     echo(str("Polygon: ", vertex_polygon_name(polygon)));
@@ -190,6 +221,8 @@ module report_vertex_polygon(polygon, report_level = "full") {
     echo(str("Orientation: ", sb_polygon_orientation_name(vertices)));
     echo(str("Corners: ", convex_count, " convex, ",
         concave_count, " concave"));
+    echo(str("Corner-radius source: ",
+        sb_value_source_kind(radius_source)));
     echo(str("Corner-radius range: ", min(radii), " to ",
         max(radii), " mm"));
     echo(str("Start vertex: ",
@@ -199,6 +232,14 @@ module report_vertex_polygon(polygon, report_level = "full") {
     ]), " mm"));
 
     if (report_level == "full") {
+        if (sb_is_value_schedule(radius_source))
+            report_value_schedule(
+                radius_source,
+                len(vertices),
+                "Vertex-polygon radius schedule"
+            );
+        else
+            echo(str("Resolved radius list: ", radii));
         for (corner = corners)
             echo(str(
                 "Vertex ", polygon_corner_source_vertex_index(corner),
@@ -245,7 +286,8 @@ module report_polygon_compilation(
 
 
 module report_regular_polygon(polygon, report_level = "full") {
-    radii = regular_polygon_corner_radii(polygon);
+    radius_source = regular_polygon_corner_radii(polygon);
+    radii = sb_regular_polygon_resolved_corner_radii(polygon);
 
     echo("--- Strap Bender regular polygon ---");
     echo(str("Source: ", regular_polygon_name(polygon)));
@@ -256,11 +298,11 @@ module report_regular_polygon(polygon, report_level = "full") {
         " = ", regular_polygon_dimension_value(polygon), " mm"
     ));
     echo(str(
-        "Corner radii: ",
-        is_num(radii)
-            ? str("common ", radii, " mm")
-            : str(len(radii), " explicit values")
+        "Corner-radius source: ",
+        sb_value_source_kind(radius_source)
     ));
+    echo(str("Resolved corner-radius range: ",
+        min(radii), " to ", max(radii), " mm"));
     echo(str(
         "Center: [", sb_point_x(regular_polygon_center(polygon)),
         ", ", sb_point_y(regular_polygon_center(polygon)), "] mm"
@@ -272,7 +314,13 @@ module report_regular_polygon(polygon, report_level = "full") {
     ));
 
     if (report_level == "full") {
-        if (is_list(radii))
+        if (sb_is_value_schedule(radius_source))
+            report_value_schedule(
+                radius_source,
+                regular_polygon_side_count(polygon),
+                "Regular-polygon radius schedule"
+            );
+        else
             echo(str("Resolved source radius list: ", radii));
         echo(str("Start vertex index: ",
             regular_polygon_start_vertex_index(polygon)));
@@ -296,6 +344,10 @@ module report_regular_polygon_compilation(
     echo(str("Resolved sharp side length: ",
         regular_polygon_compilation_side_length(compilation), " mm"));
     echo(str("Generated sharp vertices: ", len(vertices)));
+    echo(str("Resolved corner radii: ",
+        vertex_polygon_corner_radii(
+            regular_polygon_compilation_vertex_polygon(compilation)
+        )));
 
     if (report_level == "full") {
         for (vertex_index = [0 : len(vertices) - 1])

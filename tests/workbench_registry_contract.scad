@@ -65,6 +65,11 @@ regular_pentagon = named_record(
     "REGULAR_PENTAGON_CIRCUMRADIUS_60_MIXED",
     "regular polygon"
 );
+regular_nonagon = named_record(
+    LABORATORY_REGULAR_POLYGONS,
+    "REGULAR_NONAGON_EVERY_THIRD_R5",
+    "regular polygon"
+);
 
 validate_project(lab_project);
 validate_project(polygon_project);
@@ -77,6 +82,7 @@ validate_vertex_polygon(concave_l);
 validate_regular_polygon(regular_triangle);
 validate_regular_polygon(regular_square);
 validate_regular_polygon(regular_pentagon);
+validate_regular_polygon(regular_nonagon);
 
 assert(len(records_named(all_projects, "BEND_PROGRAM_LAB")) == 1,
     "Laboratory project registry exact-name contract failed.");
@@ -121,6 +127,14 @@ assert(len(records_named(
         "REGULAR_PENTAGON_CIRCUMRADIUS_60_MIXED"
     )) == 1,
     "Regular-pentagon registry exact-name contract failed.");
+assert(len(records_named(
+        LABORATORY_REGULAR_POLYGONS,
+        "REGULAR_NONAGON_EVERY_THIRD_R5"
+    )) == 1,
+    "Scheduled nonagon registry exact-name contract failed.");
+assert(sb_regular_polygon_resolved_corner_radii(regular_nonagon) ==
+    [1.6, 1.6, 5, 1.6, 1.6, 5, 1.6, 1.6, 5],
+    "Scheduled nonagon registry must preserve every-third radii.");
 assert(workbench_name_valid("bend_program"),
     "Bend Program workbench must be registered.");
 assert(workbench_name_valid("vertex_polygon"),

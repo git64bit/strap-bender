@@ -17,7 +17,7 @@ active workbench registry and exact-name lookup
         ↓
 record construction
         ↓
-validation and reporting
+validation and compact schedule resolution
         ↓
 shape compiler
         ↓
@@ -37,7 +37,7 @@ The Bend Program, Vertex Polygon, Regular Polygon, and Catalog routes are implem
 ```text
 workbenches/bend-program.scad      explicit ordered straights and bends
 workbenches/vertex-polygon.scad    named ordered vertices and corner radii
-workbenches/regular-polygon.scad   scalar regular polygon generator
+workbenches/regular-polygon.scad   schedule-capable regular polygon generator
 workbenches/wave-pattern.scad      repeated long-form pattern generator
 workbenches/catalog.scad           read-only accepted-object route
 ```
@@ -49,9 +49,9 @@ Additional shape-specific workbenches should exist only when they provide a focu
 ```text
 api/          versioned public constructors and execution modules
 config/       defaults and active workbench selection
-lib/          record accessors, mathematics, validation, reporting
+lib/          record accessors, schedule validation, validation, reporting
 geometry/     diagnostic preview, future strap preview, and fixture solids
-paths/        bend-program compilation and analytical path operations
+paths/        schedule resolution, shape compilation, analytical operations
 registries/   exact-name registries
 objects/      immutable accepted recipes
 patterns/     reusable bend-program pattern definitions
@@ -64,9 +64,13 @@ docs/         project contracts and decisions
 
 Folders should be created only when the first implementation requires them.
 
+## Schedule boundary
+
+Batch 007 introduces compact numeric schedules as authoring records, not geometry. A consumer validates its count and value domain, then resolves the schedule to an explicit list before tangent setbacks, bend commands, or analytical primitives are calculated. Source position is one-based for human-facing every-nth rules; derived arrays remain zero-based internally. Reordering the normalized command sequence does not renumber the source schedule positions.
+
 ## Shape boundary
 
-All authoring front ends terminate at one Strap Bender analytical path contract. Batch 005 demonstrates this by normalizing a vertex polygon to the existing ordered bend-program record before analytical compilation. Batch 006 inserts regular-polygon generation one stage earlier: regular source → generated vertex polygon → normalized bend program → analytical path. Waves and explicit bend sequences may not bypass this boundary and directly generate unrelated fixture solids.
+All authoring front ends terminate at one Strap Bender analytical path contract. Batch 005 demonstrates this by normalizing a vertex polygon to the existing ordered bend-program record before analytical compilation. Batch 006 inserts regular-polygon generation one stage earlier. Batch 007 resolves compact radius schedules before either polygon front end calculates tangent geometry: source → resolved values → generated or explicit vertex polygon → normalized bend program → analytical path. Waves and explicit bend sequences may not bypass this boundary and directly generate unrelated fixture solids.
 
 ## Exact geometry and rendering boundary
 

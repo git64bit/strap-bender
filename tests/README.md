@@ -38,3 +38,11 @@ The analytical path uses the finished inside edge as its explicit reference axis
 - `regular_polygon_dimension_modes_contract.scad` proves equivalent side-length, circumradius, and apothem authorities generate the same rounded square and analytical path.
 - `regular_polygon_radius_schedule_contract.scad` preserves an explicit mixed-radius pentagon through vertex and bend-command provenance.
 - `regular_polygon_workbench_wrapper_contract.scad` executes the complete scalar Customizer route through `main.scad`.
+
+## Batch 007 value-schedule contracts
+
+- `value_schedule_contract.scad` verifies constant, explicit, periodic, and one-based every-nth resolution and rejects invalid counts and positions.
+- `polygon_periodic_radius_contract.scad` routes compact schedules through explicit vertex and regular-polygon front ends, preserves resolved radii in normalized bends, and verifies closure.
+- `regular_polygon_scheduled_workbench_contract.scad` executes the every-third Customizer configuration through `main.scad`.
+
+Value schedules are compact authoring intent. Resolved lists are derived for a known consumer count; they are not maintained as a second source of truth.

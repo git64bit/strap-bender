@@ -42,7 +42,11 @@ Pattern definition — Reusable ordered bend-program block with parameter slots.
 
 Pattern instance — Use of a pattern definition with a repetition count and value schedules.
 
-Periodic schedule — Finite value list repeated cyclically, such as `[1.6, 1.6, 5.0]` for every-third-bend radius control.
+Every-nth schedule — Compact rule using a default value except at recurring one-based source positions, such as positions 3, 6, 9, and so on.
+
+Explicit schedule — Exact finite list containing one value for every consumer.
+
+Periodic schedule — Finite value cycle repeated as required, such as `[1.6, 1.6, 5.0]` for every-third-bend radius control.
 
 Sampled path — Derived point list approximating the analytical path for preview, sweep, offset, or fixture solid construction.
 
@@ -62,4 +66,4 @@ Tool radius — Radius physically present on the forming fixture or mandrel.
 
 Unbranched path — Ordered path with exactly one predecessor and successor through its interior; it contains no network junction.
 
-Value schedule — Rule assigning lengths, radii, angles, or other values across repeated pattern elements.
+Value schedule — Compact constant, explicit, periodic, or every-nth numeric rule resolved for a known consumer count before geometry is compiled.

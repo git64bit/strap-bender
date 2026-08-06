@@ -27,8 +27,18 @@ wb_regular_dimension_kind = is_undef(regular_dimension_kind)
     ? "side_length" : regular_dimension_kind;
 wb_regular_dimension_value_mm = is_undef(regular_dimension_value_mm)
     ? 100 : regular_dimension_value_mm;
+wb_regular_corner_radius_mode = is_undef(regular_corner_radius_mode)
+    ? "constant" : regular_corner_radius_mode;
 wb_regular_corner_radius_mm = is_undef(regular_corner_radius_mm)
-    ? 5 : regular_corner_radius_mm;
+    ? 1.6 : regular_corner_radius_mm;
+wb_regular_scheduled_corner_radius_mm =
+    is_undef(regular_scheduled_corner_radius_mm)
+        ? 5 : regular_scheduled_corner_radius_mm;
+wb_regular_schedule_interval = is_undef(regular_schedule_interval)
+    ? 3 : regular_schedule_interval;
+wb_regular_schedule_first_position =
+    is_undef(regular_schedule_first_position)
+        ? 3 : regular_schedule_first_position;
 wb_regular_first_vertex_angle_degrees =
     is_undef(regular_first_vertex_angle_degrees)
         ? 90 : regular_first_vertex_angle_degrees;

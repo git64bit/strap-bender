@@ -6,13 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 function sb_regular_polygon_corner_radii_valid(radii, side_count) =
-    is_num(radii)
-        ? sb_finite_number(radii) && radii > 0
-        : is_list(radii) && len(radii) == side_count &&
-            len([
-                for (radius = radii)
-                    if (!sb_finite_number(radius) || radius <= 0) radius
-            ]) == 0;
+    sb_numeric_value_source_resolves_positive(radii, side_count);
 
 function sb_point_lists_near(
     first,
@@ -80,12 +74,18 @@ module validate_regular_polygon(polygon) {
     assert(sb_finite_number(regular_polygon_dimension_value(polygon)) &&
         regular_polygon_dimension_value(polygon) > 0,
         "Regular-polygon governing dimension must be positive and finite.");
+    radius_source = regular_polygon_corner_radii(polygon);
+    if (sb_is_value_schedule(radius_source))
+        validate_value_schedule(
+            radius_source,
+            regular_polygon_side_count(polygon),
+            true
+        );
     assert(sb_regular_polygon_corner_radii_valid(
-        regular_polygon_corner_radii(polygon),
+        radius_source,
         regular_polygon_side_count(polygon)
     ), str(
-        "Regular-polygon radii must be one positive value or one positive ",
-        "value per side."
+        "Regular-polygon radii must resolve to one positive value per side."
     ));
     assert(sb_point_valid(regular_polygon_center(polygon)),
         "Regular-polygon center must be a finite XY point.");

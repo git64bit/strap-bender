@@ -69,8 +69,7 @@ function sb_regular_polygon_vertices(polygon) = [
 ];
 
 function sb_regular_polygon_resolved_corner_radii(polygon) =
-    is_num(regular_polygon_corner_radii(polygon))
-        ? [for (vertex_index = [
-            0 : regular_polygon_side_count(polygon) - 1
-        ]) regular_polygon_corner_radii(polygon)]
-        : regular_polygon_corner_radii(polygon);
+    sb_resolve_numeric_value_source(
+        regular_polygon_corner_radii(polygon),
+        regular_polygon_side_count(polygon)
+    );

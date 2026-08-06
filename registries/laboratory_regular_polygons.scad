@@ -47,5 +47,25 @@ LABORATORY_REGULAR_POLYGONS = [
             "Regular pentagon governed by a 60 mm sharp circumradius. ",
             "Source vertex 2 uses a 5 mm radius; all others use 1.6 mm."
         )
+    ),
+    regular_polygon_spec(
+        name = "REGULAR_NONAGON_EVERY_THIRD_R5",
+        side_count = 9,
+        dimension_kind = "side_length",
+        dimension_value = 50,
+        corner_radii = value_schedule_every_nth(
+            default_value = 1.6,
+            selected_value = 5,
+            interval = 3,
+            first_position = 3,
+            label = "Every third source corner uses 5 mm"
+        ),
+        center = [0, 0],
+        first_vertex_angle_degrees = 90,
+        start_vertex_index = 0,
+        notes = str(
+            "Regular nonagon demonstrating one-based every-third radius ",
+            "selection at source positions 3, 6, and 9."
+        )
     )
 ];

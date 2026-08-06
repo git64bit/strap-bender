@@ -1,0 +1,139 @@
+STRAP BENDER — BATCH 007 DELTA
+
+Base repository:
+ https://github.com/git64bit/strap-bender
+
+Required base commit:
+ 04d9b6e
+ 04d9b6e3295d466c72ebf51e6352bdfac9231829
+
+Scope:
+ Phase 2C compact numeric value schedules and polygon radius routing.
+
+ Implements native, versioned numeric value-schedule records with four kinds:
+ constant, explicit, periodic, and every_nth. Schedule resolution is independent
+ of polygon geometry and accepts an arbitrary consumer count. The every_nth rule
+ uses human-facing one-based source positions, so interval 3 with first position
+ 3 selects positions 3, 6, 9, and so on.
+
+ Both vertex-polygon and regular-polygon sources may now retain a compact radius
+ schedule. Validation resolves exactly one finite positive radius per source
+ vertex before tangent setbacks are calculated. Regular-polygon compilation
+ writes the resolved explicit radii into its generated vertex-polygon record,
+ preserving the existing bend-program and analytical-path contracts.
+
+ The Regular Polygon Customizer now offers constant and every_nth radius modes.
+ Its default diagnostic example is a nine-sided shape using 1.6 mm radii except
+ for 5 mm radii at source positions 3, 6, and 9. Full explicit and periodic lists
+ remain available in Laboratory records. A named Laboratory nonagon preserves the
+ same every-third rule without establishing a fixed bend count.
+
+Authority and provenance:
+ The compact schedule is authoritative authoring intent. Its resolved list is
+ derived for a known consumer count and must not be maintained as a second source
+ of truth. For polygons, schedule positions refer to ordered source vertices.
+ Changing start_vertex_index may change normalized command traversal but does not
+ renumber source schedule positions or V# provenance.
+
+Not included:
+ No arbitrary formula or callback schedule grammar.
+ No named pattern block, pattern instance, or long-wave compiler.
+ No polygon or analytical-path self-intersection diagnostic.
+ No strap solid, material calibration, neutral-axis cut length, or fixture.
+
+New files:
+ BATCH_007_DELTA.txt
+ lib/value_schedule_validation.scad
+ paths/value_schedules.scad
+ tests/polygon_periodic_radius_contract.scad
+ tests/regular_polygon_scheduled_workbench_contract.scad
+ tests/value_schedule_contract.scad
+
+Changed files:
+ README.md
+ config/defaults.scad
+ config/regular_polygons.scad
+ default.scad
+ docs/ARCHITECTURE.md
+ docs/DATA_MODEL.md
+ docs/GLOSSARY.md
+ docs/ROADMAP.md
+ docs/SHAPE_DESCRIPTION.md
+ docs/VALIDATION_CONTRACT.md
+ lib/accessors.scad
+ lib/indices.scad
+ lib/polygon_validation.scad
+ lib/regular_polygon_validation.scad
+ lib/reporting.scad
+ lib/schema.scad
+ paths/compile_regular_polygon.scad
+ paths/compile_vertex_polygon.scad
+ paths/regular_polygon_math.scad
+ registries/laboratory_regular_polygons.scad
+ strap_bender.scad
+ tests/README.md
+ tests/public_foundation_contract.scad
+ tests/regular_polygon_workbench_wrapper_contract.scad
+ tests/workbench_registry_contract.scad
+ workbenches/regular-polygon.scad
+
+Deleted files:
+ None.
+
+Upload:
+ 1. Confirm the repository is at commit 04d9b6e.
+ 2. Upload all files from this archive as complete files while preserving
+    repository-relative paths.
+ 3. Create the six new files exactly as named above.
+ 4. Do not replace or modify LICENSE, earlier BATCH_*_DELTA files, or unrelated
+    source files.
+
+OpenSCAD verification:
+ 1. Open tests/public_foundation_contract.scad and press F5.
+ 2. Confirm: STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+ 3. Open tests/value_schedule_contract.scad and press F5.
+ 4. Confirm the periodic and every_nth schedules both resolve eight positions as
+    [1.6, 1.6, 5, 1.6, 1.6, 5, 1.6, 1.6].
+ 5. Confirm: STRAP BENDER VALUE-SCHEDULE CONTRACT: PASS
+ 6. Open tests/polygon_periodic_radius_contract.scad and press F5.
+ 7. Confirm the vertex square resolves [2, 5, 2, 5].
+ 8. Confirm the regular nonagon resolves
+    [1.6, 1.6, 5, 1.6, 1.6, 5, 1.6, 1.6, 5].
+ 9. Confirm exactly three normalized bends use the 5 mm radius and the path
+    remains positionally and tangentially closed.
+10. Confirm: STRAP BENDER POLYGON PERIODIC-RADIUS CONTRACT: PASS
+11. Open tests/regular_polygon_radius_schedule_contract.scad and press F5.
+12. Confirm the accepted explicit-list pentagon regression still passes.
+13. Confirm: STRAP BENDER REGULAR-POLYGON RADIUS SCHEDULE CONTRACT: PASS
+14. Open tests/workbench_registry_contract.scad and press F5.
+15. Confirm the named REGULAR_NONAGON_EVERY_THIRD_R5 source resolves uniquely.
+16. Confirm: STRAP BENDER WORKBENCH REGISTRY CONTRACT: PASS
+17. Open tests/regular_polygon_scheduled_workbench_contract.scad and press F5.
+18. Confirm the report identifies an every_nth source and radii from 1.6 to 5 mm.
+19. Confirm: STRAP BENDER SCHEDULED WORKBENCH CONTRACT: PASS
+20. Open tests/regular_polygon_workbench_wrapper_contract.scad and press F5.
+21. Confirm a nine-sided diagnostic path renders with tangent markers and no
+    fixed Bend A/B/C style interface.
+22. Confirm: STRAP BENDER REGULAR-POLYGON WORKBENCH WRAPPER CONTRACT: PASS
+23. Re-run the accepted Batch 005 and Batch 006 polygon contracts and confirm no
+    warnings or errors.
+24. Open workbenches/regular-polygon.scad and press F5.
+25. With corner_radius_mode = every_nth, confirm changing side_count does not
+    create or require individual corner controls.
+26. Set corner_radius_mode = constant and confirm all corners use
+    corner_radius_mm while the scheduled fields do not affect geometry.
+
+Static verification performed before delivery:
+ Include targets resolve.
+ Delimiters and comments are balanced.
+ Function and module declarations are unique.
+ Every .scad file remains at or below 500 lines.
+ Delta overlay matches the prepared Batch 007 working tree.
+ Archive integrity and artifact hygiene pass.
+
+OpenSCAD execution note:
+ OpenSCAD is not installed in the delivery environment. The direct-open F5 tests
+ above require execution on the user's OpenSCAD installation.
+
+After acceptance:
+ Commit the batch and provide the resulting commit SHA for reconciliation.

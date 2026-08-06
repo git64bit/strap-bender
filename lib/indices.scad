@@ -77,6 +77,18 @@ SP_CHORD_ERROR_MM = 6;
 SP_MAX_ANGLE_STEP_DEGREES = 7;
 SP_NOTES = 8;
 
+
+// Numeric value schedule source
+VS_RECORD_TYPE = 0;
+VS_SCHEMA_VERSION = 1;
+VS_KIND = 2;
+VS_VALUES = 3;
+VS_DEFAULT_VALUE = 4;
+VS_SELECTED_VALUE = 5;
+VS_INTERVAL = 6;
+VS_FIRST_POSITION = 7;
+VS_LABEL = 8;
+
 // Vertex-polygon source specification
 VP_RECORD_TYPE = 0;
 VP_SCHEMA_VERSION = 1;

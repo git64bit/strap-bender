@@ -23,11 +23,7 @@ function sb_polygon_consecutive_vertices_distinct(
 ]) == 0;
 
 function sb_polygon_corner_radii_valid(radii, vertex_count) =
-    is_list(radii) && len(radii) == vertex_count &&
-    len([
-        for (radius = radii)
-            if (!sb_finite_number(radius) || radius <= 0) radius
-    ]) == 0;
+    sb_numeric_value_source_resolves_positive(radii, vertex_count);
 
 function sb_polygon_turns_valid(
     vertices,
@@ -48,7 +44,7 @@ function sb_vertex_polygon_radius_feasible(
     tolerance = SB_NUMERIC_POSITION_TOLERANCE_MM
 ) = let(
     vertices = vertex_polygon_vertices(polygon),
-    radii = vertex_polygon_corner_radii(polygon),
+    radii = sb_vertex_polygon_resolved_corner_radii(polygon),
     setbacks = [
         for (vertex_index = [0 : len(vertices) - 1])
             sb_polygon_tangent_setback(
@@ -81,7 +77,10 @@ module validate_vertex_polygon(polygon) {
         "Vertex-polygon notes must be a string.");
 
     vertices = vertex_polygon_vertices(polygon);
-    radii = vertex_polygon_corner_radii(polygon);
+    radius_source = vertex_polygon_corner_radii(polygon);
+    radii = sb_vertex_polygon_resolved_corner_radii(polygon);
+    if (sb_is_value_schedule(radius_source))
+        validate_value_schedule(radius_source, len(vertices), true);
     assert(sb_polygon_vertices_valid(vertices),
         "A vertex polygon must contain at least three finite XY vertices.");
     assert(sb_polygon_consecutive_vertices_distinct(vertices),

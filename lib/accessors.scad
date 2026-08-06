@@ -68,6 +68,15 @@ function sampled_path_max_angle_step_degrees(path) =
     path[SP_MAX_ANGLE_STEP_DEGREES];
 function sampled_path_notes(path) = path[SP_NOTES];
 
+function value_schedule_kind(schedule) = schedule[VS_KIND];
+function value_schedule_values(schedule) = schedule[VS_VALUES];
+function value_schedule_default_value(schedule) = schedule[VS_DEFAULT_VALUE];
+function value_schedule_selected_value(schedule) = schedule[VS_SELECTED_VALUE];
+function value_schedule_interval(schedule) = schedule[VS_INTERVAL];
+function value_schedule_first_position(schedule) =
+    schedule[VS_FIRST_POSITION];
+function value_schedule_label(schedule) = schedule[VS_LABEL];
+
 function vertex_polygon_name(polygon) = polygon[VP_NAME];
 function vertex_polygon_vertices(polygon) = polygon[VP_VERTICES];
 function vertex_polygon_corner_radii(polygon) = polygon[VP_CORNER_RADII];

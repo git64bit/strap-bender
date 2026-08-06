@@ -36,7 +36,7 @@ Open the required entry point directly:
 ```text
 workbenches/bend-program.scad     named arbitrary-length program selection
 workbenches/vertex-polygon.scad   named ordered-vertex polygon selection
-workbenches/regular-polygon.scad  scalar regular-polygon Customizer
+workbenches/regular-polygon.scad  schedule-capable regular-polygon Customizer
 workbenches/catalog.scad          read-only accepted-object route
 default.scad                      maintainer route
 ```
@@ -49,7 +49,7 @@ Mutable example records are registered in:
 registries/laboratory_bend_programs.scad
 ```
 
-The bend-program registry contains a small mixed-radius example and a synthetic 36-bend scale example. The vertex-polygon registry contains a rounded square and a concave L-shaped example. The regular-polygon registry contains triangle, square, and mixed-radius pentagon examples. Batch 006 adds a scalar Customizer workbench for side count, governing sharp dimension, common corner radius, center, and orientation. Regular polygons compile through the same vertex-polygon, bend-program, analytical-path, sampling, and diagnostic-rendering pipeline.
+The bend-program registry contains a small mixed-radius example and a synthetic 36-bend scale example. The vertex-polygon registry contains a rounded square and a concave L-shaped example. The regular-polygon registry contains triangle, square, mixed-radius pentagon, and every-third-radius nonagon examples. Batch 007 adds reusable constant, explicit, periodic, and every-nth numeric schedules. The Regular Polygon Customizer can use one common radius or an every-nth rule without exposing individual bends. All regular polygons still compile through the shared vertex-polygon, bend-program, analytical-path, sampling, and diagnostic-rendering pipeline.
 
 ## Tests
 
@@ -57,7 +57,7 @@ Open each file under `tests/` directly and use F5. Every successful contract pri
 
 The arbitrary-length source-record contract validates a 73-command program containing 36 bends and 37 straights. Every third bend uses a 5 mm finished inside radius; the remaining bends use 1.6 mm.
 
-The analytical contracts verify mixed left/right bends, unequal segment lengths, exact arc centers and bounds, rounded-square closure, and analytical compilation of the complete 73-command scale example. Sampling contracts verify chord-error control, exact endpoint retention, absence of duplicate primitive-boundary points, convergence toward exact arc length, and diagnostic geometry dispatch. Polygon contracts verify convex and concave classification, source-vertex provenance, tangent-setback feasibility, exact closure, and equivalence with an explicit bend program. Regular-polygon contracts verify triangle generation, equivalence among side-length, circumradius, and apothem authorities, explicit corner-radius preservation, and complete Customizer routing.
+The analytical contracts verify mixed left/right bends, unequal segment lengths, exact arc centers and bounds, rounded-square closure, and analytical compilation of the complete 73-command scale example. Sampling contracts verify chord-error control, exact endpoint retention, absence of duplicate primitive-boundary points, convergence toward exact arc length, and diagnostic geometry dispatch. Polygon contracts verify convex and concave classification, source-vertex provenance, tangent-setback feasibility, exact closure, and equivalence with an explicit bend program. Regular-polygon contracts verify triangle generation, dimension authorities, explicit corner-radius preservation, compact schedule resolution, and complete Customizer routing.
 
 ## Current status
 
@@ -69,9 +69,11 @@ Batch 004 adds adaptive arc sampling and a diagnostic preview of the desired fin
 
 Batch 005 begins Phase 2 with the named vertex-polygon front end. Ordered sharp vertices plus a common or explicit per-corner radius list compile to circular tangent corners and retained straights. Source edge and vertex identities remain attached to normalized command labels and derived compilation records.
 
-Batch 006 adds the regular-polygon front end. Side count plus one governing sharp dimension—side length, circumradius, or apothem—generates counter-clockwise sharp vertices. A common radius or explicit per-corner list is preserved when the result enters the existing vertex-polygon pipeline.
+Batch 006 adds the regular-polygon front end. Side count plus one governing sharp dimension—side length, circumradius, or apothem—generates counter-clockwise sharp vertices.
 
-No periodic or formula-based radius schedule grammar, pattern compiler, self-intersection analysis, strap solid, forming compensation, or production fixture geometry is implemented yet.
+Batch 007 adds native numeric value-schedule records. Constant, exact explicit, repeating periodic, and one-based every-nth rules resolve to explicit per-consumer values before polygon geometry is compiled. The included nonagon and Customizer route demonstrate 1.6 mm radii with 5 mm at positions 3, 6, and 9.
+
+No arbitrary formula schedule, pattern or long-wave compiler, self-intersection analysis, strap solid, forming compensation, or production fixture geometry is implemented yet.
 
 ## Design documents
 

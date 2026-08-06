@@ -49,6 +49,19 @@ The bend program compiles to an ordered analytical path containing only:
 
 Each primitive retains exact start pose, end pose, length, tangent direction, and source-command identity. This analytical path is the common boundary between shape authoring, validation, measurement, preview, and fixture planning.
 
+## Compact numeric schedules
+
+Batch 007 defines four schedule kinds shared by current polygon front ends and future patterns:
+
+```text
+constant(value)
+explicit([value for every consumer])
+periodic([cycle values])
+every_nth(default, selected, interval, first position)
+```
+
+`every_nth` uses one-based source positions. With interval 3 and first position 3, selected values occur at positions 3, 6, 9, and so on. The schedule resolves to an explicit list before any tangent setback or bend geometry is calculated. For polygons, positions refer to the ordered source vertices and do not change when a different start vertex changes command traversal.
+
 ## Authoring front ends
 
 ### Explicit bend sequence
@@ -65,7 +78,7 @@ Batch 005 implements this for named closed vertex polygons. Sharp source vertice
 
 ### Regular polygon generator
 
-Batch 006 defines side count, one governing sharp dimension (`side_length`, `circumradius`, or `apothem`), center, first-vertex angle, start vertex, and common or explicit corner radii. It generates counter-clockwise sharp vertices, then compiles through the same rounded vertex-polygon, bend-program, and analytical-path route as explicitly entered vertices. The scalar Customizer workbench exposes one common radius; explicit per-corner lists remain available in Laboratory records.
+Batch 006 defines side count, one governing sharp dimension (`side_length`, `circumradius`, or `apothem`), center, first-vertex angle, start vertex, and corner-radius source. It generates counter-clockwise sharp vertices, then compiles through the same rounded vertex-polygon, bend-program, and analytical-path route as explicitly entered vertices. Batch 007 allows scalar, explicit, periodic, or every-nth radius assignment. The Customizer exposes constant and every-nth modes; full explicit and periodic schedules remain available in Laboratory records.
 
 ### Repeated pattern and wave generator
 
@@ -76,13 +89,7 @@ Long forms use a named pattern block plus a repetition count. Pattern parameters
 - a periodic list;
 - an index-derived schedule supported by the workbench.
 
-A periodic bend-radius schedule for the stated wave example is conceptually:
-
-```text
-[1.6, 1.6, 5.0] repeated for the required bend count
-```
-
-Segment lengths may use a different schedule and need not be equal.
+The Batch 007 schedule foundation can represent the stated bend-radius assignment either as periodic `[1.6, 1.6, 5.0]` or as every-nth with default 1.6, selected 5.0, interval 3, and first position 3. The future wave compiler will apply that schedule to expanded bend positions. Segment lengths may use an independent schedule and need not be equal.
 
 ### Imported line-and-arc path
 

@@ -13,6 +13,7 @@ STRAP_BENDER_ANALYTICAL_PRIMITIVE_RECORD =
     "strap_bender_analytical_primitive";
 STRAP_BENDER_ANALYTICAL_PATH_RECORD = "strap_bender_analytical_path";
 STRAP_BENDER_SAMPLED_PATH_RECORD = "strap_bender_sampled_path";
+STRAP_BENDER_VALUE_SCHEDULE_RECORD = "strap_bender_value_schedule";
 STRAP_BENDER_VERTEX_POLYGON_RECORD = "strap_bender_vertex_polygon";
 STRAP_BENDER_POLYGON_CORNER_RECORD = "strap_bender_polygon_corner";
 STRAP_BENDER_POLYGON_EDGE_RECORD = "strap_bender_polygon_edge";
@@ -192,6 +193,73 @@ function sampled_path_spec(
     chord_error_mm,
     max_angle_step_degrees,
     notes
+];
+
+function value_schedule_constant(
+    value,
+    label = "",
+    schema_version = STRAP_BENDER_SCHEMA_VERSION
+) = [
+    STRAP_BENDER_VALUE_SCHEDULE_RECORD,
+    schema_version,
+    "constant",
+    [value],
+    undef,
+    undef,
+    undef,
+    undef,
+    label
+];
+
+function value_schedule_explicit(
+    values,
+    label = "",
+    schema_version = STRAP_BENDER_SCHEMA_VERSION
+) = [
+    STRAP_BENDER_VALUE_SCHEDULE_RECORD,
+    schema_version,
+    "explicit",
+    values,
+    undef,
+    undef,
+    undef,
+    undef,
+    label
+];
+
+function value_schedule_periodic(
+    values,
+    label = "",
+    schema_version = STRAP_BENDER_SCHEMA_VERSION
+) = [
+    STRAP_BENDER_VALUE_SCHEDULE_RECORD,
+    schema_version,
+    "periodic",
+    values,
+    undef,
+    undef,
+    undef,
+    undef,
+    label
+];
+
+function value_schedule_every_nth(
+    default_value,
+    selected_value,
+    interval,
+    first_position = undef,
+    label = "",
+    schema_version = STRAP_BENDER_SCHEMA_VERSION
+) = [
+    STRAP_BENDER_VALUE_SCHEDULE_RECORD,
+    schema_version,
+    "every_nth",
+    [],
+    default_value,
+    selected_value,
+    interval,
+    is_undef(first_position) ? interval : first_position,
+    label
 ];
 
 function vertex_polygon_spec(

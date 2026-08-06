@@ -36,13 +36,24 @@ Owns shape identity, open/closed state, start pose, authoring-front-end identity
 
 Represents one ordered straight, bend, pattern instance, or other explicitly supported command. Each command has a stable source index for diagnostics and fixture annotations.
 
+### Numeric value schedule
+
+Batch 007 adds a compact, versioned source record for numeric values that must be assigned over an arbitrary consumer count. Supported kinds are:
+
+- `constant`: repeat one value;
+- `explicit`: require exactly one listed value per consumer;
+- `periodic`: repeat a nonempty value cycle;
+- `every_nth`: use a default value except at a one-based recurring position.
+
+An every-nth schedule records default value, selected value, interval, and first selected position. For example, interval 3 and first position 3 selects positions 3, 6, 9, and so on. The source record remains compact; its resolved list is derived data.
+
 ### Vertex-polygon source
 
-Batch 005 records a closed polygon name, ordered sharp XY vertices, one resolved desired finished inside radius per corner, a selected start vertex, and notes. A scalar radius is expanded deterministically to the complete corner list by the constructor.
+Batch 005 records a closed polygon name, ordered sharp XY vertices, desired finished inside-radius source, a selected start vertex, and notes. The radius source may be a legacy scalar or explicit list, or a Batch 007 value-schedule record. Geometry compilation always consumes the derived explicit list.
 
 ### Regular-polygon source
 
-Batch 006 records a name, integer side count, one governing sharp-dimension kind and value, common or explicit desired finished inside radii, center, first-sharp-vertex angle, selected start vertex, and notes. Supported governing dimensions are sharp side length, sharp circumradius, and sharp apothem.
+Batch 006 records a name, integer side count, one governing sharp-dimension kind and value, desired finished inside-radius source, center, first-sharp-vertex angle, selected start vertex, and notes. The radius source accepts a scalar, an exact list, or a Batch 007 compact schedule. Supported governing dimensions are sharp side length, sharp circumradius, and sharp apothem.
 
 ### Regular-polygon compilation
 
@@ -118,6 +129,8 @@ Both forms are retained during execution:
 
 ```text
 authoring records
+        ↓
+resolved value schedules
         ↓
 expanded ordered commands
         ↓

@@ -11,6 +11,7 @@ STRAP_BENDER_SCAFFOLD_VERSION = 1;
 STRAP_BENDER_BEND_PROGRAM_CONTRACT_VERSION = 1;
 STRAP_BENDER_ANALYTICAL_PATH_CONTRACT_VERSION = 1;
 STRAP_BENDER_SAMPLED_PATH_CONTRACT_VERSION = 1;
+STRAP_BENDER_VALUE_SCHEDULE_CONTRACT_VERSION = 1;
 STRAP_BENDER_VERTEX_POLYGON_CONTRACT_VERSION = 1;
 STRAP_BENDER_REGULAR_POLYGON_CONTRACT_VERSION = 1;
 
@@ -18,6 +19,7 @@ include <lib/indices.scad>
 include <lib/schema.scad>
 include <lib/accessors.scad>
 include <lib/lookup.scad>
+include <paths/value_schedules.scad>
 include <paths/analytical_math.scad>
 include <paths/analytical_bounds.scad>
 include <paths/polygon_math.scad>
@@ -27,6 +29,7 @@ include <paths/compile_vertex_polygon.scad>
 include <paths/compile_regular_polygon.scad>
 include <paths/sample_analytical_path.scad>
 include <lib/validation.scad>
+include <lib/value_schedule_validation.scad>
 include <lib/polygon_validation.scad>
 include <lib/regular_polygon_validation.scad>
 include <lib/reporting.scad>
