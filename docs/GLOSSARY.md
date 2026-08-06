@@ -38,15 +38,17 @@ Normalized primitive — One exact line or circular arc produced by compilation 
 
 Open path — One continuous path with two free ends and no closure requirement.
 
-Pattern definition — Reusable ordered bend-program block with parameter slots.
+Pattern definition — Reusable ordered local command topology with named distance, angle, and radius parameter slots.
 
-Pattern instance — Use of a pattern definition with a repetition count and value schedules.
+Pattern instance — Compact use of a pattern definition with repetition count, start pose, closure policy, and one numeric value source per required parameter.
+
+Pattern provenance — Derived mapping from an expanded command to its pattern instance, repetition index, local element index, and local label.
 
 Every-nth schedule — Compact rule using a default value except at recurring one-based source positions, such as positions 3, 6, 9, and so on.
 
 Explicit schedule — Exact finite list containing one value for every consumer.
 
-Periodic schedule — Finite value cycle repeated as required, such as `[1.6, 1.6, 5.0]` for every-third-bend radius control.
+Periodic schedule — Finite value cycle repeated as required, such as `[1.6, 1.6, 5.0]` for every-third-consumer radius control.
 
 Sampled path — Derived point list approximating the analytical path for preview, sweep, offset, or fixture solid construction.
 
@@ -59,6 +61,8 @@ Springback — Change from restrained forming geometry to relaxed geometry after
 Strap specification — Exact physical product identity and measured or nominal dimensions used by geometry and calibration.
 
 Tangent point — Point where a straight meets a circular bend with continuous heading.
+
+Wave repetition — One complete execution of a named wave-pattern block. In Batch 008, parameter schedules advance once per wave, while multiple local bends may reuse the same wave radius.
 
 Target path — Desired finished strap geometry before fixture compensation and manufacturing details.
 

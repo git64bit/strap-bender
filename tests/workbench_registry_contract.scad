@@ -11,6 +11,8 @@ include <../registries/catalog_projects.scad>
 include <../registries/laboratory_bend_programs.scad>
 include <../registries/laboratory_vertex_polygons.scad>
 include <../registries/laboratory_regular_polygons.scad>
+include <../patterns/standard_patterns.scad>
+include <../registries/laboratory_pattern_instances.scad>
 include <../config/workbenches.scad>
 
 all_projects = concat(LABORATORY_PROJECTS, CATALOG_PROJECTS);
@@ -23,6 +25,11 @@ polygon_project = named_record(
 regular_project = named_record(
     all_projects,
     "REGULAR_POLYGON_LAB",
+    "project"
+);
+pattern_project = named_record(
+    all_projects,
+    "WAVE_PATTERN_LAB",
     "project"
 );
 catalog_project = named_record(
@@ -70,10 +77,26 @@ regular_nonagon = named_record(
     "REGULAR_NONAGON_EVERY_THIRD_R5",
     "regular polygon"
 );
+wave_pattern = named_record(
+    STANDARD_PATTERN_BLOCKS,
+    "THREE_SEGMENT_S_WAVE",
+    "pattern block"
+);
+long_wave = named_record(
+    LABORATORY_PATTERN_INSTANCES,
+    "THIRTY_WAVE_EVERY_THIRD_R5",
+    "pattern instance"
+);
+variable_wave = named_record(
+    LABORATORY_PATTERN_INSTANCES,
+    "SIX_WAVE_VARIABLE_SEGMENTS",
+    "pattern instance"
+);
 
 validate_project(lab_project);
 validate_project(polygon_project);
 validate_project(regular_project);
+validate_project(pattern_project);
 validate_project(catalog_project);
 validate_bend_program_shape(small_program);
 validate_bend_program_shape(scale_program);
@@ -83,6 +106,9 @@ validate_regular_polygon(regular_triangle);
 validate_regular_polygon(regular_square);
 validate_regular_polygon(regular_pentagon);
 validate_regular_polygon(regular_nonagon);
+validate_pattern_block(wave_pattern);
+validate_pattern_instance(long_wave, wave_pattern);
+validate_pattern_instance(variable_wave, wave_pattern);
 
 assert(len(records_named(all_projects, "BEND_PROGRAM_LAB")) == 1,
     "Laboratory project registry exact-name contract failed.");
@@ -90,6 +116,8 @@ assert(len(records_named(all_projects, "VERTEX_POLYGON_LAB")) == 1,
     "Vertex-polygon project registry exact-name contract failed.");
 assert(len(records_named(all_projects, "REGULAR_POLYGON_LAB")) == 1,
     "Regular-polygon project registry exact-name contract failed.");
+assert(len(records_named(all_projects, "WAVE_PATTERN_LAB")) == 1,
+    "Wave-pattern project registry exact-name contract failed.");
 assert(len(records_named(all_projects, "CATALOG_WORKBENCH_STUB")) == 1,
     "Catalog project registry exact-name contract failed.");
 assert(len(records_named(
@@ -135,12 +163,29 @@ assert(len(records_named(
 assert(sb_regular_polygon_resolved_corner_radii(regular_nonagon) ==
     [1.6, 1.6, 5, 1.6, 1.6, 5, 1.6, 1.6, 5],
     "Scheduled nonagon registry must preserve every-third radii.");
+assert(len(records_named(
+        STANDARD_PATTERN_BLOCKS,
+        "THREE_SEGMENT_S_WAVE"
+    )) == 1,
+    "Standard wave-pattern exact-name contract failed.");
+assert(len(records_named(
+        LABORATORY_PATTERN_INSTANCES,
+        "THIRTY_WAVE_EVERY_THIRD_R5"
+    )) == 1,
+    "Long-wave instance exact-name contract failed.");
+assert(len(records_named(
+        LABORATORY_PATTERN_INSTANCES,
+        "SIX_WAVE_VARIABLE_SEGMENTS"
+    )) == 1,
+    "Variable-wave instance exact-name contract failed.");
 assert(workbench_name_valid("bend_program"),
     "Bend Program workbench must be registered.");
 assert(workbench_name_valid("vertex_polygon"),
     "Vertex Polygon workbench must be registered.");
 assert(workbench_name_valid("regular_polygon"),
     "Regular Polygon workbench must be registered.");
+assert(workbench_name_valid("wave_pattern"),
+    "Wave Pattern workbench must be registered.");
 assert(workbench_render_mode_allowed("bend_program", "report_only"),
     "Bend Program report-only route must be allowed.");
 assert(workbench_render_mode_allowed("bend_program", "diagnostic_path"),
@@ -153,12 +198,21 @@ assert(workbench_render_mode_allowed("regular_polygon", "report_only"),
     "Regular Polygon report-only route must be allowed.");
 assert(workbench_render_mode_allowed("regular_polygon", "diagnostic_path"),
     "Regular Polygon diagnostic-path route must be allowed.");
+assert(workbench_render_mode_allowed("wave_pattern", "report_only"),
+    "Wave Pattern report-only route must be allowed.");
+assert(workbench_render_mode_allowed("wave_pattern", "diagnostic_path"),
+    "Wave Pattern diagnostic-path route must be allowed.");
 assert(!workbench_render_mode_allowed("catalog", "diagnostic_path"),
     "Catalog must reject mutable diagnostic rendering routes.");
 assert(!workbench_render_mode_allowed("regular_polygon", "fixture"),
     "Unimplemented regular-polygon fixture modes must remain rejected.");
 assert(len(shape_commands(scale_program)) == 73,
     "Registry must preserve the arbitrary-length command list.");
+long_wave_compilation = compile_pattern_instance(long_wave, wave_pattern);
+assert(len(shape_commands(pattern_compilation_normalized_shape(
+    long_wave_compilation
+))) == 180,
+    "Registry must preserve compact thirty-wave expansion intent.");
 
 regular_square_compilation = compile_regular_polygon(regular_square);
 validate_regular_polygon_compilation(

@@ -47,6 +47,37 @@ wb_regular_center_x_mm = is_undef(regular_center_x_mm)
 wb_regular_center_y_mm = is_undef(regular_center_y_mm)
     ? 0 : regular_center_y_mm;
 
+wb_pattern_instance_name = is_undef(pattern_instance_name_selected)
+    ? "THIRTY_WAVE_EVERY_THIRD_R5"
+    : pattern_instance_name_selected;
+wb_wave_count = is_undef(wave_repeat_count)
+    ? 30 : wave_repeat_count;
+wb_wave_turn_angle_degrees = is_undef(wave_turn_angle_degrees)
+    ? 45 : wave_turn_angle_degrees;
+wb_wave_segment_schedule_mode = is_undef(wave_segment_schedule_mode)
+    ? "constant" : wave_segment_schedule_mode;
+wb_wave_base_segment_lengths_mm =
+    is_undef(wave_base_segment_lengths_mm)
+        ? [50] : wave_base_segment_lengths_mm;
+wb_wave_rising_segment_lengths_mm =
+    is_undef(wave_rising_segment_lengths_mm)
+        ? [50] : wave_rising_segment_lengths_mm;
+wb_wave_falling_segment_lengths_mm =
+    is_undef(wave_falling_segment_lengths_mm)
+        ? [50] : wave_falling_segment_lengths_mm;
+wb_wave_radius_mode = is_undef(wave_radius_mode)
+    ? "every_nth" : wave_radius_mode;
+wb_wave_default_radius_mm = is_undef(wave_default_radius_mm)
+    ? 1.6 : wave_default_radius_mm;
+wb_wave_selected_radius_mm = is_undef(wave_selected_radius_mm)
+    ? 5 : wave_selected_radius_mm;
+wb_wave_radius_cycle_mm = is_undef(wave_radius_cycle_mm)
+    ? [1.6, 1.6, 5] : wave_radius_cycle_mm;
+wb_wave_radius_interval = is_undef(wave_radius_interval)
+    ? 3 : wave_radius_interval;
+wb_wave_radius_first_position = is_undef(wave_radius_first_position)
+    ? 3 : wave_radius_first_position;
+
 wb_sample_chord_error_mm = is_undef(sample_chord_error_mm)
     ? SB_DEFAULT_SAMPLE_CHORD_ERROR_MM : sample_chord_error_mm;
 wb_sample_max_angle_step_degrees =

@@ -67,13 +67,17 @@ Generated corner records preserve source-vertex index, signed turn, orientation-
 
 A generated compilation record groups the source name, derived corners, derived edges, and the normalized closed bend-program shape. It is diagnostic execution data, not a second authoritative shape definition.
 
-### Pattern definition
+### Pattern element and block
 
-Defines a reusable ordered command block. It may declare parameter slots for segment length, bend radius, bend angle, and other values.
+Batch 008 records reusable local topology as named pattern blocks. Each local element is either a straight referencing one distance parameter or a bend referencing angle and radius parameters plus a signed multiplier. Stable local labels support diagnostics. Parameter names may be reused by multiple elements of the same value role but may not serve conflicting distance, angle, and radius roles.
 
-### Pattern instance
+### Pattern parameter and instance
 
-References one pattern definition, repetition count, and value schedules. It preserves compact authoring intent even when the normalized path contains hundreds of primitives.
+A pattern parameter assignment maps one required name to a scalar, explicit list, or compact value schedule. A pattern instance records source identity, pattern-block name, positive repetition count, complete parameter assignments, closure policy, start pose, and notes. Parameters resolve once per repetition, allowing every local bend in one wave to share one scheduled radius.
+
+### Pattern compilation and provenance
+
+Pattern compilation is derived execution data containing the source identities, resolved one-value-per-repetition parameter lists, normalized bend-program shape, and one trace per expanded command. Each trace records normalized command index, repetition index, local element index, and local label. The block and instance remain authoritative.
 
 ### Analytical path primitive
 
@@ -139,7 +143,7 @@ normalized analytical line/arc primitives
 sampled display path and fixture geometry
 ```
 
-Diagnostics must be able to trace any normalized primitive back to its source command, pattern instance, repetition index, and local pattern element.
+Diagnostics can trace a normalized primitive to its expanded command index. Batch 008 maps that command to the source pattern instance, repetition index, local element index, and local label through the pattern-compilation provenance list.
 
 ## Mutable and immutable boundaries
 

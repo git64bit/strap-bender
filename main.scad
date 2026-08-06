@@ -12,10 +12,13 @@ include <registries/catalog_projects.scad>
 include <registries/laboratory_bend_programs.scad>
 include <registries/laboratory_vertex_polygons.scad>
 include <registries/laboratory_regular_polygons.scad>
+include <patterns/standard_patterns.scad>
+include <registries/laboratory_pattern_instances.scad>
 include <config/projects.scad>
 include <config/programs.scad>
 include <config/polygons.scad>
 include <config/regular_polygons.scad>
+include <config/patterns.scad>
 include <config/workbenches.scad>
 
 module run_normalized_shape_pipeline(shape) {
@@ -89,6 +92,27 @@ module run_regular_polygon_pipeline(polygon) {
     );
 }
 
+module run_pattern_pipeline(instance, pattern) {
+    validate_pattern_instance(instance, pattern);
+    report_pattern_block(pattern, wb_report_level);
+    report_pattern_instance(instance, pattern, wb_report_level);
+    echo("STRAP BENDER PATTERN SOURCE VALIDATION: PASS");
+
+    compilation = compile_pattern_instance(instance, pattern);
+    validate_pattern_compilation(compilation, instance, pattern);
+    report_pattern_compilation(
+        compilation,
+        instance,
+        pattern,
+        wb_report_level
+    );
+    echo("STRAP BENDER PATTERN COMPILATION VALIDATION: PASS");
+
+    run_normalized_shape_pipeline(
+        pattern_compilation_normalized_shape(compilation)
+    );
+}
+
 module run_strap_bender_project() {
     validate_workbench_selection(
         wb_workbench_name,
@@ -124,6 +148,18 @@ module run_strap_bender_project() {
             "regular polygon"
         );
         run_regular_polygon_pipeline(regular_polygon);
+    } else if (project_kind(project) == "pattern") {
+        pattern_instance = named_record(
+            PATTERN_INSTANCES,
+            wb_pattern_instance_name,
+            "pattern instance"
+        );
+        pattern = named_record(
+            PATTERN_BLOCKS,
+            pattern_instance_pattern_name(pattern_instance),
+            "pattern block"
+        );
+        run_pattern_pipeline(pattern_instance, pattern);
     } else {
         echo("Strap Bender Catalog contains no accepted geometry.");
     }

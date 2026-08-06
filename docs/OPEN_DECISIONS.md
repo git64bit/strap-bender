@@ -8,7 +8,8 @@
 - The bend program is the primary authoring model.
 - Polygon, regular-polygon, and wave descriptions are front ends to one analytical line-and-arc path.
 - Sampled points are derived rendering data, not authoritative shape data.
-- Long paths must support compact repetition and independent value schedules.
+- Long paths use named pattern blocks, compact repetition instances, and independent value schedules resolved once per repetition.
+- The initial schedule grammar is constant, explicit, periodic, and every-nth; no opaque expression evaluator is required.
 - Target shape, forming calibration, and fixture geometry remain separate.
 - The project follows the self-contained Grid Stack / Polygon Stack framework and bounded batch workflow.
 
@@ -53,19 +54,6 @@ Decide how open-path tails are handled and how closed paths are joined. Required
 ### BOSL2 dependency
 
 Decide whether Strap Bender requires BOSL2, vendors a fixed compatible subset, or uses native OpenSCAD mathematics. The public data model remains library-independent.
-
-### First workbench boundary
-
-Choose whether the first executable workbench is:
-
-- explicit bend program;
-- regular polygon;
-- radius-calibration coupon;
-- a minimal combination of the above.
-
-### Pattern schedule syntax
-
-Select the smallest schedule grammar that supports constants, explicit lists, periodic lists, and the every-third-bend requirement without introducing an opaque expression evaluator.
 
 ### Self-intersections
 

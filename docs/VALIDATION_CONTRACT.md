@@ -26,6 +26,22 @@ Validation protects the authored contract. It must reject invalid records and re
 - a radius consumer additionally requires every resolved value to be positive;
 - resolution never changes the compact source record.
 
+## Pattern validation
+
+- pattern blocks contain at least one valid local element;
+- local element labels are nonempty and unique within the block;
+- distance, angle, and radius parameter roles use disjoint names;
+- repetition count is a positive integer;
+- every required parameter is assigned exactly once and no extra parameter is accepted;
+- each numeric source resolves to exactly one finite value per repetition;
+- resolved straight distances and radii are positive;
+- every local angle multiplier produces a valid nonzero bend below 360 degrees;
+- expansion emits exactly `repetition count × local element count` commands;
+- command source indexes remain contiguous;
+- one provenance record exists for every expanded command.
+
+Batch 008 resolves parameter values once per repetition. A local element may reuse that value, but expansion must not silently advance a schedule once per local bend.
+
 ## Ordered-path validation
 
 - every command has a stable source index;

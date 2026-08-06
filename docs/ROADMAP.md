@@ -51,8 +51,14 @@ Implementation status:
 - repetition instances;
 - reuse Batch 007 constant, explicit, periodic, and every-nth schedules;
 - long-wave workbench;
-- every-third-bend radius case;
-- performance and sampling tests at 10–20 foot developed lengths.
+- every-third-wave radius case;
+- performance and sampling tests at 10–20 foot analytical lengths.
+
+Implementation status:
+- Batch 008 adds reusable pattern-element and pattern-block records, compact repetition instances, per-repetition parameter assignments, exact expansion to the existing bend-program route, and repetition/local-element provenance.
+- Batch 008 adds the `THREE_SEGMENT_S_WAVE` topology and Wave Pattern Customizer. Constant, periodic, or exact arrays may independently control the three straight families. Radius schedules resolve once per wave, so waves 3, 6, 9, and so on can assign 5 mm to all local bends while other waves use 1.6 mm.
+- The 30-wave reference expands to 180 commands and approximately 15.6 feet along the finished-inside-edge analytical reference. Its contract also exercises bounded diagnostic sampling.
+- Broader pattern libraries, very-high-repetition stress profiling, and fixture segmentation remain later bounded work.
 
 ## Phase 4 — strap and forming calibration
 

@@ -46,3 +46,13 @@ The analytical path uses the finished inside edge as its explicit reference axis
 - `regular_polygon_scheduled_workbench_contract.scad` executes the every-third Customizer configuration through `main.scad`.
 
 Value schedules are compact authoring intent. Resolved lists are derived for a known consumer count; they are not maintained as a second source of truth.
+
+## Batch 008 pattern and long-wave contracts
+
+- `pattern_records_contract.scad` verifies pattern element, block, parameter, instance, compilation, and provenance records.
+- `pattern_expansion_contract.scad` verifies exact per-wave segment arrays, angle multipliers, every-nth wave radii, labels, and local provenance.
+- `long_wave_contract.scad` expands the 30-wave Laboratory instance to 180 commands, verifies all three bends in every third wave use R5, checks the approximately 15.6-foot analytical length, and exercises bounded sampling.
+- `wave_pattern_scheduled_workbench_contract.scad` executes exact Customizer segment arrays and every-third-wave radius routing through `main.scad`.
+- `wave_pattern_workbench_wrapper_contract.scad` executes the default compact Wave Pattern wrapper.
+
+Pattern schedules resolve once per repetition. Expanded commands and resolved lists remain derived execution data; the named block and compact instance are authoritative.

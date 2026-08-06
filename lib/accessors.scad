@@ -151,3 +151,51 @@ function regular_polygon_compilation_vertex_polygon(compilation) =
     compilation[RX_GENERATED_VERTEX_POLYGON];
 function regular_polygon_compilation_notes(compilation) =
     compilation[RX_NOTES];
+
+function pattern_element_kind(element) = element[PT_KIND];
+function pattern_element_distance_parameter(element) =
+    element[PT_DISTANCE_PARAMETER];
+function pattern_element_angle_parameter(element) =
+    element[PT_ANGLE_PARAMETER];
+function pattern_element_radius_parameter(element) =
+    element[PT_RADIUS_PARAMETER];
+function pattern_element_angle_multiplier(element) =
+    element[PT_ANGLE_MULTIPLIER];
+function pattern_element_label(element) = element[PT_LABEL];
+
+function pattern_block_name(pattern) = pattern[PB_NAME];
+function pattern_block_elements(pattern) = pattern[PB_ELEMENTS];
+function pattern_block_notes(pattern) = pattern[PB_NOTES];
+
+function pattern_parameter_name(parameter) = parameter[PP_NAME];
+function pattern_parameter_value_source(parameter) =
+    parameter[PP_VALUE_SOURCE];
+function pattern_parameter_label(parameter) = parameter[PP_LABEL];
+
+function pattern_instance_name(instance) = instance[PI_NAME];
+function pattern_instance_pattern_name(instance) = instance[PI_PATTERN_NAME];
+function pattern_instance_repeat_count(instance) = instance[PI_REPEAT_COUNT];
+function pattern_instance_parameters(instance) = instance[PI_PARAMETERS];
+function pattern_instance_closure(instance) = instance[PI_CLOSURE];
+function pattern_instance_start_pose(instance) = instance[PI_START_POSE];
+function pattern_instance_notes(instance) = instance[PI_NOTES];
+
+function pattern_provenance_command_index(trace) =
+    trace[PV_COMMAND_INDEX];
+function pattern_provenance_repetition_index(trace) =
+    trace[PV_REPETITION_INDEX];
+function pattern_provenance_local_element_index(trace) =
+    trace[PV_LOCAL_ELEMENT_INDEX];
+function pattern_provenance_local_label(trace) = trace[PV_LOCAL_LABEL];
+
+function pattern_compilation_source_instance_name(compilation) =
+    compilation[PCX_SOURCE_INSTANCE_NAME];
+function pattern_compilation_source_pattern_name(compilation) =
+    compilation[PCX_SOURCE_PATTERN_NAME];
+function pattern_compilation_resolved_parameters(compilation) =
+    compilation[PCX_RESOLVED_PARAMETERS];
+function pattern_compilation_provenance(compilation) =
+    compilation[PCX_PROVENANCE];
+function pattern_compilation_normalized_shape(compilation) =
+    compilation[PCX_NORMALIZED_SHAPE];
+function pattern_compilation_notes(compilation) = compilation[PCX_NOTES];

@@ -1,0 +1,175 @@
+STRAP BENDER — BATCH 008 DELTA
+
+Base repository:
+ https://github.com/git64bit/strap-bender
+
+Required base commit:
+ 2c8f3d7
+ 2c8f3d758dc53c88f462fa51569ee6e3cb540b83
+
+Scope:
+ Phase 3A named pattern blocks, compact repetition instances, and the first
+ long-wave authoring route.
+
+This batch implements native, versioned records for pattern elements, reusable
+pattern blocks, parameter assignments, repetition instances, expanded-command
+provenance, and derived pattern compilation. A pattern parameter accepts the
+existing scalar, explicit, periodic, or every-nth numeric value sources.
+Parameter values resolve once per repetition rather than once per expanded
+command.
+
+The first reusable topology is THREE_SEGMENT_S_WAVE:
+ base straight -> +A bend -> rising straight -> -2A bend -> falling straight
+ -> +A bend.
+
+Every complete repetition returns to its starting heading. The three straight
+families use independent parameter schedules. All three bends in one wave reuse
+that wave's angle and finished-inside-radius values. Therefore the included
+one-based every-nth radius schedule assigns 5 mm to all bends in waves 3, 6, 9,
+and so on, while all other waves use 1.6 mm.
+
+The Wave Pattern Customizer supports:
+ - arbitrary positive wave count without per-bend controls;
+ - constant, periodic, or exact per-wave arrays for base, rising, and falling
+   tangent-to-tangent straight lengths;
+ - one wave-angle value, with local multipliers +1, -2, +1;
+ - constant, periodic, or every-nth finished inside-radius assignment by wave;
+ - report-only or optional diagnostic-path execution.
+
+The Laboratory reference instance contains 30 waves, 180 normalized commands,
+90 straights, and 90 bends. Its finished-inside-edge analytical reference is
+approximately 4757.61 mm, or 15.61 feet. Ten selected waves contain 30 R5 bends;
+the other 20 waves contain 60 R1.6 bends. This remains an analytical reference
+length, not a neutral-axis developed length or strap cutting length.
+
+Authority and provenance:
+ The named pattern block and compact pattern instance are authoritative
+ authoring intent. Resolved parameter arrays and expanded bend-program commands
+ are derived execution data. Every expanded command receives a contiguous
+ source index plus repetition index, local element index, and stable local
+ element label. Pattern expansion enters the existing bend-program,
+ analytical-path, sampling, and diagnostic-rendering pipeline.
+
+Performance boundary:
+ Parameter schedules are resolved once before command expansion. The compiler
+ indexes those resolved arrays directly, avoiding full schedule reconstruction
+ for every local command. The 30-wave contract also samples the analytical path
+ with bounded point count.
+
+Not included:
+ No arbitrary formula or callback schedule grammar.
+ No additional pattern topology library beyond the first S-wave block.
+ No very-high-repetition runtime benchmark or fixture segmentation planner.
+ No polygon or analytical-path self-intersection diagnostic.
+ No strap solid, exact ULINE strap record, forming calibration, neutral-axis cut
+ length, or production fixture geometry.
+
+New files:
+ BATCH_008_DELTA.txt
+ config/patterns.scad
+ lib/pattern_reporting.scad
+ lib/pattern_schema.scad
+ lib/pattern_validation.scad
+ paths/compile_pattern_instance.scad
+ paths/pattern_math.scad
+ patterns/standard_patterns.scad
+ registries/laboratory_pattern_instances.scad
+ tests/long_wave_contract.scad
+ tests/pattern_expansion_contract.scad
+ tests/pattern_records_contract.scad
+ tests/wave_pattern_scheduled_workbench_contract.scad
+ tests/wave_pattern_workbench_wrapper_contract.scad
+ workbenches/wave-pattern.scad
+
+Changed files:
+ README.md
+ config/defaults.scad
+ config/projects.scad
+ config/workbenches.scad
+ default.scad
+ docs/ARCHITECTURE.md
+ docs/DATA_MODEL.md
+ docs/GLOSSARY.md
+ docs/OPEN_DECISIONS.md
+ docs/ROADMAP.md
+ docs/SHAPE_DESCRIPTION.md
+ docs/VALIDATION_CONTRACT.md
+ lib/accessors.scad
+ lib/indices.scad
+ lib/lookup.scad
+ lib/validation.scad
+ main.scad
+ registries/laboratory_projects.scad
+ strap_bender.scad
+ tests/README.md
+ tests/public_foundation_contract.scad
+ tests/workbench_registry_contract.scad
+
+Deleted files:
+ None.
+
+Upload:
+ 1. Confirm the repository is at commit 2c8f3d7.
+ 2. Upload all files from this archive as complete files while preserving
+    repository-relative paths.
+ 3. Create the fifteen new files exactly as named above.
+ 4. Do not replace or modify LICENSE, earlier BATCH_*_DELTA files, or unrelated
+    source files.
+
+OpenSCAD verification:
+ 1. Open tests/public_foundation_contract.scad and press F5.
+ 2. Confirm: STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+ 3. Open tests/pattern_records_contract.scad and press F5.
+ 4. Confirm the standard S-wave contains six local elements and a two-wave
+    instance expands to twelve commands.
+ 5. Confirm: STRAP BENDER PATTERN RECORDS CONTRACT: PASS
+ 6. Open tests/pattern_expansion_contract.scad and press F5.
+ 7. Confirm wave-specific straight arrays, +A/-2A/+A angles, and all three R5
+    bends in selected wave two are preserved.
+ 8. Confirm: STRAP BENDER PATTERN EXPANSION CONTRACT: PASS
+ 9. Open tests/long_wave_contract.scad and press F5.
+10. Confirm 180 commands, 90 bends, 30 R5 bends, and 60 R1.6 bends.
+11. Confirm the reported analytical length is approximately 4757.61 mm and the
+    sampled point count remains below 5000.
+12. Confirm: STRAP BENDER LONG-WAVE CONTRACT: PASS
+13. Open tests/workbench_registry_contract.scad and press F5.
+14. Confirm WAVE_PATTERN_LAB, THREE_SEGMENT_S_WAVE, both Laboratory pattern
+    instances, and the wave_pattern workbench resolve uniquely.
+15. Confirm: STRAP BENDER WORKBENCH REGISTRY CONTRACT: PASS
+16. Open tests/wave_pattern_scheduled_workbench_contract.scad and press F5.
+17. Confirm four explicit waves expand to 24 commands, wave three uses R5 for
+    all local bends, and wave four retains its three independent lengths.
+18. Confirm: STRAP BENDER SCHEDULED WAVE WORKBENCH CONTRACT: PASS
+19. Open tests/wave_pattern_workbench_wrapper_contract.scad and press F5.
+20. Confirm the default 30-wave report completes without warnings or errors.
+21. Confirm: STRAP BENDER WAVE-PATTERN WORKBENCH WRAPPER CONTRACT: PASS
+22. Re-run tests/value_schedule_contract.scad,
+    tests/analytical_scale_contract.scad, tests/sampled_path_contract.scad,
+    tests/polygon_periodic_radius_contract.scad, and
+    tests/regular_polygon_scheduled_workbench_contract.scad.
+23. Confirm every accepted regression prints PASS without warnings or errors.
+24. Open workbenches/wave-pattern.scad and press F5.
+25. Confirm the default every_nth radius mode reports 30 waves and 180 commands
+    without exposing Bend A/B/C-style controls.
+26. Set show_diagnostic_preview = true and confirm the complete S-wave path
+    renders. Return it to false before saving a Customizer preset if desired.
+27. Set segment_schedule_mode = explicit, set wave_count = 4, and provide four
+    values in each of the three segment arrays. Confirm each array is retained.
+28. Test bend_radius_mode = constant, periodic, and every_nth. Confirm schedules
+    advance by wave and all local bends in one wave share that wave's radius.
+
+Static verification performed before delivery:
+ Include targets resolve.
+ Delimiters and comments are balanced.
+ Function and module declarations are unique.
+ Custom Strap Bender function calls resolve to declared functions or modules.
+ Every .scad file remains at or below 500 lines.
+ Delta overlay matches the prepared Batch 008 working tree.
+ Archive integrity and artifact hygiene pass.
+
+OpenSCAD execution note:
+ OpenSCAD is not installed in the delivery environment. The direct-open F5 tests
+ above require execution on the user's OpenSCAD installation.
+
+After acceptance:
+ Commit the batch and provide the resulting commit SHA for reconciliation.

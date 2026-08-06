@@ -23,6 +23,8 @@ assert(STRAP_BENDER_VERTEX_POLYGON_CONTRACT_VERSION == 1,
     "Unexpected vertex-polygon contract version.");
 assert(STRAP_BENDER_REGULAR_POLYGON_CONTRACT_VERSION == 1,
     "Unexpected regular-polygon contract version.");
+assert(STRAP_BENDER_PATTERN_CONTRACT_VERSION == 1,
+    "Unexpected pattern contract version.");
 
 project = project_spec("TEST_PROJECT", "bend_program", "laboratory");
 pose = start_pose_spec(10, -5, 30);
@@ -65,6 +67,27 @@ regular_polygon = regular_polygon_spec(
     0
 );
 regular_compilation = compile_regular_polygon(regular_polygon);
+pattern = pattern_block_spec(
+    "TEST_PATTERN",
+    [
+        pattern_straight_element("length_mm", "STRAIGHT"),
+        pattern_bend_element("angle_degrees", "radius_mm", 1, "BEND")
+    ]
+);
+pattern_instance = pattern_instance_spec(
+    "TEST_PATTERN_INSTANCE",
+    "TEST_PATTERN",
+    2,
+    [
+        pattern_parameter_spec("length_mm", 25),
+        pattern_parameter_spec("angle_degrees", 30),
+        pattern_parameter_spec("radius_mm", 2)
+    ]
+);
+pattern_compilation = compile_pattern_instance(
+    pattern_instance,
+    pattern
+);
 
 assert(project_name(project) == "TEST_PROJECT",
     "Project accessor contract failed.");
@@ -106,5 +129,13 @@ assert(len(regular_polygon_compilation_vertices(
     regular_compilation
 ) == "TEST_REGULAR_POLYGON",
     "Regular-polygon compilation accessor contract failed.");
+assert(pattern_block_name(pattern) == "TEST_PATTERN" &&
+    len(pattern_block_elements(pattern)) == 2,
+    "Pattern-block constructor or accessors failed.");
+assert(pattern_instance_repeat_count(pattern_instance) == 2 &&
+    len(shape_commands(pattern_compilation_normalized_shape(
+        pattern_compilation
+    ))) == 4,
+    "Pattern-instance compilation accessor contract failed.");
 
 echo("STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS");

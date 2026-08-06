@@ -35,5 +35,16 @@ LABORATORY_PROJECTS = [
             "sharp dimension, generates ordered vertices, then enters the ",
             "shared vertex-polygon and analytical-path pipeline."
         )
+    ),
+    project_spec(
+        name = "WAVE_PATTERN_LAB",
+        kind = "pattern",
+        status = "laboratory",
+        notes = str(
+            "Mutable repeated-wave laboratory. It resolves one value per ",
+            "repetition for independent straight, angle, and radius ",
+            "parameters, expands the named topology, and enters the shared ",
+            "bend-program and analytical-path pipeline."
+        )
     )
 ];

@@ -10,6 +10,7 @@ WORKBENCH_NAMES = [
     "bend_program",
     "vertex_polygon",
     "regular_polygon",
+    "wave_pattern",
     "catalog"
 ];
 
@@ -23,7 +24,8 @@ function workbench_render_mode_allowed(name, mode) =
         : (name == "development" ||
             name == "bend_program" ||
             name == "vertex_polygon" ||
-            name == "regular_polygon") &&
+            name == "regular_polygon" ||
+            name == "wave_pattern") &&
             (mode == "report_only" || mode == "diagnostic_path");
 
 module validate_workbench_selection(

@@ -7,7 +7,7 @@ The project is concerned primarily with two controlled quantities:
 - tangent-to-tangent straight-segment lengths;
 - the intended radius of each bend.
 
-A shape may be a small closed polygon or a long open path containing many repeated and individually varied bends. A 10–20 foot wave pattern, for example, may repeat one family of segment lengths while assigning a 5 mm radius to every third bend and 1.6 mm to the others.
+A shape may be a small closed polygon or a long open path containing many repeated and individually varied bends. A 10–20 foot wave pattern, for example, may assign a 5 mm bend radius to every third complete wave and 1.6 mm to the others while each straight family uses an independent schedule.
 
 ## Canonical model
 
@@ -37,6 +37,7 @@ Open the required entry point directly:
 workbenches/bend-program.scad     named arbitrary-length program selection
 workbenches/vertex-polygon.scad   named ordered-vertex polygon selection
 workbenches/regular-polygon.scad  schedule-capable regular-polygon Customizer
+workbenches/wave-pattern.scad     compact repeated S-wave Customizer
 workbenches/catalog.scad          read-only accepted-object route
 default.scad                      maintainer route
 ```
@@ -47,9 +48,15 @@ Mutable example records are registered in:
 
 ```text
 registries/laboratory_bend_programs.scad
+registries/laboratory_vertex_polygons.scad
+registries/laboratory_regular_polygons.scad
+patterns/standard_patterns.scad
+registries/laboratory_pattern_instances.scad
 ```
 
-The bend-program registry contains a small mixed-radius example and a synthetic 36-bend scale example. The vertex-polygon registry contains a rounded square and a concave L-shaped example. The regular-polygon registry contains triangle, square, mixed-radius pentagon, and every-third-radius nonagon examples. Batch 007 adds reusable constant, explicit, periodic, and every-nth numeric schedules. The Regular Polygon Customizer can use one common radius or an every-nth rule without exposing individual bends. All regular polygons still compile through the shared vertex-polygon, bend-program, analytical-path, sampling, and diagnostic-rendering pipeline.
+The bend-program registry contains a small mixed-radius example and a synthetic 36-bend scale example. The vertex-polygon registry contains a rounded square and a concave L-shaped example. The regular-polygon registry contains triangle, square, mixed-radius pentagon, and every-third-radius nonagon examples. Batch 007 adds reusable constant, explicit, periodic, and every-nth numeric schedules.
+
+Batch 008 adds a reusable `THREE_SEGMENT_S_WAVE` topology and compact pattern instances. The Wave Pattern Customizer accepts a repetition count, three independent straight-segment schedules, a wave angle, and a radius schedule resolved once per wave. Its reference instance expands 30 waves to 180 commands and applies 5 mm radii to all three bends in waves 3, 6, 9, and so on. Pattern expansion still enters the shared bend-program, analytical-path, sampling, and diagnostic-rendering pipeline.
 
 ## Tests
 
@@ -57,7 +64,7 @@ Open each file under `tests/` directly and use F5. Every successful contract pri
 
 The arbitrary-length source-record contract validates a 73-command program containing 36 bends and 37 straights. Every third bend uses a 5 mm finished inside radius; the remaining bends use 1.6 mm.
 
-The analytical contracts verify mixed left/right bends, unequal segment lengths, exact arc centers and bounds, rounded-square closure, and analytical compilation of the complete 73-command scale example. Sampling contracts verify chord-error control, exact endpoint retention, absence of duplicate primitive-boundary points, convergence toward exact arc length, and diagnostic geometry dispatch. Polygon contracts verify convex and concave classification, source-vertex provenance, tangent-setback feasibility, exact closure, and equivalence with an explicit bend program. Regular-polygon contracts verify triangle generation, dimension authorities, explicit corner-radius preservation, compact schedule resolution, and complete Customizer routing.
+The analytical contracts verify mixed left/right bends, unequal segment lengths, exact arc centers and bounds, rounded-square closure, and analytical compilation of the complete 73-command scale example. Sampling contracts verify chord-error control, exact endpoint retention, absence of duplicate primitive-boundary points, convergence toward exact arc length, and diagnostic geometry dispatch. Polygon contracts verify convex and concave classification, source-vertex provenance, tangent-setback feasibility, exact closure, and equivalence with an explicit bend program. Regular-polygon contracts verify triangle generation, dimension authorities, explicit corner-radius preservation, compact schedule resolution, and complete Customizer routing. Pattern contracts verify parameter-slot validation, exact expansion order, repetition and local-element provenance, explicit per-wave segment arrays, every-third-wave radius assignment, and a sampled analytical path between 10 and 20 feet.
 
 ## Current status
 
@@ -73,7 +80,9 @@ Batch 006 adds the regular-polygon front end. Side count plus one governing shar
 
 Batch 007 adds native numeric value-schedule records. Constant, exact explicit, repeating periodic, and one-based every-nth rules resolve to explicit per-consumer values before polygon geometry is compiled. The included nonagon and Customizer route demonstrate 1.6 mm radii with 5 mm at positions 3, 6, and 9.
 
-No arbitrary formula schedule, pattern or long-wave compiler, self-intersection analysis, strap solid, forming compensation, or production fixture geometry is implemented yet.
+Batch 008 begins Phase 3 with named pattern blocks, compact repetition instances, parameter assignments, command-level repetition provenance, and the Wave Pattern Customizer. The 30-wave reference path is approximately 15.6 feet along the finished inside-edge analytical reference and remains compact until execution expansion is required.
+
+No arbitrary formula schedule, polygon self-intersection analysis, strap solid, forming compensation, or production fixture geometry is implemented yet.
 
 ## Design documents
 

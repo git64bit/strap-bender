@@ -32,13 +32,13 @@ geometry dispatch
 
 ## Workbench plan
 
-The Bend Program, Vertex Polygon, Regular Polygon, and Catalog routes are implemented. The wave-pattern route remains planned:
+The Bend Program, Vertex Polygon, Regular Polygon, Wave Pattern, and Catalog routes are implemented:
 
 ```text
 workbenches/bend-program.scad      explicit ordered straights and bends
 workbenches/vertex-polygon.scad    named ordered vertices and corner radii
 workbenches/regular-polygon.scad   schedule-capable regular polygon generator
-workbenches/wave-pattern.scad      repeated long-form pattern generator
+workbenches/wave-pattern.scad      compact repeated S-wave generator
 workbenches/catalog.scad           read-only accepted-object route
 ```
 
@@ -66,11 +66,24 @@ Folders should be created only when the first implementation requires them.
 
 ## Schedule boundary
 
-Batch 007 introduces compact numeric schedules as authoring records, not geometry. A consumer validates its count and value domain, then resolves the schedule to an explicit list before tangent setbacks, bend commands, or analytical primitives are calculated. Source position is one-based for human-facing every-nth rules; derived arrays remain zero-based internally. Reordering the normalized command sequence does not renumber the source schedule positions.
+Batch 007 introduces compact numeric schedules as authoring records, not geometry. A consumer validates its count and value domain, then resolves the schedule to an explicit list before tangent setbacks, bend commands, or analytical primitives are calculated. Source position is one-based for human-facing every-nth rules; derived arrays remain zero-based internally. Reordering a normalized polygon command sequence does not renumber source schedule positions.
+
+Batch 008 applies the same schedule records to pattern parameters. Each parameter resolves once per repetition. A local pattern element may reuse that repetition value, so the three bends in one S-wave can share one radius while the next wave receives another. Segment parameter schedules remain independent; explicit lists can assign a different base, rising, and falling straight length to every wave.
 
 ## Shape boundary
 
-All authoring front ends terminate at one Strap Bender analytical path contract. Batch 005 demonstrates this by normalizing a vertex polygon to the existing ordered bend-program record before analytical compilation. Batch 006 inserts regular-polygon generation one stage earlier. Batch 007 resolves compact radius schedules before either polygon front end calculates tangent geometry: source → resolved values → generated or explicit vertex polygon → normalized bend program → analytical path. Waves and explicit bend sequences may not bypass this boundary and directly generate unrelated fixture solids.
+All authoring front ends terminate at one Strap Bender analytical path contract. Batch 005 demonstrates this by normalizing a vertex polygon to the existing ordered bend-program record before analytical compilation. Batch 006 inserts regular-polygon generation one stage earlier. Batch 007 resolves compact radius schedules before either polygon front end calculates tangent geometry. Batch 008 adds the parallel pattern route: compact instance → per-repetition parameter resolution → expanded commands with provenance → normalized bend program → analytical path. Waves and explicit bend sequences may not bypass this boundary and directly generate unrelated fixture solids.
+
+## Pattern expansion boundary
+
+A pattern block owns only reusable local topology and named parameter slots. A pattern instance owns the repetition count, parameter value sources, start pose, and closure policy. Compilation produces contiguous bend-program source indexes plus a separate provenance record for every expanded command containing:
+
+- source pattern instance;
+- zero-based repetition index;
+- zero-based local element index;
+- stable local element label.
+
+The compact block and instance remain authoritative. Expanded commands and resolved parameter lists are derived execution data and are not maintained as a second editable source.
 
 ## Exact geometry and rendering boundary
 

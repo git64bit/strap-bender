@@ -51,7 +51,7 @@ Each primitive retains exact start pose, end pose, length, tangent direction, an
 
 ## Compact numeric schedules
 
-Batch 007 defines four schedule kinds shared by current polygon front ends and future patterns:
+Batch 007 defines four schedule kinds shared by polygon and pattern front ends:
 
 ```text
 constant(value)
@@ -82,14 +82,22 @@ Batch 006 defines side count, one governing sharp dimension (`side_length`, `cir
 
 ### Repeated pattern and wave generator
 
-Long forms use a named pattern block plus a repetition count. Pattern parameters may be supplied by:
+Batch 008 implements a named pattern block plus a compact repetition instance. A block contains ordered local straight and bend elements. Elements reference named parameters instead of embedding one value per expanded command. An instance assigns a scalar, exact list, periodic list, or every-nth schedule to each required parameter.
 
-- one constant value;
-- an explicit list;
-- a periodic list;
-- an index-derived schedule supported by the workbench.
+The first topology is `THREE_SEGMENT_S_WAVE`:
 
-The Batch 007 schedule foundation can represent the stated bend-radius assignment either as periodic `[1.6, 1.6, 5.0]` or as every-nth with default 1.6, selected 5.0, interval 3, and first position 3. The future wave compiler will apply that schedule to expanded bend positions. Segment lengths may use an independent schedule and need not be equal.
+```text
+base straight
++A bend
+rising straight
+-2A reversing bend
+falling straight
++A leveling bend
+```
+
+Each complete repetition returns to its starting heading. The three straight families have independent schedules. The angle and inside-radius parameters resolve once per wave and are reused by the local bends. Therefore an every-nth radius rule with default 1.6 mm, selected 5 mm, interval 3, and first position 3 assigns 5 mm to every bend in waves 3, 6, 9, and so on—not merely to every third expanded bend.
+
+The Wave Pattern Customizer supports constant, periodic, or exact per-wave arrays for all three straight families. Full Laboratory records can independently schedule every parameter. Expansion preserves the repetition index and local element identity for every normalized command.
 
 ### Imported line-and-arc path
 
