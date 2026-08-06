@@ -13,6 +13,8 @@ assert(STRAP_BENDER_SCHEMA_VERSION == 1,
     "Unexpected Strap Bender schema version.");
 assert(STRAP_BENDER_BEND_PROGRAM_CONTRACT_VERSION == 1,
     "Unexpected bend-program contract version.");
+assert(STRAP_BENDER_ANALYTICAL_PATH_CONTRACT_VERSION == 1,
+    "Unexpected analytical-path contract version.");
 
 project = project_spec("TEST_PROJECT", "bend_program", "laboratory");
 pose = start_pose_spec(10, -5, 30);

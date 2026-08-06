@@ -69,7 +69,7 @@ All authoring front ends terminate at one Strap Bender analytical path contract.
 
 ## Exact geometry and rendering boundary
 
-Line and circular-arc primitives are authoritative. Sampled points exist only for consumers that require them. Preview resolution must not alter validation, measurements, or fixture datum positions.
+Line and circular-arc primitives are authoritative. Batch 003 implements this boundary for explicit bend programs using the desired finished inside edge as the named analytical reference axis. Sampled points exist only for consumers that require them. Preview resolution must not alter validation, measurements, or fixture datum positions.
 
 ## Target and fixture boundary
 

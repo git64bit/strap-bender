@@ -2,7 +2,7 @@
 // LibFile: main.scad
 // Project: Strap Bender
 // FileGroup: Shared Workbench Orchestrator
-// FileSummary: Routes executable wrappers through the native framework.
+// FileSummary: Routes wrappers through validation and analytical compilation.
 //////////////////////////////////////////////////////////////////////
 
 include <strap_bender.scad>
@@ -36,6 +36,11 @@ module run_strap_bender_project() {
         validate_bend_program_shape(program);
         report_bend_program_shape(program, wb_report_level);
         echo("STRAP BENDER BEND-PROGRAM RECORD VALIDATION: PASS");
+
+        analytical_path = compile_bend_program(program);
+        validate_analytical_path(analytical_path);
+        report_analytical_path(analytical_path, wb_report_level);
+        echo("STRAP BENDER ANALYTICAL PATH VALIDATION: PASS");
     } else {
         echo("Strap Bender Catalog contains no accepted geometry.");
     }

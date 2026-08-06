@@ -2,7 +2,7 @@
 // LibFile: bend-program.scad
 // Project: Strap Bender
 // FileGroup: Executable Workbench
-// FileSummary: Selects and reports one arbitrary-length bend program.
+// FileSummary: Selects, compiles, and reports one arbitrary-length program.
 //////////////////////////////////////////////////////////////////////
 
 /* [Bend program] */

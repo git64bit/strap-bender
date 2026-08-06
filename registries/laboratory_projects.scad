@@ -11,9 +11,9 @@ LABORATORY_PROJECTS = [
         kind = "bend_program",
         status = "laboratory",
         notes = str(
-            "Mutable report-only bend-program scaffold. It validates native ",
-            "straight, bend, pose, and shape records before the analytical ",
-            "path kernel is introduced."
+            "Mutable explicit bend-program laboratory. It validates source ",
+            "records and compiles them to exact finished-inside-edge line and ",
+            "circular-arc analytical primitives."
         )
     )
 ];

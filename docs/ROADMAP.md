@@ -23,6 +23,12 @@ Batch 001 covers this phase only.
 
 No production fixture is required for this phase.
 
+Implementation status:
+
+- Corrected Batch 002 covers the framework skeleton, source records, registries, validation, reporting, and arbitrary-length program routing.
+- Batch 003 covers explicit straight/bend compilation, exact poses, arc centers, stations, finished-inside-edge reference length, exact XY bounds, closure validation, and source provenance.
+- Analytical sampling and diagnostic path rendering remain for the next bounded Phase 1 batch.
+
 ## Phase 2 — polygon front end
 
 - ordered vertex input;

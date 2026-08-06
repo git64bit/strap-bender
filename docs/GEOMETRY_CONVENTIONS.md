@@ -3,7 +3,7 @@
 ## Units and plane
 
 - All design dimensions use millimetres.
-- The strap center path lies in the XY plane.
+- The target analytical reference path lies in the XY plane.
 - Positive X is the default starting heading.
 - Positive signed turn is counter-clockwise / left.
 - Negative signed turn is clockwise / right.
@@ -12,6 +12,12 @@
 ## Strap orientation
 
 The PET strap is treated as a ribbon whose width is normal to the shape plane and whose thickness lies across the in-plane bend. Exact orientation will be confirmed against the selected ULINE product and fixture method before implementation.
+
+## Phase 1 analytical reference axis
+
+The first analytical path kernel uses the **desired finished inside edge** as its explicit geometric reference axis. Therefore, a bend command with a 5 mm desired finished inside radius compiles to an analytical circular arc with a 5 mm radius on that reference path.
+
+This choice does not equate the inside edge with the strap centerline or neutral axis. Centerline geometry, neutral-axis developed length, forming compensation, and cut length remain separate later derivations that require the physical strap specification and calibration record.
 
 ## Straight-segment length
 

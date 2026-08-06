@@ -2,7 +2,7 @@
 // LibFile: reporting.scad
 // Project: Strap Bender
 // FileGroup: Reporting
-// FileSummary: Reports resolved projects and bend-program records.
+// FileSummary: Reports source records and derived analytical paths.
 //////////////////////////////////////////////////////////////////////
 
 module report_project(project, report_level = "full") {
@@ -15,9 +15,9 @@ module report_project(project, report_level = "full") {
         echo(str("Notes: ", project_notes(project)));
 }
 
-module report_start_pose(pose) {
+module report_start_pose(pose, prefix = "Start pose") {
     echo(str(
-        "Start pose: [",
+        prefix, ": [",
         pose_x(pose), ", ", pose_y(pose),
         "] heading ", pose_heading_degrees(pose), " degrees"
     ));
@@ -61,5 +61,81 @@ module report_bend_program_shape(shape, report_level = "full") {
         for (command = commands)
             report_bend_program_command(command);
         echo(str("Notes: ", shape_notes(shape)));
+    }
+}
+
+module report_analytical_primitive(primitive) {
+    start_pose = primitive_start_pose(primitive);
+    end_pose = primitive_end_pose(primitive);
+
+    if (primitive_kind(primitive) == "line")
+        echo(str(
+            "Primitive from command ", primitive_source_index(primitive),
+            ": line, station ", primitive_station_start(primitive),
+            " to ", primitive_station_end(primitive),
+            " mm, [", pose_x(start_pose), ", ", pose_y(start_pose),
+            "] to [", pose_x(end_pose), ", ", pose_y(end_pose), "]",
+            len(primitive_label(primitive)) > 0
+                ? str(" [", primitive_label(primitive), "]") : ""
+        ));
+    else
+        echo(str(
+            "Primitive from command ", primitive_source_index(primitive),
+            ": arc ", primitive_angle_degrees(primitive),
+            " degrees at inside radius ",
+            primitive_inside_radius(primitive),
+            " mm, center [", sb_point_x(primitive_center(primitive)),
+            ", ", sb_point_y(primitive_center(primitive)),
+            "], station ", primitive_station_start(primitive),
+            " to ", primitive_station_end(primitive), " mm",
+            len(primitive_label(primitive)) > 0
+                ? str(" [", primitive_label(primitive), "]") : ""
+        ));
+}
+
+module report_analytical_path(path, report_level = "full") {
+    primitives = analytical_path_primitives(path);
+    line_count = len([
+        for (primitive = primitives)
+            if (primitive_kind(primitive) == "line") primitive
+    ]);
+    arc_count = len(primitives) - line_count;
+    bounds = analytical_path_bounds(path);
+
+    echo("--- Strap Bender analytical path ---");
+    echo(str("Path: ", analytical_path_name(path)));
+    echo(str("Reference axis: ", analytical_path_reference_axis(path)));
+    echo(str("Primitives: ", len(primitives),
+        " (", line_count, " line, ", arc_count, " arc)"));
+    echo(str("Total straight length: ",
+        analytical_path_straight_length(path), " mm"));
+    echo(str("Total inside-edge arc length: ",
+        analytical_path_arc_length(path), " mm"));
+    echo(str("Total inside-reference path length: ",
+        analytical_path_length(path), " mm"));
+    report_start_pose(analytical_path_end_pose(path), "End pose");
+    echo(str(
+        "Bounds: [", sb_bounds_min_x(bounds), ", ",
+        sb_bounds_min_y(bounds), "] to [",
+        sb_bounds_max_x(bounds), ", ",
+        sb_bounds_max_y(bounds), "] mm"
+    ));
+
+    if (analytical_path_closure(path) == "closed") {
+        echo(str("Closure position error: ",
+            analytical_path_closure_position_error(path), " mm"));
+        echo(str("Closure heading error: ",
+            analytical_path_closure_angle_error(path), " degrees"));
+    }
+
+    echo(str(
+        "Length warning: the inside-reference path length is not a ",
+        "neutral-axis developed length or a cut length."
+    ));
+
+    if (report_level == "full") {
+        for (primitive = primitives)
+            report_analytical_primitive(primitive);
+        echo(str("Notes: ", analytical_path_notes(path)));
     }
 }

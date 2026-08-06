@@ -1,0 +1,102 @@
+STRAP BENDER — BATCH 003 DELTA
+
+Base repository:
+  https://github.com/git64bit/strap-bender
+
+Required base commit:
+  df53cdf
+  df53cdfff4cd9d1f719e5d3ca5ac86bbcc1f9b8d
+
+Scope:
+  Phase 1B analytical path kernel for explicit bend programs.
+  Compiles every source straight or bend command into one exact line or
+  circular-arc primitive. Adds continuous poses and cumulative stations,
+  signed bend centers, source-command provenance, exact circular extrema,
+  exact XY path bounds, finished-inside-edge reference length, and open/closed
+  endpoint validation.
+
+Reference-axis contract:
+  The Batch 003 analytical path explicitly uses the desired finished inside
+  edge. Its reported station length is an inside-reference path length. It is
+  not a strap centerline length, neutral-axis developed length, or cut length.
+
+Not included:
+  No sampled point path.
+  No diagnostic path or strap-solid rendering.
+  No polygon or regular-polygon front end.
+  No wave-pattern compiler or schedule grammar.
+  No strap-specification or forming-calibration assumptions.
+  No fixture geometry.
+  No self-intersection or near-intersection analysis.
+
+New files:
+  paths/analytical_math.scad
+  paths/analytical_bounds.scad
+  paths/compile_bend_program.scad
+  tests/analytical_path_contract.scad
+  tests/closed_path_contract.scad
+  tests/analytical_scale_contract.scad
+  BATCH_003_DELTA.txt
+
+Changed files:
+  README.md
+  docs/ARCHITECTURE.md
+  docs/DATA_MODEL.md
+  docs/GEOMETRY_CONVENTIONS.md
+  docs/ROADMAP.md
+  lib/indices.scad
+  lib/schema.scad
+  lib/accessors.scad
+  lib/validation.scad
+  lib/reporting.scad
+  main.scad
+  registries/laboratory_projects.scad
+  strap_bender.scad
+  tests/README.md
+  tests/public_foundation_contract.scad
+  workbenches/bend-program.scad
+
+Deleted files:
+  None.
+
+Upload:
+  1. Confirm the repository is at commit df53cdf.
+  2. Upload all files from this archive as complete files while preserving
+     repository-relative paths.
+  3. Do not replace or modify LICENSE, BATCH_001_DELTA.txt,
+     BATCH_002_DELTA.txt, or unrelated docs and source files.
+  4. Confirm the new paths/ directory contains exactly the three listed files.
+
+OpenSCAD verification:
+  1. Open tests/public_foundation_contract.scad and press F5.
+  2. Confirm: STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+  3. Open tests/bend_program_records_contract.scad and press F5.
+  4. Confirm: STRAP BENDER BEND-PROGRAM RECORDS CONTRACT: PASS
+  5. Open tests/arbitrary_length_program_contract.scad and press F5.
+  6. Confirm: STRAP BENDER ARBITRARY-LENGTH PROGRAM CONTRACT: PASS
+  7. Open tests/analytical_path_contract.scad and press F5.
+  8. Confirm the summary reports five primitives and a
+     finished_inside_edge reference axis.
+  9. Confirm: STRAP BENDER ANALYTICAL PATH CONTRACT: PASS
+ 10. Open tests/closed_path_contract.scad and press F5.
+ 11. Confirm closure position and heading errors are effectively zero.
+ 12. Confirm: STRAP BENDER CLOSED PATH CONTRACT: PASS
+ 13. Open tests/analytical_scale_contract.scad and press F5.
+ 14. Confirm the summary reports 73 primitives: 37 lines and 36 arcs.
+ 15. Confirm: STRAP BENDER ANALYTICAL SCALE CONTRACT: PASS
+ 16. Open tests/workbench_registry_contract.scad and press F5.
+ 17. Confirm: STRAP BENDER WORKBENCH REGISTRY CONTRACT: PASS
+ 18. Open tests/workbench_wrapper_contract.scad and press F5.
+ 19. Confirm the source-record, analytical-path, workbench, and project PASS
+     messages appear without warnings or errors.
+ 20. Open workbenches/bend-program.scad.
+ 21. Select OPEN_MIXED_RADIUS_EXAMPLE, set report_level to summary, and press F5.
+ 22. Confirm the report shows five source commands, five analytical primitives,
+     exact bounds, and the warning that inside-reference length is not cut
+     length.
+ 23. Select THIRTY_SIX_BEND_SCALE_EXAMPLE and press F5.
+ 24. Confirm the report shows 73 source commands and 73 analytical primitives.
+ 25. Confirm no geometry is rendered. Batch 003 is analytical/report-only.
+
+After acceptance:
+  Commit the batch and provide the resulting commit SHA for reconciliation.

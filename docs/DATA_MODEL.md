@@ -46,7 +46,11 @@ References one pattern definition, repetition count, and value schedules. It pre
 
 ### Analytical path primitive
 
-A derived line or circular arc containing exact geometric state and source provenance. Analytical primitives are generated, not hand-edited Catalog data.
+A derived line or circular arc containing exact geometric state and source provenance. Batch 003 records primitive kind, source-command index, label, exact start and end poses, cumulative start and end stations, and arc center, signed angle, and desired finished inside radius where applicable. Analytical primitives are generated, not hand-edited Catalog data.
+
+### Analytical path
+
+A generated ordered container for analytical primitives. Batch 003 records the source shape name, closure policy, explicit `finished_inside_edge` reference axis, start and end poses, exact XY bounds, and notes identifying the limits of the reference-axis length. It does not claim neutral-axis developed length or cut length.
 
 ### Forming calibration
 
