@@ -1,0 +1,46 @@
+STRAP BENDER — BATCH 001 DELTA
+
+Base repository:
+  https://github.com/git64bit/strap-bender
+
+Required base commit:
+  3f8cf6e
+
+Scope:
+  Design documentation only.
+  No OpenSCAD source, fixture geometry, or runtime dependency is introduced.
+
+New files:
+  README.md
+  docs/ARCHITECTURE.md
+  docs/DATA_MODEL.md
+  docs/DEVELOPMENT_WORKFLOW.md
+  docs/FIXTURE_DESIGN_BOUNDARY.md
+  docs/GEOMETRY_CONVENTIONS.md
+  docs/GLOSSARY.md
+  docs/OPEN_DECISIONS.md
+  docs/PROJECT_SCOPE.md
+  docs/PROVENANCE.md
+  docs/ROADMAP.md
+  docs/SHAPE_DESCRIPTION.md
+  docs/VALIDATION_CONTRACT.md
+  BATCH_001_DELTA.txt
+
+Changed files:
+  None.
+
+Deleted files:
+  None.
+
+Upload:
+  Upload the files as complete files while preserving their repository-relative paths.
+  Do not replace or modify LICENSE.
+
+Verification:
+  1. Confirm README.md is at repository root.
+  2. Confirm all twelve Markdown files are inside docs/.
+  3. Confirm GitHub renders each Markdown file without broken headings or code blocks.
+  4. Confirm no .scad files were added in this batch.
+
+After acceptance:
+  Commit the batch and provide the resulting commit SHA for reconciliation.

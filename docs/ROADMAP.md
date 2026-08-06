@@ -1,0 +1,74 @@
+# Development roadmap
+
+The roadmap defines dependency order, not permission to implement all phases at once. Each phase is divided into bounded batches and reconciled against the user's commit SHA before continuing.
+
+## Phase 0 — design contract
+
+- establish project scope;
+- define bend-program semantics;
+- define geometry and radius conventions;
+- define record boundaries;
+- identify unresolved physical and fixture decisions.
+
+Batch 001 covers this phase only.
+
+## Phase 1 — analytical path kernel
+
+- create the self-contained framework skeleton;
+- implement native records and accessors;
+- compile explicit straight and bend commands;
+- calculate exact poses, arc centers, stations, bounds, and nominal length;
+- render a diagnostic strap center path;
+- add direct-open F5 contract tests.
+
+No production fixture is required for this phase.
+
+## Phase 2 — polygon front end
+
+- ordered vertex input;
+- convex and concave turn classification;
+- per-corner radius schedules;
+- tangent setback and feasibility validation;
+- regular triangle, square, pentagon, and higher-sided generator;
+- equivalence tests against explicit bend programs.
+
+## Phase 3 — patterns and long paths
+
+- named pattern blocks;
+- repetition instances;
+- constant, explicit, and periodic value schedules;
+- long-wave workbench;
+- every-third-bend radius case;
+- performance and sampling tests at 10–20 foot developed lengths.
+
+## Phase 4 — strap and forming calibration
+
+- exact ULINE strap record;
+- radius calibration fixture or coupons;
+- measurement records;
+- target-to-tool radius mapping;
+- neutral-axis and cut-length correction evaluation.
+
+## Phase 5 — first fixture family
+
+- select the physical fixture topology;
+- implement target-path-to-fixture planning;
+- strap clearance and retention;
+- print-envelope and segmentation rules;
+- component labels and assembly datums;
+- physical tests on small shapes.
+
+## Phase 6 — long-form fixture strategy
+
+- tiled, modular, or sequential long-path tooling;
+- cumulative station control;
+- repeated-wave assembly and verification;
+- component manifests and setup instructions.
+
+## Phase 7 — accepted objects and Catalog
+
+- versioned public API;
+- immutable shape and fixture recipes;
+- exact strap and calibration provenance;
+- physically accepted Catalog registrations;
+- associated slicer and manufacturing records.
