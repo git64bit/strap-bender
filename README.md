@@ -29,9 +29,37 @@ Every finished shape uses one continuous, unbranched strap. The project does not
 
 The strap path and the bending fixture are separate objects. One continuous path may require one full-form fixture, several aligned fixture sections, or a reusable sequential bending fixture. The fixture strategy will be selected after the path model and physical forming requirements are established.
 
+## Active workbenches
+
+Open the required entry point directly:
+
+```text
+workbenches/bend-program.scad   named arbitrary-length program selection
+workbenches/catalog.scad        read-only accepted-object route
+default.scad                    maintainer route
+```
+
+The Batch 002 Bend Program workbench does not expose `Bend A`, `Bend B`, or a hard-coded maximum bend count. It selects one complete bend-program record by exact name. The selected record may contain five commands or thousands; `main.scad` validates and reports the resolved command list without reconstructing it.
+
+Mutable example records are registered in:
+
+```text
+registries/laboratory_bend_programs.scad
+```
+
+The registry currently contains a small mixed-radius example and a synthetic 36-bend scale example. The scale example proves arbitrary-length routing only. Compact wave-pattern, polygon, and other authoring front ends remain later work.
+
+## Tests
+
+Open each file under `tests/` directly and use F5. Every successful contract prints a final `PASS` message in the OpenSCAD console.
+
+The arbitrary-length contract validates a 73-command program containing 36 bends and 37 straights. Every third bend uses a 5 mm finished inside radius; the remaining bends use 1.6 mm.
+
 ## Current status
 
-Batch 001 establishes design documentation only. It contains no OpenSCAD implementation and no fixture geometry.
+Batch 001 established the design contract. Corrected Batch 002 establishes the self-contained framework scaffold, versioned native records, named accessors, exact-name project and bend-program registries, validation, reporting, arbitrary-length program routing, and direct-open F5 contract tests.
+
+No analytical path, strap preview, forming compensation, pattern compiler, polygon compiler, or fixture geometry is implemented yet.
 
 ## Design documents
 
@@ -50,4 +78,4 @@ Batch 001 establishes design documentation only. It contains no OpenSCAD impleme
 
 ## Framework lineage
 
-Strap Bender adopts the organizational lessons of Grid Stack and Polygon Stack. It is a self-contained project and will not depend at runtime on either repository.
+Strap Bender adopts the organizational lessons of Grid Stack and Polygon Stack. It is a self-contained project and does not depend at runtime on either repository.

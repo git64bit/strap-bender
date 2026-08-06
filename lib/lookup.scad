@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////
+// LibFile: lookup.scad
+// Project: Strap Bender
+// FileGroup: Utilities
+// FileSummary: Resolves one stable record name to exactly one record.
+//////////////////////////////////////////////////////////////////////
+
+function record_name(record) =
+    record[0] == STRAP_BENDER_PROJECT_RECORD
+        ? project_name(record)
+        : record[0] == STRAP_BENDER_SHAPE_RECORD
+            ? shape_name(record)
+            : undef;
+
+function records_named(records, name) =
+    [for (record = records) if (record_name(record) == name) record];
+
+function named_record(records, name, record_kind = "record") =
+    let(matches = records_named(records, name))
+    assert(
+        len(matches) == 1,
+        str(
+            "Expected exactly one ", record_kind,
+            " named '", name, "'; found ", len(matches), "."
+        )
+    )
+    matches[0];
+
+function record_names(records) = [for (record = records) record_name(record)];

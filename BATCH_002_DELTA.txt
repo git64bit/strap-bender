@@ -1,0 +1,95 @@
+STRAP BENDER — CORRECTED BATCH 002 DELTA
+
+Base repository:
+ https://github.com/git64bit/strap-bender
+
+Required base commit:
+ 8d2b627
+
+Supersession:
+ This archive completely replaces the first Batch 002 archive.
+ Do not upload or commit files from the first issue.
+
+Scope:
+ Phase 1A foundation only.
+ Adds the self-contained OpenSCAD framework scaffold, native versioned records,
+ named accessors, validation, reporting, exact-name project and bend-program
+ registries, arbitrary-length program routing, report-only workbenches, and
+ direct-open F5 contract tests.
+
+Correction from the first issue:
+ The Bend Program workbench no longer exposes fixed Bend A, Bend B, Bend C,
+ Straight A, Straight B, or Straight C Customizer fields. It selects one
+ complete bend-program record by exact name. main.scad consumes the resolved
+ command list without knowing or limiting its length.
+
+Not included:
+ No analytical line/arc compiler.
+ No sampled path or strap preview.
+ No compact wave-pattern or polygon front end.
+ No calibration assumptions.
+ No fixture geometry.
+
+New files:
+ strap_bender.scad
+ main.scad
+ default.scad
+ config/defaults.scad
+ config/programs.scad
+ config/projects.scad
+ config/workbenches.scad
+ lib/indices.scad
+ lib/schema.scad
+ lib/accessors.scad
+ lib/lookup.scad
+ lib/validation.scad
+ lib/reporting.scad
+ registries/laboratory_projects.scad
+ registries/catalog_projects.scad
+ registries/laboratory_bend_programs.scad
+ workbenches/bend-program.scad
+ workbenches/catalog.scad
+ tests/README.md
+ tests/public_foundation_contract.scad
+ tests/bend_program_records_contract.scad
+ tests/arbitrary_length_program_contract.scad
+ tests/workbench_registry_contract.scad
+ tests/workbench_wrapper_contract.scad
+ BATCH_002_DELTA.txt
+
+Changed files:
+ README.md
+
+Deleted files:
+ None.
+
+Upload:
+ 1. Start from repository commit 8d2b627.
+ 2. Upload all files from this archive as complete files while preserving
+    repository-relative paths.
+ 3. Do not replace or modify LICENSE, BATCH_001_DELTA.txt, or docs/.
+ 4. Confirm the first Batch 002 archive was not mixed into this upload.
+
+OpenSCAD verification:
+ 1. Open tests/public_foundation_contract.scad and press F5.
+ 2. Confirm: STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+ 3. Open tests/bend_program_records_contract.scad and press F5.
+ 4. Confirm: STRAP BENDER BEND-PROGRAM RECORDS CONTRACT: PASS
+ 5. Open tests/arbitrary_length_program_contract.scad and press F5.
+ 6. Confirm the summary reports 73 commands: 37 straight and 36 bend.
+ 7. Confirm: STRAP BENDER ARBITRARY-LENGTH PROGRAM CONTRACT: PASS
+ 8. Open tests/workbench_registry_contract.scad and press F5.
+ 9. Confirm: STRAP BENDER WORKBENCH REGISTRY CONTRACT: PASS
+ 10. Open tests/workbench_wrapper_contract.scad and press F5.
+ 11. Confirm all workbench, record, and project PASS messages appear without
+     an error.
+ 12. Open workbenches/bend-program.scad and inspect Customizer.
+ 13. Confirm Customizer shows Bend program and Console report only; it must not
+     show Bend A/B/C or Straight A/B/C.
+ 14. Select THIRTY_SIX_BEND_SCALE_EXAMPLE, set report_level to summary, and
+     press F5.
+ 15. Confirm the report shows 73 commands: 37 straight and 36 bend.
+ 16. Confirm no geometry is rendered. Batch 002 is report-only by design.
+
+After acceptance:
+ Commit the batch and provide the resulting commit SHA for reconciliation.

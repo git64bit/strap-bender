@@ -1,0 +1,20 @@
+//////////////////////////////////////////////////////////////////////
+// LibFile: default.scad
+// Project: Strap Bender
+// FileGroup: Development Workbench Entry Point
+// FileSummary: Broad maintainer wrapper for framework validation.
+//////////////////////////////////////////////////////////////////////
+
+/* [Project selection] */
+project_name_selected = "BEND_PROGRAM_LAB"; // [BEND_PROGRAM_LAB,CATALOG_WORKBENCH_STUB]
+
+/* [Bend program selection] */
+program_name_selected = "OPEN_MIXED_RADIUS_EXAMPLE"; // [OPEN_MIXED_RADIUS_EXAMPLE,THIRTY_SIX_BEND_SCALE_EXAMPLE]
+
+/* [Console report] */
+report_level = "full"; // [summary,full]
+
+/* [Hidden] */
+workbench_name = "development";
+render_mode = "report_only";
+include <main.scad>
