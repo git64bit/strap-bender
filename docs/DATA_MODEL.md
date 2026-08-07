@@ -17,16 +17,18 @@ Field layouts are not defined by positional literals scattered through geometry 
 
 ### Strap specification
 
-Identifies the physical strap used for design and calibration. Expected fields include:
+Batch 009 identifies the physical strap used for design and later calibration. The versioned product record stores:
 
-- exact product identity and revision;
-- material family;
-- nominal width;
-- nominal thickness;
-- surface or embossing notes;
-- measured values and measurement date when available.
+- stable record name, manufacturer, and product number;
+- material family, color, and surface;
+- nominal width and thickness in millimeters;
+- nominal break strength in newtons;
+- nominal coil length in millimeters;
+- recycled-content percentage;
+- vendor source title, checked date, and explicit source locator;
+- notes separating vendor nominal data from future measurements.
 
-The exact ULINE product record is pending confirmation.
+The first confirmed record is ULINE S-1655 black PET polyester strapping: 15.875 mm nominal width, 0.508 mm nominal thickness, 750 lbf nominal break strength, and 2,850 ft nominal coil length. Imperial values are reported through deterministic unit conversions. Measured specimen values and measurement dates will use separate calibration records rather than overwriting the product identity.
 
 ### Shape specification
 

@@ -11,6 +11,7 @@ WORKBENCH_NAMES = [
     "vertex_polygon",
     "regular_polygon",
     "wave_pattern",
+    "strap_profile",
     "catalog"
 ];
 
@@ -19,7 +20,7 @@ function workbench_name_valid(name) =
         if (candidate == name) candidate]) == 1;
 
 function workbench_render_mode_allowed(name, mode) =
-    name == "catalog"
+    name == "catalog" || name == "strap_profile"
         ? mode == "report_only"
         : (name == "development" ||
             name == "bend_program" ||

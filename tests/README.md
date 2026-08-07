@@ -9,6 +9,8 @@ Open each `.scad` file in this directory directly and press F5. A successful tes
 - `arbitrary_length_program_contract.scad`
 - `workbench_registry_contract.scad`
 - `workbench_wrapper_contract.scad`
+- `strap_material_records_contract.scad`
+- `strap_profile_workbench_wrapper_contract.scad`
 
 ## Analytical path kernel
 
@@ -56,3 +58,10 @@ Value schedules are compact authoring intent. Resolved lists are derived for a k
 - `wave_pattern_workbench_wrapper_contract.scad` executes the default compact Wave Pattern wrapper.
 
 Pattern schedules resolve once per repetition. Expanded commands and resolved lists remain derived execution data; the named block and compact instance are authoritative.
+
+## Batch 009 strap-product contracts
+
+- `strap_material_records_contract.scad` verifies ULINE S-1655 identity, canonical metric values, reversible imperial conversions, explicit source metadata and locator, validation, and exact-name lookup.
+- `strap_profile_workbench_wrapper_contract.scad` executes the report-only Strap Profile route through `main.scad`.
+
+The product record contains vendor nominal data. It does not claim measured dimensions, radius compensation, springback, neutral-axis location, or strap cutting length.

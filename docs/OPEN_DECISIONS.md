@@ -62,3 +62,5 @@ Decide whether all self-intersecting paths are rejected initially or whether a n
 ### Part and object numbering
 
 Define project prefixes only after the first stable object families are known. Do not encode mutable process data into a geometry identifier without an explicit reason.
+
+The physical product identity is now fixed as ULINE S-1655 black, smooth, 5/8 inch x .020 inch PET polyester strapping. Vendor nominal values are not substitutes for the measurements above.

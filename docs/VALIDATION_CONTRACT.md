@@ -26,6 +26,20 @@ Validation protects the authored contract. It must reject invalid records and re
 - a radius consumer additionally requires every resolved value to be positive;
 - resolution never changes the compact source record.
 
+## Strap material validation
+
+Batch 009 requires every strap product record to have:
+
+- the exact strap-material record type and current schema version;
+- non-empty stable name, manufacturer, product number, and material family;
+- positive finite nominal width, thickness, break strength, and coil length;
+- nominal thickness smaller than nominal width;
+- non-empty color, surface, source title, source checked date, and source locator;
+- recycled content between zero and one hundred percent;
+- notes stored as a string.
+
+The ULINE S-1655 contract also verifies reversible conversions for 5/8 inch width, .020 inch thickness, 750 lbf break strength, and 2,850 ft coil length. These checks validate vendor nominal identity only. They do not establish measured dimensions, forming temperature, springback, neutral-axis position, or cut length.
+
 ## Pattern validation
 
 - pattern blocks contain at least one valid local element;

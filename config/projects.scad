@@ -15,5 +15,6 @@ PROJECTS =
     wb_workbench_name == "vertex_polygon" ? LABORATORY_PROJECTS :
     wb_workbench_name == "regular_polygon" ? LABORATORY_PROJECTS :
     wb_workbench_name == "wave_pattern" ? LABORATORY_PROJECTS :
+    wb_workbench_name == "strap_profile" ? LABORATORY_PROJECTS :
     wb_workbench_name == "catalog" ? CATALOG_PROJECTS :
     DEVELOPMENT_PROJECTS;

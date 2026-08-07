@@ -14,6 +14,9 @@ wb_render_mode = is_undef(render_mode)
 wb_report_level = is_undef(report_level)
     ? "full" : report_level;
 
+wb_strap_material_name = is_undef(strap_material_name_selected)
+    ? "ULINE_S_1655_BLACK" : strap_material_name_selected;
+
 wb_program_name = is_undef(program_name_selected)
     ? "OPEN_MIXED_RADIUS_EXAMPLE" : program_name_selected;
 wb_polygon_name = is_undef(polygon_name_selected)

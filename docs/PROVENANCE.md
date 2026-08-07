@@ -39,3 +39,7 @@ BOSL2 remains an external implementation candidate. No dependency decision is ma
 ## Domain originality
 
 The bend-program grammar, line-and-arc normalization, target/fixture separation, long-pattern scheduling, PET forming calibration, and fixture planning are native Strap Bender concerns. Geometry code from the stack projects is not assumed to solve this domain.
+
+## Physical strap source
+
+Batch 009 registers ULINE product S-1655 from the official ULINE product page, checked on 2026-08-06. The record retains the product-page title and explicit source locator together with canonical metric conversions of the vendor's nominal values. Vendor data identifies the product; it does not replace measured specimen dimensions or forming calibration.

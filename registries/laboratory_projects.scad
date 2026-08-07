@@ -37,6 +37,16 @@ LABORATORY_PROJECTS = [
         )
     ),
     project_spec(
+        name = "STRAP_PROFILE_LAB",
+        kind = "strap_material",
+        status = "laboratory",
+        notes = str(
+            "Mutable physical-strap identity laboratory. It validates ",
+            "and reports exact vendor nominal product data without ",
+            "claiming measured dimensions or forming calibration."
+        )
+    ),
+    project_spec(
         name = "WAVE_PATTERN_LAB",
         kind = "pattern",
         status = "laboratory",

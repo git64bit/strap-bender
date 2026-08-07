@@ -38,6 +38,7 @@ workbenches/bend-program.scad     named arbitrary-length program selection
 workbenches/vertex-polygon.scad   named ordered-vertex polygon selection
 workbenches/regular-polygon.scad  schedule-capable regular-polygon Customizer
 workbenches/wave-pattern.scad     compact repeated S-wave Customizer
+workbenches/strap-profile.scad    exact physical strap product report
 workbenches/catalog.scad          read-only accepted-object route
 default.scad                      maintainer route
 ```
@@ -52,11 +53,14 @@ registries/laboratory_vertex_polygons.scad
 registries/laboratory_regular_polygons.scad
 patterns/standard_patterns.scad
 registries/laboratory_pattern_instances.scad
+registries/laboratory_strap_materials.scad
 ```
 
 The bend-program registry contains a small mixed-radius example and a synthetic 36-bend scale example. The vertex-polygon registry contains a rounded square and a concave L-shaped example. The regular-polygon registry contains triangle, square, mixed-radius pentagon, and every-third-radius nonagon examples. Batch 007 adds reusable constant, explicit, periodic, and every-nth numeric schedules.
 
 Batch 008 adds a reusable `THREE_SEGMENT_S_WAVE` topology and compact pattern instances. The Wave Pattern Customizer accepts a repetition count, three independent straight-segment schedules, a wave angle, and a radius schedule resolved once per wave. Its reference instance expands 30 waves to 180 commands and applies 5 mm radii to all three bends in waves 3, 6, 9, and so on. Pattern expansion still enters the shared bend-program, analytical-path, sampling, and diagnostic-rendering pipeline.
+
+Batch 009 begins Phase 4 with the confirmed ULINE S-1655 black PET polyester strap record. Vendor nominal values are 5/8 inch width, .020 inch thickness, 750 lbf break strength, and 2,850 feet per coil. The Strap Profile workbench validates and reports that product identity without treating vendor values as measured calibration data.
 
 ## Tests
 
@@ -64,7 +68,7 @@ Open each file under `tests/` directly and use F5. Every successful contract pri
 
 The arbitrary-length source-record contract validates a 73-command program containing 36 bends and 37 straights. Every third bend uses a 5 mm finished inside radius; the remaining bends use 1.6 mm.
 
-The analytical contracts verify mixed left/right bends, unequal segment lengths, exact arc centers and bounds, rounded-square closure, and analytical compilation of the complete 73-command scale example. Sampling contracts verify chord-error control, exact endpoint retention, absence of duplicate primitive-boundary points, convergence toward exact arc length, and diagnostic geometry dispatch. Polygon contracts verify convex and concave classification, source-vertex provenance, tangent-setback feasibility, exact closure, and equivalence with an explicit bend program. Regular-polygon contracts verify triangle generation, dimension authorities, explicit corner-radius preservation, compact schedule resolution, and complete Customizer routing. Pattern contracts verify parameter-slot validation, exact expansion order, repetition and local-element provenance, explicit per-wave segment arrays, every-third-wave radius assignment, and a sampled analytical path between 10 and 20 feet.
+The analytical contracts verify mixed left/right bends, unequal segment lengths, exact arc centers and bounds, rounded-square closure, and analytical compilation of the complete 73-command scale example. Sampling contracts verify chord-error control, exact endpoint retention, absence of duplicate primitive-boundary points, convergence toward exact arc length, and diagnostic geometry dispatch. Polygon contracts verify convex and concave classification, source-vertex provenance, tangent-setback feasibility, exact closure, and equivalence with an explicit bend program. Regular-polygon contracts verify triangle generation, dimension authorities, explicit corner-radius preservation, compact schedule resolution, and complete Customizer routing. Pattern contracts verify parameter-slot validation, exact expansion order, repetition and local-element provenance, explicit per-wave segment arrays, every-third-wave radius assignment, and a sampled analytical path between 10 and 20 feet. Strap-material contracts verify exact product identity, canonical metric storage, reversible vendor-unit conversions, explicit vendor-source provenance, validation, exact-name lookup, and the report-only Strap Profile route.
 
 ## Current status
 
@@ -81,6 +85,8 @@ Batch 006 adds the regular-polygon front end. Side count plus one governing shar
 Batch 007 adds native numeric value-schedule records. Constant, exact explicit, repeating periodic, and one-based every-nth rules resolve to explicit per-consumer values before polygon geometry is compiled. The included nonagon and Customizer route demonstrate 1.6 mm radii with 5 mm at positions 3, 6, and 9.
 
 Batch 008 begins Phase 3 with named pattern blocks, compact repetition instances, parameter assignments, command-level repetition provenance, and the Wave Pattern Customizer. The 30-wave reference path is approximately 15.6 feet along the finished inside-edge analytical reference and remains compact until execution expansion is required.
+
+Batch 009 begins Phase 4 with a versioned physical strap product record and the confirmed ULINE S-1655 nominal product data. It does not yet add measured specimen values, springback calibration, neutral-axis correction, cutting length, or forming fixtures.
 
 No arbitrary formula schedule, polygon self-intersection analysis, strap solid, forming compensation, or production fixture geometry is implemented yet.
 

@@ -14,11 +14,13 @@ include <registries/laboratory_vertex_polygons.scad>
 include <registries/laboratory_regular_polygons.scad>
 include <patterns/standard_patterns.scad>
 include <registries/laboratory_pattern_instances.scad>
+include <registries/laboratory_strap_materials.scad>
 include <config/projects.scad>
 include <config/programs.scad>
 include <config/polygons.scad>
 include <config/regular_polygons.scad>
 include <config/patterns.scad>
+include <config/materials.scad>
 include <config/workbenches.scad>
 
 module run_normalized_shape_pipeline(shape) {
@@ -113,6 +115,12 @@ module run_pattern_pipeline(instance, pattern) {
     );
 }
 
+module run_strap_material_pipeline(material) {
+    validate_strap_material(material);
+    report_strap_material(material, wb_report_level);
+    echo("STRAP BENDER STRAP MATERIAL VALIDATION: PASS");
+}
+
 module run_strap_bender_project() {
     validate_workbench_selection(
         wb_workbench_name,
@@ -148,6 +156,13 @@ module run_strap_bender_project() {
             "regular polygon"
         );
         run_regular_polygon_pipeline(regular_polygon);
+    } else if (project_kind(project) == "strap_material") {
+        material = named_record(
+            STRAP_MATERIALS,
+            wb_strap_material_name,
+            "strap material"
+        );
+        run_strap_material_pipeline(material);
     } else if (project_kind(project) == "pattern") {
         pattern_instance = named_record(
             PATTERN_INSTANCES,

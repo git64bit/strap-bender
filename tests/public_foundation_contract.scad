@@ -25,7 +25,25 @@ assert(STRAP_BENDER_REGULAR_POLYGON_CONTRACT_VERSION == 1,
     "Unexpected regular-polygon contract version.");
 assert(STRAP_BENDER_PATTERN_CONTRACT_VERSION == 1,
     "Unexpected pattern contract version.");
+assert(STRAP_BENDER_STRAP_MATERIAL_CONTRACT_VERSION == 1,
+    "Unexpected strap material contract version.");
 
+material = strap_material_spec(
+    "TEST_STRAP",
+    "TEST MAKER",
+    "TEST-1",
+    "PET polyester",
+    15.875,
+    0.508,
+    sb_pounds_force_to_newtons(750),
+    sb_feet_to_mm(2850),
+    "black",
+    "smooth",
+    100,
+    "TEST SOURCE",
+    "2026-08-06",
+    "https://example.invalid/test-strap"
+);
 project = project_spec("TEST_PROJECT", "bend_program", "laboratory");
 pose = start_pose_spec(10, -5, 30);
 straight = straight_command(0, 25, "TEST_STRAIGHT");
@@ -89,6 +107,11 @@ pattern_compilation = compile_pattern_instance(
     pattern
 );
 
+validate_strap_material(material);
+assert(strap_material_name(material) == "TEST_STRAP" &&
+    abs(strap_material_nominal_width_in(material) - 0.625) < 1e-9 &&
+    abs(strap_material_nominal_thickness_in(material) - 0.020) < 1e-9,
+    "Strap material constructor or accessor contract failed.");
 assert(project_name(project) == "TEST_PROJECT",
     "Project accessor contract failed.");
 assert(pose_x(pose) == 10 && pose_y(pose) == -5,

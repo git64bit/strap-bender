@@ -16,6 +16,7 @@ function sb_project_kind_valid(kind) =
     kind == "vertex_polygon" ||
     kind == "regular_polygon" ||
     kind == "pattern" ||
+    kind == "strap_material" ||
     kind == "catalog";
 function sb_project_status_valid(status) =
     status == "stub" ||

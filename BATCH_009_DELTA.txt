@@ -1,0 +1,105 @@
+
+STRAP BENDER — BATCH 009 DELTA
+
+Base repository:
+ https://github.com/git64bit/strap-bender
+
+Required base commit:
+ c8220e6
+ c8220e6e391ecdf8d8d0c09f440ac7aa0d7d88ce
+
+Scope:
+ Phase 4A exact physical strap product identity and report-only profile route.
+
+This batch registers the confirmed ULINE S-1655 black PET polyester strap as a
+versioned physical product record. Canonical storage is metric: 15.875 mm
+nominal width, 0.508 mm nominal thickness, approximately 3336.166 N nominal
+break strength, and 868680 mm nominal coil length. Deterministic accessors report
+the vendor's 5/8 inch, .020 inch, 750 lbf, and 2,850 foot values.
+
+The record retains the official product-page title, checked date, and explicit
+source locator.
+
+The Strap Profile workbench performs validation and reporting only. It does not
+render geometry and does not claim measured specimen dimensions, springback,
+forming temperature, neutral-axis position, cutting length, or fixture
+compensation.
+
+New files:
+ lib/material_indices.scad
+ lib/material_schema.scad
+ lib/material_accessors.scad
+ lib/material_validation.scad
+ lib/material_reporting.scad
+ registries/laboratory_strap_materials.scad
+ config/materials.scad
+ workbenches/strap-profile.scad
+ tests/strap_material_records_contract.scad
+ tests/strap_profile_workbench_wrapper_contract.scad
+ BATCH_009_DELTA.txt
+
+Changed files:
+ README.md
+ strap_bender.scad
+ main.scad
+ config/defaults.scad
+ config/projects.scad
+ config/workbenches.scad
+ lib/lookup.scad
+ lib/validation.scad
+ registries/laboratory_projects.scad
+ tests/public_foundation_contract.scad
+ tests/workbench_registry_contract.scad
+ tests/README.md
+ docs/DATA_MODEL.md
+ docs/ROADMAP.md
+ docs/VALIDATION_CONTRACT.md
+ docs/OPEN_DECISIONS.md
+ docs/PROVENANCE.md
+
+Deleted files:
+ None.
+
+Upload:
+ 1. Confirm the repository is at commit c8220e6.
+ 2. Upload all files from this archive as complete files while preserving
+    repository-relative paths.
+ 3. Create the eleven new files exactly as named above.
+ 4. Do not replace or modify LICENSE, earlier BATCH_*_DELTA files, or unrelated
+    source files.
+
+OpenSCAD verification:
+ 1. Open tests/public_foundation_contract.scad and press F5.
+ 2. Confirm: STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+ 3. Open tests/strap_material_records_contract.scad and press F5.
+ 4. Confirm the report identifies ULINE / S-1655, 15.875 mm width, 0.508 mm
+    thickness, 750 lbf break strength, 2,850 ft coil length, and the official
+    product-page source locator.
+ 5. Confirm: STRAP BENDER STRAP MATERIAL RECORDS CONTRACT: PASS
+ 6. Open tests/workbench_registry_contract.scad and press F5.
+ 7. Confirm STRAP_PROFILE_LAB, ULINE_S_1655_BLACK, and strap_profile resolve
+    uniquely and that strap_profile rejects diagnostic_path rendering.
+ 8. Confirm: STRAP BENDER WORKBENCH REGISTRY CONTRACT: PASS
+ 9. Open tests/strap_profile_workbench_wrapper_contract.scad and press F5.
+10. Confirm the ULINE product report completes without warnings or errors.
+11. Confirm: STRAP BENDER STRAP-PROFILE WORKBENCH WRAPPER CONTRACT: PASS
+12. Re-run tests/long_wave_contract.scad and
+    tests/wave_pattern_workbench_wrapper_contract.scad.
+13. Confirm accepted regression tests print PASS without warnings or errors.
+14. Open workbenches/strap-profile.scad and press F5.
+15. Confirm it reports the ULINE S-1655 product and renders no geometry.
+
+Static verification performed before delivery:
+ Include targets present in this delta resolve against the accepted repository
+ layout.
+ Delimiters and comments are balanced.
+ Function and module declarations are unique within the delta.
+ Every .scad file remains at or below 500 lines.
+ The archive contains only complete new and changed files plus this manifest.
+
+OpenSCAD execution note:
+ OpenSCAD is not installed in the delivery environment. The direct-open F5 tests
+ above require execution on the user's OpenSCAD installation.
+
+After acceptance:
+ Commit the batch and provide the resulting commit SHA for reconciliation.
