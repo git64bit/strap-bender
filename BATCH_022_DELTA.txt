@@ -1,0 +1,261 @@
+STRAP BENDER — BATCH 022 DELTA
+
+Base repository:
+ https://github.com/git64bit/strap-bender
+
+Required base commit:
+ d57b7e1
+ d57b7e154bf4b61f0456f2e11c650230dd5e462d
+
+Scope:
+ Application-completion continuation: Catalog-ready recipe packaging, a stable
+ saved-object API boundary, and deterministic manufacturing/export manifests.
+
+Development priority:
+ Application completion remains primary. Pending coupon measurements,
+ springback fitting, neutral-axis calibration, and empirical PET cut correction
+ do not block this batch or subsequent application work.
+
+Batch 022 implements:
+ - Catalog-ready object contract version 1;
+ - manufacturing/export manifest contract version 1;
+ - a complete embedded recipe payload containing the normalized bend program,
+   exact strap-material record, cut policy, fixture specification, layout mode,
+   setup-aid specification, revision, source provenance, and lifecycle state;
+ - explicit lifecycle states laboratory_candidate and accepted;
+ - candidate validation that forbids physical acceptance date/notes;
+ - accepted-state validation that requires source-commit, acceptance-date, and
+   physical-acceptance-note provenance;
+ - deterministic regeneration of analytical path, nominal cut plan, fixture
+   plan, clearance analysis, optional segmentation, and setup aids from the
+   embedded recipe;
+ - deterministic zero-padded fixture component export identities;
+ - deterministic per-component SCAD recipe and STL filenames;
+ - deterministic object-recipe and manufacturing-manifest filenames;
+ - one export entry for a full-form fixture or one entry per existing segmented
+   fixture component;
+ - exact station intervals and component base bounds in each export entry;
+ - a reportable manufacturing manifest that includes nominal cut length,
+   fixture layout, and the complete printable-component export list;
+ - independent Manufacturing package controls in Bend Program, Vertex Polygon,
+   Regular Polygon, and Wave Pattern workbenches;
+ - material routing for manufacturing packaging independent of cut-plan display
+   and fixture rendering;
+ - preservation of original authoring kind/name while the normalized bend
+   program remains the embedded geometry source of truth;
+ - api/v1.scad as the first explicit versioned immutable-object renderer;
+ - objects/README.md defining immutable accepted-object/component recipe rules;
+ - direct-open contracts for the public API, Catalog-ready object semantics,
+   deterministic full/segmented manifests, and workbench routing;
+ - public-foundation coverage for the new records and planning layer.
+
+Important Batch 022 boundary:
+ This batch creates application machinery for Catalog-ready packaging, but it
+ does NOT create or register a physically accepted Strap Bender object.
+ registries/catalog_projects.scad remains the existing Catalog stub. Synthetic
+ accepted-state records exist only inside contract tests and are explicitly
+ labeled as synthetic.
+
+OpenSCAD does not automatically write SCAD, STL, text-manifest, or 3MF files.
+ The manifest deterministically reports the required filenames and component
+ indexes. STL export remains an explicit user action from the corresponding
+ immutable component recipe or workbench component selection. Slicer-only state
+ remains an external manufacturing-project reference.
+
+This batch deliberately does NOT add:
+ - a physical Catalog registration;
+ - empirical target-to-tool radius compensation;
+ - calibrated neutral-axis or K-factor fitting;
+ - empirical cut-length correction;
+ - automatic promotion from Laboratory candidate to accepted Catalog object;
+ - automatic filesystem writes from OpenSCAD;
+ - strap-solid visualization.
+
+New files:
+ api/v1.scad
+ config/manufacturing.scad
+ lib/manufacturing_indices.scad
+ lib/manufacturing_schema.scad
+ lib/manufacturing_accessors.scad
+ lib/manufacturing_validation.scad
+ lib/manufacturing_reporting.scad
+ manufacturing/manufacturing_math.scad
+ manufacturing/catalog_object_render.scad
+ objects/README.md
+ tests/api_v1_contract.scad
+ tests/catalog_object_contract.scad
+ tests/manufacturing_manifest_contract.scad
+ tests/manufacturing_workbench_contract.scad
+ BATCH_022_DELTA.txt
+
+Changed files:
+ README.md
+ config/defaults.scad
+ config/materials.scad
+ docs/ARCHITECTURE.md
+ docs/DATA_MODEL.md
+ docs/OPEN_DECISIONS.md
+ docs/PROVENANCE.md
+ docs/ROADMAP.md
+ docs/VALIDATION_CONTRACT.md
+ main.scad
+ strap_bender.scad
+ tests/README.md
+ tests/public_foundation_contract.scad
+ workbenches/bend-program.scad
+ workbenches/vertex-polygon.scad
+ workbenches/regular-polygon.scad
+ workbenches/wave-pattern.scad
+
+Application / verification procedure:
+
+1. Confirm the repository is clean and at accepted Batch 021:
+
+ cd /root/strap-bender
+ git status --short
+ git rev-parse HEAD
+
+Expected HEAD:
+ d57b7e154bf4b61f0456f2e11c650230dd5e462d
+
+2. Upload strap-bender-batch-022.zip to the orchestrator.
+
+3. Overlay the complete delta while preserving repository-relative paths.
+Example if the ZIP is in /root:
+
+ cd /root/strap-bender
+ unzip -o /root/strap-bender-batch-022.zip -d /root/strap-bender
+
+4. Confirm the expected delta only:
+
+ git status --short
+
+Required OpenSCAD F5 verification:
+
+1. tests/public_foundation_contract.scad
+   Expected final line:
+   STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+
+2. tests/api_v1_contract.scad
+   Expected final line:
+   STRAP BENDER API V1 CONTRACT: PASS
+
+3. tests/catalog_object_contract.scad
+   Expected final line:
+   STRAP BENDER CATALOG OBJECT CONTRACT: PASS
+   Confirm the first reported object is laboratory_candidate and states
+   Physical acceptance: NOT CLAIMED. The accepted-state test record is
+   synthetic contract data only.
+
+4. tests/manufacturing_manifest_contract.scad
+   Expected final line:
+   STRAP BENDER MANUFACTURING MANIFEST CONTRACT: PASS
+   Confirm the rounded-square object reports one printable fixture export.
+   Confirm the 30-wave object reports 23 printable fixture exports and that the
+   first/last STL names end in c001.stl and c023.stl respectively.
+
+5. tests/manufacturing_workbench_contract.scad
+   Expected final line:
+   STRAP BENDER MANUFACTURING WORKBENCH CONTRACT: PASS
+   This verifies packaging remains independently enabled when cut-plan display
+   is disabled and render mode is report_only.
+
+6. tests/strap_cut_plan_contract.scad
+   Expected final line:
+   STRAP BENDER STRAP CUT PLAN CONTRACT: PASS
+
+7. tests/bend_post_fixture_contract.scad
+   Expected final line:
+   STRAP BENDER BEND-POST FIXTURE CONTRACT: PASS
+
+8. tests/fixture_setup_aid_contract.scad
+   Expected final line:
+   STRAP BENDER FIXTURE SETUP-AID CONTRACT: PASS
+
+9. tests/long_wave_contract.scad
+   Expected final line:
+   STRAP BENDER LONG-WAVE CONTRACT: PASS
+
+10. tests/analytical_path_diagnostics_contract.scad
+    Expected final line:
+    STRAP BENDER ANALYTICAL PATH DIAGNOSTICS CONTRACT: PASS
+
+11. tests/workbench_wrapper_contract.scad
+    Expected final line:
+    STRAP BENDER WORKBENCH WRAPPER CONTRACT: PASS
+
+12. tests/vertex_polygon_workbench_wrapper_contract.scad
+    Expected final line:
+    STRAP BENDER VERTEX-POLYGON WORKBENCH WRAPPER CONTRACT: PASS
+
+13. tests/regular_polygon_workbench_wrapper_contract.scad
+    Expected final line:
+    STRAP BENDER REGULAR-POLYGON WORKBENCH WRAPPER CONTRACT: PASS
+
+14. tests/wave_pattern_workbench_wrapper_contract.scad
+    Expected final line:
+    STRAP BENDER WAVE-PATTERN WORKBENCH WRAPPER CONTRACT: PASS
+    Confirm Wave Pattern still renders its diagnostic preview by default.
+
+Manual manufacturing-package verification:
+
+A. Open workbenches/vertex-polygon.scad.
+B. Leave Show bend post fixture = false.
+C. Set Manufacturing manifest enabled = true.
+D. Leave Manufacturing object name blank and revision = 1.
+E. Press F5.
+F. Confirm the console reports:
+   --- Strap Bender Catalog-ready object package ---
+   Lifecycle: laboratory_candidate
+   Physical acceptance: NOT CLAIMED
+   --- Strap Bender manufacturing/export manifest ---
+   Printable fixture exports: 1
+   STRAP BENDER MANUFACTURING MANIFEST VALIDATION: PASS
+G. Confirm it reports deterministic files derived from ROUNDED_SQUARE_EXAMPLE
+   revision 1 and does not claim that any file was automatically written.
+H. Restore Manufacturing manifest enabled = false.
+
+Manual long-wave manifest verification:
+
+A. Open workbenches/wave-pattern.scad.
+B. Leave its standard 30-wave example and 220 x 220 mm print envelope selected.
+C. Set Manufacturing manifest enabled = true.
+D. Press F5. This planning route is intentionally more expensive than the
+   default diagnostic preview.
+E. Confirm the manifest chooses segmented sequential layout and reports 23
+   printable fixture exports with deterministic c001 through c023 filenames.
+F. Confirm the normal Wave Pattern diagnostic preview still renders.
+G. Restore Manufacturing manifest enabled = false.
+
+Catalog boundary verification:
+
+A. Open workbenches/catalog.scad and press F5.
+B. Confirm it still reports that Strap Bender Catalog contains no accepted
+   geometry.
+C. Confirm registries/catalog_projects.scad still contains only
+   CATALOG_WORKBENCH_STUB.
+
+Static verification performed before delivery:
+ - Batch 022 was overlaid onto the reconstructed accepted Batch 021 tree;
+ - no Batch 021 repository file was deleted;
+ - all repository .scad files pass delimiter/comment/string balance checks;
+ - all include/use targets resolve in the overlaid repository;
+ - function/module declarations are unique repository-wide;
+ - all project-prefixed/custom call sites resolve to declarations;
+ - every .scad file remains below the 500-line project limit;
+ - Wave Pattern retains show_diagnostic_preview = true;
+ - manufacturing manifests default to disabled in all four shape workbenches;
+ - the physical calibration-trial registry remains empty;
+ - the Catalog project registry remains the unaccepted stub;
+ - no empirical PET behavior, physical acceptance, or hidden manufacturing
+   allowance is invented.
+
+OpenSCAD execution note:
+ OpenSCAD is not installed in the delivery environment. The F5 tests above
+ require execution on the user's OpenSCAD installation.
+
+After acceptance:
+ Continue application completion with strap-solid visualization and a final
+ application-wide completion/consistency pass. Physical Catalog recipes can be
+ added only after actual fixture/strap acceptance; empirical coupon-derived
+ refinements remain a later revision activity.

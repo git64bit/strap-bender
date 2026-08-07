@@ -32,6 +32,14 @@ cut_end_allowance_mm = 0; // [0:1:500]
 cut_closure_mode = "none"; // [none,butt,overlap]
 cut_closure_overlap_mm = 0; // [0:1:500]
 cut_joining_allowance_mm = 0; // [0:1:500]
+
+/* [Manufacturing package] */
+manufacturing_manifest_enabled = false;
+manufacturing_object_name = ""; // blank derives from active normalized shape
+manufacturing_revision = 1; // positive integer
+manufacturing_source_commit = ""; // optional while Laboratory candidate
+manufacturing_slicer_project_file = ""; // optional associated 3MF filename
+
 /* [Diagnostic preview] */
 show_diagnostic_preview = true;
 sample_chord_error_mm = 0.05; // [0.001:0.001:1]

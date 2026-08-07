@@ -26,6 +26,8 @@ STRAP_BENDER_BEND_POST_FIXTURE_CONTRACT_VERSION = 3;
 STRAP_BENDER_FIXTURE_SEGMENTATION_CONTRACT_VERSION = 1;
 STRAP_BENDER_FIXTURE_SETUP_AID_CONTRACT_VERSION = 1;
 STRAP_BENDER_STRAP_CUT_PLAN_CONTRACT_VERSION = 1;
+STRAP_BENDER_CATALOG_OBJECT_CONTRACT_VERSION = 1;
+STRAP_BENDER_MANUFACTURING_MANIFEST_CONTRACT_VERSION = 1;
 
 include <lib/indices.scad>
 include <lib/material_indices.scad>
@@ -37,6 +39,7 @@ include <lib/fixture_segmentation_indices.scad>
 include <lib/fixture_setup_indices.scad>
 include <lib/path_diagnostics_indices.scad>
 include <lib/cut_plan_indices.scad>
+include <lib/manufacturing_indices.scad>
 include <lib/schema.scad>
 include <lib/pattern_schema.scad>
 include <lib/material_schema.scad>
@@ -48,6 +51,7 @@ include <lib/fixture_segmentation_schema.scad>
 include <lib/fixture_setup_schema.scad>
 include <lib/path_diagnostics_schema.scad>
 include <lib/cut_plan_schema.scad>
+include <lib/manufacturing_schema.scad>
 include <lib/accessors.scad>
 include <lib/material_accessors.scad>
 include <lib/calibration_accessors.scad>
@@ -58,6 +62,7 @@ include <lib/fixture_segmentation_accessors.scad>
 include <lib/fixture_setup_accessors.scad>
 include <lib/path_diagnostics_accessors.scad>
 include <lib/cut_plan_accessors.scad>
+include <lib/manufacturing_accessors.scad>
 include <lib/lookup.scad>
 include <paths/value_schedules.scad>
 include <paths/pattern_math.scad>
@@ -67,6 +72,7 @@ include <paths/polygon_math.scad>
 include <paths/polygon_intersections.scad>
 include <paths/analytical_intersections.scad>
 include <paths/strap_cut_math.scad>
+include <manufacturing/manufacturing_math.scad>
 include <paths/regular_polygon_math.scad>
 include <paths/compile_bend_program.scad>
 include <paths/compile_vertex_polygon.scad>
@@ -93,6 +99,7 @@ include <lib/fixture_segmentation_validation.scad>
 include <lib/fixture_setup_validation.scad>
 include <lib/path_diagnostics_validation.scad>
 include <lib/cut_plan_validation.scad>
+include <lib/manufacturing_validation.scad>
 include <lib/reporting.scad>
 include <lib/pattern_reporting.scad>
 include <lib/material_reporting.scad>
@@ -104,6 +111,8 @@ include <lib/fixture_segmentation_reporting.scad>
 include <lib/fixture_setup_reporting.scad>
 include <lib/path_diagnostics_reporting.scad>
 include <lib/cut_plan_reporting.scad>
+include <lib/manufacturing_reporting.scad>
 include <geometry/diagnostic_path.scad>
 include <geometry/radius_calibration_coupon.scad>
 include <geometry/bend_post_fixture.scad>
+include <manufacturing/catalog_object_render.scad>

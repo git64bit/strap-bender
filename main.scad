@@ -29,6 +29,7 @@ include <config/calibration_evidence.scad>
 include <config/cut_planning.scad>
 include <config/fixtures.scad>
 include <config/fixture_setup.scad>
+include <config/manufacturing.scad>
 include <config/workbenches.scad>
 
 module run_bend_post_fixture_pipeline(analytical_path) {
@@ -112,7 +113,26 @@ module run_bend_post_fixture_pipeline(analytical_path) {
     }
 }
 
-module run_normalized_shape_pipeline(shape) {
+module run_manufacturing_manifest_pipeline(
+    shape,
+    source_kind,
+    source_name
+) {
+    object = workbench_catalog_object(shape, source_kind, source_name);
+    validate_catalog_object(object);
+    manifest = plan_catalog_object_manufacturing(object);
+    validate_manufacturing_manifest(manifest);
+    report_manufacturing_manifest(manifest, wb_report_level);
+    echo("STRAP BENDER MANUFACTURING MANIFEST VALIDATION: PASS");
+}
+
+module run_normalized_shape_pipeline(
+    shape,
+    source_kind = "bend_program",
+    source_name = ""
+) {
+    resolved_source_name = len(source_name) > 0
+        ? source_name : shape_name(shape);
     validate_bend_program_shape(shape);
     report_bend_program_shape(shape, wb_report_level);
     echo("STRAP BENDER NORMALIZED BEND-PROGRAM VALIDATION: PASS");
@@ -145,6 +165,11 @@ module run_normalized_shape_pipeline(shape) {
         report_path_diagnostic_report(path_diagnostics, wb_report_level);
         echo("STRAP BENDER ANALYTICAL PATH DIAGNOSTICS: PASS");
     }
+
+    if (wb_manufacturing_manifest_enabled)
+        run_manufacturing_manifest_pipeline(
+            shape, source_kind, resolved_source_name
+        );
 
     if (wb_render_mode == "diagnostic_path") {
         validate_sampling_parameters(
@@ -179,7 +204,11 @@ module run_normalized_shape_pipeline(shape) {
     }
 }
 
-module run_vertex_polygon_pipeline(polygon) {
+module run_vertex_polygon_pipeline(
+    polygon,
+    source_kind = "vertex_polygon",
+    source_name = ""
+) {
     validate_vertex_polygon(polygon);
     report_vertex_polygon(polygon, wb_report_level);
     echo("STRAP BENDER VERTEX-POLYGON SOURCE VALIDATION: PASS");
@@ -190,7 +219,9 @@ module run_vertex_polygon_pipeline(polygon) {
     echo("STRAP BENDER POLYGON COMPILATION VALIDATION: PASS");
 
     run_normalized_shape_pipeline(
-        polygon_compilation_normalized_shape(compilation)
+        polygon_compilation_normalized_shape(compilation),
+        source_kind,
+        len(source_name) > 0 ? source_name : vertex_polygon_name(polygon)
     );
 }
 
@@ -205,7 +236,9 @@ module run_regular_polygon_pipeline(polygon) {
     echo("STRAP BENDER REGULAR-POLYGON COMPILATION VALIDATION: PASS");
 
     run_vertex_polygon_pipeline(
-        regular_polygon_compilation_vertex_polygon(compilation)
+        regular_polygon_compilation_vertex_polygon(compilation),
+        "regular_polygon",
+        regular_polygon_name(polygon)
     );
 }
 
@@ -226,7 +259,9 @@ module run_pattern_pipeline(instance, pattern) {
     echo("STRAP BENDER PATTERN COMPILATION VALIDATION: PASS");
 
     run_normalized_shape_pipeline(
-        pattern_compilation_normalized_shape(compilation)
+        pattern_compilation_normalized_shape(compilation),
+        "pattern",
+        pattern_instance_name(instance)
     );
 }
 
@@ -322,7 +357,9 @@ module run_strap_bender_project() {
         );
         validate_bend_program_shape(program);
         echo("STRAP BENDER BEND-PROGRAM SOURCE VALIDATION: PASS");
-        run_normalized_shape_pipeline(program);
+        run_normalized_shape_pipeline(
+            program, "bend_program", shape_name(program)
+        );
     } else if (project_kind(project) == "vertex_polygon") {
         polygon = named_record(
             VERTEX_POLYGONS,

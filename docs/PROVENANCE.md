@@ -65,3 +65,10 @@ The readiness gate is not evidence certification. It only prevents the default C
 ## Persistent calibration evidence
 
 Batch 013 introduces `registries/laboratory_calibration_trials.scad` as the explicit persistence boundary for reviewed physical coupon trials. It is intentionally empty in the delivered batch. The Calibration Evidence workbench can audit this registry but cannot create or promote evidence. A real trial enters the registry only through an explicit repository change after its physical values and provenance are supplied and reviewed. Synthetic contract records remain test-local and are prohibited from this registry.
+
+
+## Manufacturing and Catalog candidate provenance
+
+Batch 022 separates a mutable Laboratory manufacturing candidate from a physically accepted Catalog object. A candidate embeds all current geometry-affecting records and may optionally name a source commit, but it carries no acceptance date or acceptance notes. An accepted object requires those physical/source provenance fields and must be committed as an immutable recipe under `objects/` before Catalog registration.
+
+The deterministic export manifest retains source authoring identity while executing the embedded normalized bend program. Suggested SCAD/STL filenames are derived from object name, revision, and component index; they are not evidence that the corresponding files were actually exported or manufactured.

@@ -207,3 +207,12 @@ Batch 018 adds a derived segmentation layer after the complete analytical path, 
 Batch 019 keeps setup hardware separate from both the target path and the segmentation manifest. A setup-aid source record describes a pin-pair registration policy and physical component-mark policy. For each interior `component_split` datum, the registration planner derives two hole centers from the exact global split point and tangent heading: both holes lie on the same left-normal side of the path and are separated along the tangent. Because adjacent components already share the exact split pose, their derived hole centers are numerically identical without copying coordinates between components. The selected component renderer subtracts those through-holes after translating the component to its local print origin.
 
 The setup-aid layer also recesses a zero-padded component index into a protected corner of the base margin. This is physical identification only; the deterministic full component ID in the segmentation record remains the data-model identity. The sequential bases may still overlap in global XY coverage, so the pin pair is a transfer/common-board registration aid rather than a claim of direct butt-joint assembly.
+
+
+## Manufacturing package and immutable-object boundary
+
+Batch 022 adds a packaging layer after normalization rather than another shape grammar. A workbench candidate embeds the exact normalized bend program, strap material, cutting policy, bend-post fixture specification, layout mode, and segmented setup-aid specification. Derived analytical paths, cut plans, fixture plans, segmentation plans, and export filenames are regenerated deterministically from that embedded payload.
+
+The packaging layer has two lifecycle states. `laboratory_candidate` is mutable workbench output and cannot contain physical acceptance date/notes. `accepted` requires explicit source-commit provenance plus physical acceptance date and notes. The application never promotes a candidate automatically.
+
+`api/v1.scad` is the first explicit saved-object API boundary. Future immutable object/component recipes include that versioned API and call one public renderer using only embedded records. They do not depend on Customizer state or Laboratory registries. Slicer-only state remains an external manufacturing-project reference rather than geometry input.

@@ -20,6 +20,7 @@
 - Batch 019 resolves the first physical sequential alignment aid: matching keyed pin-pair holes derived from each exact interior split datum, plus a recessed zero-padded component index mark.
 - Batch 020 resolves normalized path detection: nonadjacent exact analytical line/arc primitives are checked for intersections and configurable near passes with source-command provenance. Detection remains diagnostic rather than an automatic shape rejection.
 - Batch 021 resolves the application-level cutting-policy software boundary: nominal mid-thickness or explicit custom-fraction development is separated from user-entered start/end, overlap, and joining allowances. Closed geometry may intentionally remain `closure_unassigned`; no physical seam method is invented.
+- Batch 022 resolves the application-level manufacturing-package boundary: deterministic component manifests and Catalog-ready embedded recipes are available before physical acceptance, but only explicit immutable accepted recipes may enter `objects/` and the Catalog registry.
 
 ## Physical inputs still required
 

@@ -115,6 +115,7 @@ Implementation status:
 - Every component preserves a stable zero-padded ID, complete station interval, exact start/end XY and heading datums, source-command identity, assigned bend stations, global base bounds, and local print-origin datum coordinates. No analytical bend or arc follower is split between components.
 - The first strategy is explicitly sequential rather than a physical butt-jointed tile system. Component boundaries and margins may overlap in global XY coverage; the station/tangent manifest is the setup authority.
 - Batch 019 adds physical sequential setup aids without changing the station partition: matching keyed registration-hole pairs are derived from exact shared split poses, and recessed zero-padded component marks are rendered in protected base-margin corners. Registration geometry is validated against the component base and complete analytical strap path.
+- Batch 022 adds the application-level component/export manifest. Every printable fixture component receives a deterministic zero-padded SCAD recipe filename and STL filename tied to the exact analytical station interval and printable base bounds. Full-form fixtures receive the same one-component manifest contract.
 - A true simultaneously assembled tiled/rail-connected fixture remains optional later work; Batch 019 registration is for sequential transfer/common-board setup and does not turn overlapping components into butt-jointed tiles.
 
 ## Phase 7 — accepted objects and Catalog
@@ -124,3 +125,9 @@ Implementation status:
 - exact strap and calibration provenance;
 - physically accepted Catalog registrations;
 - associated slicer and manufacturing records.
+
+Implementation status:
+- Batch 022 adds `api/v1.scad`, a Catalog-object recipe record, and a deterministic manufacturing manifest derived entirely from embedded geometry-affecting records. Laboratory workbenches can create candidate packages without mutable Catalog registration.
+- Batch 022 establishes the immutable-object boundary under `objects/`: future accepted recipes must pin an API version, embed the normalized bend program, exact strap record, cut policy, fixture specification, layout mode, setup-aid specification, and physical/source provenance, then call one public component renderer.
+- Batch 022 deliberately leaves `registries/catalog_projects.scad` at the no-accepted-object stub. Physical acceptance, exact accepted-object files, Catalog registration, and associated real slicer projects occur only after a fixture/formed strap has actually been approved.
+- Empirical calibration provenance may be embedded in a later accepted revision when available; its absence does not block the software packaging architecture.

@@ -260,3 +260,12 @@ For every segmented component, each registration-hole circle must lie completely
 ## Batch 020 analytical path diagnostic validation
 
 The near threshold must be finite and nonnegative. Every stored interaction must identify two ordered, distinct primitive indexes and their source-command provenance, use supported primitive kinds, have a finite nonnegative minimum distance no greater than the configured threshold, and classify as `intersection` only at the named numerical position tolerance or `near` otherwise. The path-level report must match the analytical path name and report candidate counts no larger than the total nonlocal pair count. Diagnostic calculations use analytical primitives only; sampled display chords are not valid evidence for an intersection result. The configurable near threshold is measured between finished-inside-edge analytical primitives and is not a substitute for physical strap-width, strap-thickness, or fixture-clearance validation.
+
+
+## Catalog-ready object and manufacturing-manifest validation
+
+A Catalog-ready object must embed valid source records and all material references must agree with the embedded strap record. Its required API version must equal the active public API. Candidate packages cannot contain acceptance date/notes. Accepted packages must contain explicit source-commit provenance, acceptance date, and physical acceptance notes.
+
+Manufacturing-manifest validation regenerates the analytical path from the embedded normalized bend program, validates the nominal cut plan, regenerates the bend-post fixture plan, reruns fixture clearance validation, and applies the requested full/auto/segmented layout policy. Segmented manifests must pass the existing segmentation and setup-aid validators. The complete export-entry list is compared with a newly derived deterministic list; filenames, component indexes, station intervals, and bounds therefore cannot silently drift from the recipe.
+
+The manifest is planning/reporting data only. It does not prove that an STL was exported, sliced, printed, or physically accepted.

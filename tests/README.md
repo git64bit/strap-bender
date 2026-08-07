@@ -159,3 +159,13 @@ Interior segmentation boundaries are generated only inside analytical straight p
 - `wave_pattern_segmented_fixture_contract.scad` now also verifies that the complete Customizer route preserves `pin_pair` registration and recessed component marking before rendering the selected segmented component.
 
 Batch 019 registration holes are sequential transfer/common-board datums. They do not represent a butt-jointed or simultaneously assembled tile strategy.
+
+
+## Batch 022 manufacturing and Catalog packaging contracts
+
+- `manufacturing_manifest_contract.scad` verifies deterministic one-piece and segmented export manifests, including the 23-component long-wave case and stable SCAD/STL filenames.
+- `catalog_object_contract.scad` verifies exact embedding of geometry-affecting records, candidate non-acceptance semantics, accepted-state provenance requirements, and deterministic regeneration of manufacturing plans. All accepted-state values in this contract are explicitly synthetic test data.
+- `api_v1_contract.scad` verifies the explicit saved-object API/version boundary.
+- `manufacturing_workbench_contract.scad` proves manufacturing packaging can be enabled independently of cut-plan display and fixture rendering while still routing the required strap material.
+
+Batch 022 creates no physical Catalog object. `registries/catalog_projects.scad` remains the accepted-object stub until a real fixture/strap result is physically approved and an immutable recipe is explicitly added.

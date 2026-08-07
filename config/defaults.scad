@@ -166,6 +166,18 @@ wb_cut_closure_overlap_mm = is_undef(cut_closure_overlap_mm)
     ? 0 : cut_closure_overlap_mm;
 wb_cut_joining_allowance_mm = is_undef(cut_joining_allowance_mm)
     ? 0 : cut_joining_allowance_mm;
+
+wb_manufacturing_manifest_enabled = is_undef(manufacturing_manifest_enabled)
+    ? false : manufacturing_manifest_enabled;
+wb_manufacturing_object_name = is_undef(manufacturing_object_name)
+    ? "" : manufacturing_object_name;
+wb_manufacturing_revision = is_undef(manufacturing_revision)
+    ? 1 : manufacturing_revision;
+wb_manufacturing_source_commit = is_undef(manufacturing_source_commit)
+    ? "" : manufacturing_source_commit;
+wb_manufacturing_slicer_project_file = is_undef(manufacturing_slicer_project_file)
+    ? "" : manufacturing_slicer_project_file;
+
 wb_path_diagnostics_enabled = is_undef(path_diagnostics_enabled)
     ? true : path_diagnostics_enabled;
 wb_path_near_threshold_mm = is_undef(path_near_threshold_mm)

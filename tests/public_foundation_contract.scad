@@ -47,6 +47,10 @@ assert(STRAP_BENDER_FIXTURE_SETUP_AID_CONTRACT_VERSION == 1,
     "Unexpected fixture setup-aid contract version.");
 assert(STRAP_BENDER_STRAP_CUT_PLAN_CONTRACT_VERSION == 1,
     "Unexpected strap cut-plan contract version.");
+assert(STRAP_BENDER_CATALOG_OBJECT_CONTRACT_VERSION == 1,
+    "Unexpected Catalog object contract version.");
+assert(STRAP_BENDER_MANUFACTURING_MANIFEST_CONTRACT_VERSION == 1,
+    "Unexpected manufacturing manifest contract version.");
 
 material = strap_material_spec(
     "TEST_STRAP",
@@ -209,6 +213,28 @@ cut_source = strap_cut_spec(
 validate_strap_cut_spec(cut_source, foundation_path, [material]);
 cut_plan = plan_strap_cut(foundation_path, cut_source, [material]);
 validate_strap_cut_plan(cut_plan, cut_source, foundation_path, [material]);
+catalog_candidate = catalog_object_spec(
+    "TEST_FOUNDATION_OBJECT",
+    1,
+    "laboratory_candidate",
+    "bend_program",
+    "TEST_SHAPE",
+    STRAP_BENDER_API_VERSION,
+    shape,
+    material,
+    cut_source,
+    fixture,
+    "auto",
+    fixture_setup,
+    "",
+    "",
+    "",
+    "",
+    "Synthetic public-foundation Catalog candidate."
+);
+validate_catalog_object(catalog_candidate);
+manufacturing_manifest = plan_catalog_object_manufacturing(catalog_candidate);
+validate_manufacturing_manifest(manufacturing_manifest);
 path_pair_diagnostic = path_pair_diagnostic_spec(
     0, 2, 0, 2, "A", "B", "line", "arc", 0.5, "near"
 );
@@ -329,6 +355,13 @@ assert(strap_cut_name(cut_source) == "TEST_STRAP_CUT" &&
     strap_cut_plan_cut_length_mm(cut_plan) >
         strap_cut_plan_nominal_developed_length_mm(cut_plan),
     "Strap cut-plan constructor, accessor, or planning contract failed.");
+assert(catalog_object_name(catalog_candidate) == "TEST_FOUNDATION_OBJECT" &&
+    catalog_object_normalized_shape(catalog_candidate) == shape &&
+    manufacturing_manifest_export_count(manufacturing_manifest) == 1 &&
+    manufacturing_export_stl_filename(
+        manufacturing_manifest_export_entries(manufacturing_manifest)[0]
+    ) == "TEST_FOUNDATION_OBJECT-r1-fixture-c001.stl",
+    "Catalog object or manufacturing manifest foundation contract failed.");
 assert(path_pair_first_primitive_index(path_pair_diagnostic) == 0 &&
     path_pair_second_primitive_index(path_pair_diagnostic) == 2 &&
     path_pair_minimum_distance_mm(path_pair_diagnostic) == 0.5 &&

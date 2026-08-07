@@ -220,3 +220,29 @@ Batch 018 adds three derived record families: assembly/setup datum, printable fi
 Batch 019 adds a source record that is independent of the bend-post fixture specification and the derived segmentation plan. It stores registration mode, nominal pin diameter, diametral printed-hole clearance, tangent spacing, left-normal offset, component-mark mode, mark size/depth, and notes. Registration-hole diameter is derived from nominal pin diameter plus the explicit diametral allowance.
 
 The setup record does not store per-component hole coordinates. Those coordinates are derived from each exact `component_split` datum, so adjacent components independently reproduce one identical global registration pair. The physical zero-padded component mark is likewise derived from the component index rather than stored as a second identifier.
+
+
+## Catalog-ready object recipe
+
+A Catalog-ready object record is a source recipe, not a derived mesh. It stores:
+
+- object name and positive revision;
+- lifecycle status (`laboratory_candidate` or `accepted`);
+- original authoring kind/name for provenance;
+- required Strap Bender API version;
+- the complete normalized bend-program shape;
+- the complete strap-material record;
+- the complete strap cut-policy record;
+- the complete bend-post fixture specification;
+- the selected fixture layout mode;
+- the complete fixture setup-aid specification;
+- optional source commit while a candidate;
+- mandatory source commit, acceptance date, and acceptance notes when accepted;
+- optional associated slicer-project filename;
+- notes.
+
+The normalized bend program is embedded intentionally even when the original source was a polygon or pattern. Original authoring identity remains provenance, while the normalized command list is the immutable geometry execution payload.
+
+## Manufacturing export manifest
+
+The manufacturing manifest is derived from one Catalog-ready object. It contains the regenerated cut plan, fixture plan, optional segmentation plan, and an ordered export-entry list. Every export entry has a component index/ID, deterministic component recipe filename, deterministic STL filename, exact analytical station interval, and printable base bounds. Full-form fixtures still use component `c001`, so downstream export handling does not need a second filename grammar.
