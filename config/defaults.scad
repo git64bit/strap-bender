@@ -161,3 +161,20 @@ wb_show_tangent_points = is_undef(show_tangent_points)
 wb_tangent_marker_diameter_mm =
     is_undef(tangent_marker_diameter_mm)
         ? 1.6 : tangent_marker_diameter_mm;
+
+wb_fixture_base_thickness_mm = is_undef(fixture_base_thickness_mm)
+    ? 3 : fixture_base_thickness_mm;
+wb_fixture_base_margin_mm = is_undef(fixture_base_margin_mm)
+    ? 8 : fixture_base_margin_mm;
+wb_fixture_post_height_mm = is_undef(fixture_post_height_mm)
+    ? 18 : fixture_post_height_mm;
+wb_fixture_max_base_width_mm = is_undef(fixture_max_base_width_mm)
+    ? 220 : fixture_max_base_width_mm;
+wb_fixture_max_base_depth_mm = is_undef(fixture_max_base_depth_mm)
+    ? 220 : fixture_max_base_depth_mm;
+wb_fixture_tool_surface_chord_error_mm =
+    is_undef(fixture_tool_surface_chord_error_mm)
+        ? 0.02 : fixture_tool_surface_chord_error_mm;
+wb_fixture_tool_surface_max_angle_step_degrees =
+    is_undef(fixture_tool_surface_max_angle_step_degrees)
+        ? 5 : fixture_tool_surface_max_angle_step_degrees;

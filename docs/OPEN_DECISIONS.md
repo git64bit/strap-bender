@@ -12,6 +12,8 @@
 - The initial schedule grammar is constant, explicit, periodic, and every-nth; no opaque expression evaluator is required.
 - Target shape, forming calibration, and fixture geometry remain separate.
 - The project follows the self-contained Grid Stack / Polygon Stack framework and bounded batch workflow.
+- Application completion is not blocked by pending coupon measurements; empirical calibration is a later refinement.
+- Batch 015 selects the first production-shape software fixture family: a full-form open-top bend-post base, with one cylindrical inside-form post per analytical bend.
 
 ## Physical inputs still required
 
@@ -33,9 +35,8 @@ Decide how open-path tails are handled and how closed paths are joined. Required
 
 ## Fixture decisions still required
 
-Batch 011 resolves only the small calibration-tool topology: an open inside-form coupon without integrated retention. It does not select a production-shape fixture family.
+Batch 011 resolves the small calibration-tool topology. Batch 015 additionally selects the first production-shape software fixture family: a nominal full-form open-top bend-post base. The following implementation and physical decisions remain:
 
-- first production fixture family to prototype;
 - strap insertion and retention method;
 - minimum practical printed tool radius;
 - fixture height relative to strap width;
@@ -65,4 +66,4 @@ The physical product identity is now fixed as ULINE S-1655 black, smooth, 5/8 in
 
 ## Calibration evidence boundary
 
-Batch 010 defines how a real radius observation will be preserved but intentionally registers no physical observation. Batch 011 supplies experimental printable tool geometry for producing those observations. Batch 012 adds a coupon-linked calibration-trial wrapper and a Radius Observation workbench whose default state is deliberately not ready; no evidence record is emitted until the gate is explicitly enabled. Batch 013 adds the persistent calibration-trial registry and registry-audit route, but the initial registry is deliberately empty. Test records use future-dated synthetic values and explicit TEST DATA notes so they cannot be mistaken for empirical PET behavior. A target-to-tool mapping must not be introduced until real observations exist for a defined forming process and measurement method and are explicitly registered.
+Batch 010 defines how a real radius observation will be preserved but intentionally registers no physical observation. Batch 011 supplies experimental printable tool geometry for producing those observations. Batch 012 adds a coupon-linked calibration-trial wrapper and a Radius Observation workbench whose default state is deliberately not ready; no evidence record is emitted until the gate is explicitly enabled. Batch 013 adds the persistent calibration-trial registry and registry-audit route, but the initial registry is deliberately empty. Test records use future-dated synthetic values and explicit TEST DATA notes so they cannot be mistaken for empirical PET behavior. An empirical target-to-tool mapping must not be introduced until real observations exist for a defined forming process and measurement method and are explicitly registered. Until then, fixture planning may use an explicitly labeled nominal/uncompensated radius policy so the application can be completed without inventing PET behavior.

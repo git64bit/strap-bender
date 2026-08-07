@@ -2,6 +2,10 @@
 
 The roadmap defines dependency order, not permission to implement all phases at once. Each phase is divided into bounded batches and reconciled against the user's commit SHA before continuing.
 
+## Development priority
+
+Application completion is the primary development dependency. Pending coupon tests do not block Phases 5–7. Until empirical PET evidence is available, fixture output may use explicitly nominal, uncompensated geometry and must identify that status without claiming a predicted relaxed radius. Calibration fitting and physical corrections are revisited after the application capabilities are complete.
+
 ## Phase 0 — design contract
 
 - establish project scope;
@@ -75,7 +79,7 @@ Implementation status:
 - Batch 011 adds the first printable calibration tooling: open inside-form coupons with explicit designed tool radius, signed bend angle, tangent legs, material-linked form height, base geometry, and bounded chordal tool-surface tessellation. R1.6 and R5 reference coupons remain experimental Laboratory geometry.
 - Batch 012 adds a guarded Radius Observation workbench and a calibration-trial provenance wrapper. A ready trial derives material, signed bend angle, and designed tool radius from one exact named coupon, embeds the user-entered physical observation, and validates that the observation remains consistent with the source tool. No physical observation is registered by the batch.
 - Batch 013 adds the persistent Laboratory calibration-trial registry, unique-name/full-provenance registry validation, and a report-only Calibration Evidence audit workbench. The initial registry is deliberately empty; transient or synthetic values are never promoted automatically.
-- Real measurement population, target-to-tool mapping, neutral-axis evaluation, and cut-length correction remain later bounded work.
+- Real measurement population, target-to-tool mapping, neutral-axis evaluation, and cut-length correction remain later bounded work. They are calibration refinements, not blockers for the remaining application architecture and fixture software.
 
 ## Phase 5 — first fixture family
 
@@ -85,6 +89,14 @@ Implementation status:
 - print-envelope and segmentation rules;
 - component labels and assembly datums;
 - physical tests on small shapes.
+
+Implementation status:
+- Batch 015 selects the first software fixture family: a full-form open-top base with one circular inside-form post for every analytical arc.
+- Target centers, signed turns, target radii, global stations, and target entry/exit tangent points are copied from exact analytical primitives with source-command provenance. Separate tool-center and tool-tangent fields are retained; nominal mode makes them equal to the target datums.
+- The first radius policy is `nominal_target`: tool radius equals requested finished inside radius and the plan status is always `experimental_uncompensated`. This policy exists so fixture software can be completed before empirical springback fitting.
+- Base bounds cover the exact analytical path and complete post circles plus configurable margin. Configured print-envelope width/depth are asserting constraints.
+- Post height is validated against nominal strap width, and post circular tessellation is bounded by both chord error and maximum angular step.
+- Batch 015 intentionally has no integral retention and no long-form segmentation. Strap clearance/retention, fixture collision diagnostics, segmentation, component labels, and assembly datums remain bounded Phase 5/6 work.
 
 ## Phase 6 — long-form fixture strategy
 

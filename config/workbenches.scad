@@ -33,7 +33,9 @@ function workbench_render_mode_allowed(name, mode) =
                 name == "vertex_polygon" ||
                 name == "regular_polygon" ||
                 name == "wave_pattern") &&
-                (mode == "report_only" || mode == "diagnostic_path");
+                (mode == "report_only" ||
+                    mode == "diagnostic_path" ||
+                    mode == "bend_post_fixture");
 
 module validate_workbench_selection(
     workbench_name,

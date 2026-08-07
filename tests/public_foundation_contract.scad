@@ -37,6 +37,8 @@ assert(STRAP_BENDER_CALIBRATION_TRIAL_CONTRACT_VERSION == 1,
     "Unexpected calibration trial contract version.");
 assert(STRAP_BENDER_CALIBRATION_EVIDENCE_REGISTRY_CONTRACT_VERSION == 1,
     "Unexpected calibration evidence registry contract version.");
+assert(STRAP_BENDER_BEND_POST_FIXTURE_CONTRACT_VERSION == 1,
+    "Unexpected bend-post fixture contract version.");
 
 material = strap_material_spec(
     "TEST_STRAP",
@@ -113,6 +115,21 @@ trial = calibration_trial_spec(
     trial_observation,
     "Synthetic public-foundation trial only."
 );
+
+fixture = bend_post_fixture_spec(
+    "TEST_BEND_POST_FIXTURE",
+    "TEST_STRAP",
+    "nominal_target",
+    3,
+    8,
+    18,
+    220,
+    220,
+    0.02,
+    5,
+    "none",
+    "Synthetic public-foundation fixture only."
+);
 project = project_spec("TEST_PROJECT", "bend_program", "laboratory");
 pose = start_pose_spec(10, -5, 30);
 straight = straight_command(0, 25, "TEST_STRAIGHT");
@@ -181,6 +198,7 @@ validate_radius_observation(observation, [material]);
 validate_radius_calibration_coupon(coupon, [material]);
 validate_radius_observation(trial_observation, [material]);
 validate_calibration_trial(trial, [material], [coupon]);
+validate_bend_post_fixture(fixture, [material]);
 assert(radius_observation_name(observation) == "TEST_RADIUS_OBSERVATION" &&
     radius_observation_specimen_id(observation) == "TEST-SPECIMEN" &&
     abs(radius_observation_springback_delta_mm(observation) - 1) < 1e-9,
@@ -194,6 +212,11 @@ assert(calibration_trial_name(trial) == "TEST_CALIBRATION_TRIAL" &&
     calibration_trial_coupon_name(trial) == "TEST_RADIUS_COUPON" &&
     calibration_trial_observation(trial) == trial_observation,
     "Calibration trial constructor or accessor contract failed.");
+assert(bend_post_fixture_name(fixture) == "TEST_BEND_POST_FIXTURE" &&
+    bend_post_fixture_strap_material_name(fixture) == "TEST_STRAP" &&
+    bend_post_fixture_radius_mode(fixture) == "nominal_target" &&
+    bend_post_fixture_retention_mode(fixture) == "none",
+    "Bend-post fixture constructor or accessor contract failed.");
 assert(strap_material_name(material) == "TEST_STRAP" &&
     abs(strap_material_nominal_width_in(material) - 0.625) < 1e-9 &&
     abs(strap_material_nominal_thickness_in(material) - 0.020) < 1e-9,

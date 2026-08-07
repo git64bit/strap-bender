@@ -106,3 +106,11 @@ No Batch 012 test value is physical PET evidence. The readiness switch only cont
 - `calibration_evidence_workbench_wrapper_contract.scad` executes the report-only Calibration Evidence route and confirms that zero physical trials are registered.
 
 The synthetic record in the registry contract is test-local only. Batch 013 persists no PET springback measurement and therefore provides no basis for target-to-tool compensation.
+
+## Batch 015 bend-post fixture contracts
+
+- `bend_post_fixture_contract.scad` compiles the accepted rounded-square source, derives four exact bend stations, verifies nominal R10 posts, exact base bounds, bounded post-surface tessellation, uncompensated status, and renders the complete fixture solid.
+- `bend_post_fixture_workbench_contract.scad` executes `bend_post_fixture` rendering through the regular-polygon → vertex-polygon → bend-program → analytical-path pipeline.
+
+The Batch 015 fixture is a software-completion family, not a calibrated PET prediction. In `nominal_target` mode the printed post radius intentionally equals the requested finished inside radius and reports `experimental_uncompensated`. Pending coupon measurements do not block further fixture, segmentation, or Catalog software development.
+

@@ -48,7 +48,7 @@ No physical trial is registered by Batch 012. The Customizer workbench construct
 
 Batch 013 adds the persistent Laboratory registry for reviewed coupon-linked calibration trials. Registry membership is authoritative evidence provenance: a transient Customizer trial does not become persistent evidence automatically. Every registered trial must have a unique stable name and must pass the complete calibration-trial validation against the active strap-material and calibration-coupon registries.
 
-The initial registry is intentionally empty. Synthetic test trials remain local to contract files and must never be copied into the physical registry. Target-to-tool fitting remains blocked until real measurements are supplied, reviewed, and explicitly registered.
+The initial registry is intentionally empty. Synthetic test trials remain local to contract files and must never be copied into the physical registry. Target-to-tool fitting remains unavailable until real measurements are supplied, reviewed, and explicitly registered. Nominal uncompensated fixture planning may proceed in parallel as application development.
 
 ### Radius calibration coupon
 
@@ -131,9 +131,19 @@ Relates target geometry to fixture geometry for one physical strap and forming p
 - measurement method;
 - revision and qualification status.
 
-### Fixture specification
+### Bend-post fixture specification
 
-Identifies the fixture family and its geometry-affecting settings without redefining the target strap path. Possible settings include clearance, engagement depth, retention strategy, segmentation policy, datum system, and printable envelope.
+Batch 015 implements the first concrete production-shape fixture source record. It stores a stable fixture name, exact strap-material name, radius policy, base thickness and margin, post height, maximum printable base width/depth, tool-surface chord-error and angular-step limits, retention mode, and notes. The initial supported values are `radius_mode = nominal_target` and `retention_mode = none`.
+
+The source record does not contain target vertices or bend commands. It is applied to an already validated analytical path.
+
+### Derived bend-post station
+
+One station is created for every analytical arc. It stores source-command index and label, global start/end station, target center, tool center, signed bend angle, requested finished inside radius, resolved tool radius, target tangent entry/exit points, and tool tangent entry/exit points. In the Batch 015 nominal mode, tool radius, center, and tangent datums equal their target counterparts.
+
+### Derived bend-post fixture plan
+
+The plan stores fixture identity, source analytical-path identity and reference axis, explicit status, ordered bend stations, derived base bounds, and notes. `experimental_uncompensated` is mandatory for the nominal policy. Base bounds cover both the analytical target bounds and complete post circles, then add the configured margin. The plan is transient derived data; it does not replace either the target path or the fixture source specification.
 
 ### Accepted object
 

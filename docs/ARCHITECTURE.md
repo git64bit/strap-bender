@@ -84,7 +84,7 @@ The workbench is an evidence-entry aid, not a database and not a calibration fit
 
 Batch 013 adds a separate report-only registry audit. `registries/laboratory_calibration_trials.scad` is the sole Laboratory persistence point for reviewed physical coupon trials and is deliberately empty at introduction. The Calibration Evidence workbench does not create records. It validates registry-name uniqueness, revalidates every stored trial against the active material and coupon registries, and reports the evidence count.
 
-A transient ready observation from Batch 012 is therefore not automatically promoted. Registration requires an explicit repository change containing the supplied physical values. Until at least one real trial is registered, the audit route states that compensation fitting remains blocked.
+A transient ready observation from Batch 012 is therefore not automatically promoted. Registration requires an explicit repository change containing the supplied physical values. Until at least one real trial is registered, the audit route states that compensation fitting remains unavailable. This blocks only empirical compensation claims; it does not block fixture or application software development.
 
 ## Schedule boundary
 
@@ -112,6 +112,26 @@ The compact block and instance remain authoritative. Expanded commands and resol
 ## Exact geometry and rendering boundary
 
 Line and circular-arc primitives are authoritative. Batch 003 implements this boundary for explicit bend programs using the desired finished inside edge as the named analytical reference axis. Batch 004 adds a sampled-path consumer controlled by maximum chord error and maximum angular step, plus a thin diagnostic renderer. The sampled record is derived display data. Preview resolution may change point count and chordal display length, but it must not alter analytical validation, measurements, exact bounds, stations, or fixture datum positions.
+
+## Bend-post fixture route
+
+Batch 015 adds the first production-shape fixture planner as a consumer of the exact analytical path:
+
+```text
+analytical path
+      ↓
+transient bend-post fixture specification
+      ↓
+one derived bend station per analytical arc
+      ↓
+base bounds + print-envelope validation
+      ↓
+full-form base and cylindrical inside-form posts
+```
+
+The target path remains authoritative. Each derived station preserves the source command index, label, global station interval, target arc center, signed bend angle, desired finished inside radius, and target tangent entry/exit points. Separate tool center and tool tangent datums are also stored; nominal mode makes them identical to the target values. The first radius policy is `nominal_target`, so the printed post radius equals the requested target radius and the plan is explicitly `experimental_uncompensated`. Later empirical compensation may change tool radius, tool center, and tool tangent datums without changing shape authoring or the authoritative analytical target path.
+
+The Batch 015 renderer produces one rectangular base and one full cylindrical post per bend. It is deliberately open-top and contains no clamp, outer follower, or strap-clearance channel. Long-path segmentation and component assembly remain separate planners rather than changes to the bend program.
 
 ## Target and fixture boundary
 

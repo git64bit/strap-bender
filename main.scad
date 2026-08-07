@@ -26,7 +26,28 @@ include <config/materials.scad>
 include <config/calibration_coupons.scad>
 include <config/calibration_trials.scad>
 include <config/calibration_evidence.scad>
+include <config/fixtures.scad>
 include <config/workbenches.scad>
+
+module run_bend_post_fixture_pipeline(analytical_path) {
+    fixture = WORKBENCH_BEND_POST_FIXTURE;
+    validate_bend_post_fixture(fixture, STRAP_MATERIALS);
+    report_bend_post_fixture(fixture, wb_report_level);
+    echo("STRAP BENDER BEND-POST FIXTURE SOURCE VALIDATION: PASS");
+
+    plan = plan_bend_post_fixture(analytical_path, fixture);
+    validate_bend_post_fixture_plan(
+        plan,
+        fixture,
+        analytical_path,
+        STRAP_MATERIALS
+    );
+    report_bend_post_fixture_plan(plan, fixture, wb_report_level);
+    echo("STRAP BENDER BEND-POST FIXTURE PLAN VALIDATION: PASS");
+
+    render_bend_post_fixture(plan, fixture);
+    echo("STRAP BENDER BEND-POST FIXTURE RENDER: PASS");
+}
 
 module run_normalized_shape_pipeline(shape) {
     validate_bend_program_shape(shape);
@@ -66,6 +87,8 @@ module run_normalized_shape_pipeline(shape) {
                 wb_tangent_marker_diameter_mm
         );
         echo("STRAP BENDER DIAGNOSTIC PATH RENDER: PASS");
+    } else if (wb_render_mode == "bend_post_fixture") {
+        run_bend_post_fixture_pipeline(analytical_path);
     }
 }
 

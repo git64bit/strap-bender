@@ -260,6 +260,14 @@ assert(workbench_render_mode_allowed("wave_pattern", "report_only"),
     "Wave Pattern report-only route must be allowed.");
 assert(workbench_render_mode_allowed("wave_pattern", "diagnostic_path"),
     "Wave Pattern diagnostic-path route must be allowed.");
+assert(workbench_render_mode_allowed("bend_program", "bend_post_fixture"),
+    "Bend Program bend-post fixture route must be allowed.");
+assert(workbench_render_mode_allowed("vertex_polygon", "bend_post_fixture"),
+    "Vertex Polygon bend-post fixture route must be allowed.");
+assert(workbench_render_mode_allowed("regular_polygon", "bend_post_fixture"),
+    "Regular Polygon bend-post fixture route must be allowed.");
+assert(workbench_render_mode_allowed("wave_pattern", "bend_post_fixture"),
+    "Wave Pattern bend-post fixture route must be allowed.");
 assert(workbench_render_mode_allowed("calibration_evidence", "report_only"),
     "Calibration Evidence report-only route must be allowed.");
 assert(!workbench_render_mode_allowed(

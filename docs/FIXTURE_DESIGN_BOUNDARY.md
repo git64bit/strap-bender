@@ -4,7 +4,7 @@
 
 A Strap Bender fixture exists to reproduce the target tangent locations, straight lengths, bend directions, and compensated tool radii as closely as practical for the specified PET strap and forming process.
 
-This document defines fixture requirements. It does not select the first fixture topology.
+This document defines fixture requirements. Batch 015 selects the first software topology: a full-form open-top bend-post fixture. It is deliberately nominal and uncompensated until physical calibration is available.
 
 ## Required separation
 
@@ -20,7 +20,7 @@ The continuous strap path and the printable fixture are different objects:
 A fixture family must define how it controls:
 
 - bend center or bend datum;
-- compensated fixture radius;
+- fixture radius, whether empirically compensated or explicitly nominal;
 - tangent entry and exit positions;
 - straight-segment distance between neighboring bends;
 - left/right bend orientation;
@@ -30,7 +30,7 @@ A fixture family must define how it controls:
 
 ## Compensation responsibility
 
-The fixture planner receives a forming calibration record. It must distinguish:
+A calibrated fixture planner must distinguish:
 
 ```text
 desired finished radius
@@ -38,11 +38,19 @@ desired finished radius
 required fixture radius
 ```
 
-When no qualified calibration exists, the fixture and reports must be marked experimental. The system must not imply that a nominal mandrel radius guarantees the relaxed finished radius.
+When no qualified calibration exists, fixture development continues using an explicitly named nominal policy, but the fixture and reports must be marked experimental. The system must not imply that a nominal mandrel radius guarantees the relaxed finished radius. Calibration therefore gates physical accuracy claims, not application development.
 
-## Candidate fixture families
+## Batch 015 selected family — full-form bend posts
 
-The following remain candidates for later discussion:
+The first production-shape software family uses a rectangular base and one full cylindrical inside-form post per analytical bend. In nominal mode the post tool center is the exact analytical target arc center. Its source command, global station interval, signed turn, target/tool radii, and separate target/tool entry/exit tangent datums remain traceable in the derived fixture plan.
+
+In `nominal_target` mode each tool radius equals the requested finished inside radius. This is an intentionally uncompensated construction used to complete fixture software before empirical PET correction exists. The base covers the analytical path and complete post circles plus margin, and validation rejects a base larger than the configured printer envelope. Posts are open at the top so the strap can be lifted vertically; no integral retention is claimed.
+
+This family is suitable for small shapes that fit one print envelope. It is not the long-form solution and does not yet detect post/post or post/nonlocal-path interference.
+
+## Other candidate fixture families
+
+The following remain candidates for later phases:
 
 - full-form channel or perimeter fixture;
 - tiled full-form fixture with alignment keys;
@@ -90,4 +98,4 @@ Batch 011 implements the first calibration-tool family as an open inside-form co
 
 Reference Laboratory coupons are provided for 90-degree R1.6 and R5 designed tool radii, and the workbench can author other nonzero signed angles through 180 degrees. Tool-surface facets obey a requested chord-error bound and maximum angular step. Tessellation error is reported separately from printer dimensional accuracy.
 
-Printed coupons and measured relaxed results will establish the evidence needed for a future target-radius-to-tool-radius mapping for the exact strap and process. Batch 011 itself contains no such mapping and does not select the first production-shape fixture family.
+Printed coupons and measured relaxed results will establish the evidence needed for a future target-radius-to-tool-radius mapping for the exact strap and process. Batch 011 itself contains no such mapping. Batch 015 proceeds independently with nominal/uncompensated production-shape fixture software; later calibration replaces the radius mapping without redefining the target path.

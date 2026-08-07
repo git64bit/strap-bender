@@ -192,15 +192,24 @@ A diagnostic may be a warning only when the path remains mathematically valid an
 
 ## Fixture validation
 
-Once a fixture family exists, validation must check:
+Batch 015 requires the bend-post fixture source and derived plan to check:
 
-- compensated radius is within the fixture family's printable domain;
-- strap fits the intended clearance and retention geometry;
-- component bounds fit the configured printer envelope;
-- segmentation joints do not alter the target station or tangent;
-- component identifiers are unique;
-- closure access and strap removal remain possible;
-- unsupported self-crossings are rejected.
+- exact fixture record type and current schema version;
+- exactly one referenced strap material;
+- supported radius policy (`nominal_target`) and retention policy (`none`);
+- finite positive base thickness, post height, and printer-envelope dimensions;
+- nonnegative base margin;
+- post height at least the referenced strap's nominal width;
+- positive tool-surface chord error and valid maximum angular step;
+- exactly one bend station for every analytical arc and at least one bend;
+- station source index, label, global station interval, target/tool centers, signed angle, target/tool radii, and target/tool tangent entry/exit points are valid;
+- nominal mode preserves tool radius, center, and tangent datums equal to their target counterparts within the named position tolerance;
+- resolved cylindrical tessellation stays within the requested ideal-circle sagitta bound;
+- fixture plan preserves fixture identity, analytical-path identity, and reference axis;
+- nominal plans are explicitly marked `experimental_uncompensated`;
+- base bounds are finite and fit within the configured printer envelope.
+
+The Batch 015 family intentionally has no integral strap-clearance channel, clamp, or segmented joints, so those validations do not yet apply. Later fixture families must additionally validate clearance/retention geometry, component identifiers, segmentation datums, closure/removal access, and supported crossing/interference policy.
 
 ## Tolerances
 
