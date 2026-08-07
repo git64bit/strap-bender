@@ -168,6 +168,10 @@ wb_fixture_base_margin_mm = is_undef(fixture_base_margin_mm)
     ? 8 : fixture_base_margin_mm;
 wb_fixture_post_height_mm = is_undef(fixture_post_height_mm)
     ? 18 : fixture_post_height_mm;
+wb_fixture_strap_clearance_mm = is_undef(fixture_strap_clearance_mm)
+    ? 0.25 : fixture_strap_clearance_mm;
+wb_fixture_minimum_post_gap_mm = is_undef(fixture_minimum_post_gap_mm)
+    ? 1 : fixture_minimum_post_gap_mm;
 wb_fixture_max_base_width_mm = is_undef(fixture_max_base_width_mm)
     ? 220 : fixture_max_base_width_mm;
 wb_fixture_max_base_depth_mm = is_undef(fixture_max_base_depth_mm)

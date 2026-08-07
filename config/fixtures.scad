@@ -12,6 +12,8 @@ WORKBENCH_BEND_POST_FIXTURE = bend_post_fixture_spec(
     base_thickness_mm = wb_fixture_base_thickness_mm,
     base_margin_mm = wb_fixture_base_margin_mm,
     post_height_mm = wb_fixture_post_height_mm,
+    strap_clearance_mm = wb_fixture_strap_clearance_mm,
+    minimum_post_gap_mm = wb_fixture_minimum_post_gap_mm,
     max_base_width_mm = wb_fixture_max_base_width_mm,
     max_base_depth_mm = wb_fixture_max_base_depth_mm,
     tool_surface_chord_error_mm =
@@ -22,6 +24,7 @@ WORKBENCH_BEND_POST_FIXTURE = bend_post_fixture_spec(
     notes = str(
         "Mutable first production-shape fixture family. Full-form base with ",
         "one open-top circular inside-form post per analytical bend. ",
+        "Nonlocal strap and post/post clearances are validated before render. ",
         "Radius mode is deliberately nominal and uncompensated."
     )
 );

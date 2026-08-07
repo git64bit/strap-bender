@@ -79,6 +79,8 @@ Batch 014 adds non-rejecting sharp-source polygon self-intersection diagnostics.
 
 Batch 015 begins Phase 5 with the first production-shape fixture software family. Every exact analytical arc becomes one cylindrical inside-form post at the exact arc center, with separate target/tool centers and entry/exit tangent datums plus source-command provenance. A rectangular base is derived from the exact path/post bounds plus margin and is rejected if it exceeds the configured print envelope. Until empirical calibration exists, tool radius intentionally equals requested finished inside radius and the entire plan is marked `experimental_uncompensated`. The family is open-top and has no integral retention; segmentation and long-form tooling remain later work.
 
+Batch 016 adds pre-render fixture clearance validation. Exact post/post gaps and exact post/nonlocal-path distances are checked against configurable policy values. Nonlocal path clearance includes the ULINE strap nominal thickness plus an explicit clearance allowance; unsafe full-form fixtures fail before geometry rendering.
+
 ## Tests
 
 Open each file under `tests/` directly and use F5. Every successful contract prints a final `PASS` message in the OpenSCAD console.

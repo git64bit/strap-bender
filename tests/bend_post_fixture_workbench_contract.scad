@@ -21,6 +21,8 @@ strap_material_name_selected = "ULINE_S_1655_BLACK";
 fixture_base_thickness_mm = 3;
 fixture_base_margin_mm = 8;
 fixture_post_height_mm = 18;
+fixture_strap_clearance_mm = 0.25;
+fixture_minimum_post_gap_mm = 1;
 fixture_max_base_width_mm = 220;
 fixture_max_base_depth_mm = 220;
 fixture_tool_surface_chord_error_mm = 0.02;
@@ -37,8 +39,11 @@ assert(wb_render_mode == "bend_post_fixture",
 assert(bend_post_fixture_radius_mode(WORKBENCH_BEND_POST_FIXTURE) ==
     "nominal_target",
     "Fixture workbench must use explicit uncompensated nominal radius mode.");
+assert(bend_post_fixture_strap_clearance_mm(WORKBENCH_BEND_POST_FIXTURE) == 0.25 &&
+    bend_post_fixture_minimum_post_gap_mm(WORKBENCH_BEND_POST_FIXTURE) == 1,
+    "Fixture workbench did not preserve clearance policy values.");
 assert(bend_post_fixture_retention_mode(WORKBENCH_BEND_POST_FIXTURE) ==
     "none",
-    "Batch 015 fixture workbench must remain open-top without retention.");
+    "Fixture workbench must remain open-top until retention is added.");
 
 echo("STRAP BENDER BEND-POST FIXTURE WORKBENCH CONTRACT: PASS");

@@ -14,6 +14,7 @@
 - The project follows the self-contained Grid Stack / Polygon Stack framework and bounded batch workflow.
 - Application completion is not blocked by pending coupon measurements; empirical calibration is a later refinement.
 - Batch 015 selects the first production-shape software fixture family: a full-form open-top bend-post base, with one cylindrical inside-form post per analytical bend.
+- Batch 016 resolves the first fixture collision policy: exact post/post gaps and post/nonlocal-path gaps are checked before rendering, with nominal strap thickness plus an explicit clearance allowance.
 
 ## Physical inputs still required
 
@@ -37,7 +38,7 @@ Decide how open-path tails are handled and how closed paths are joined. Required
 
 Batch 011 resolves the small calibration-tool topology. Batch 015 additionally selects the first production-shape software fixture family: a nominal full-form open-top bend-post base. The following implementation and physical decisions remain:
 
-- strap insertion and retention method;
+- strap insertion and integral retention method;
 - minimum practical printed tool radius;
 - fixture height relative to strap width;
 - printer build envelope;

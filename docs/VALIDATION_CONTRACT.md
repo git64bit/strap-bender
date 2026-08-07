@@ -230,3 +230,8 @@ Tests should be opened directly and run with F5. Initial test families should co
 - failed closure;
 - self-intersection detection;
 - sampling invariance of analytical length.
+
+## Batch 016 fixture-clearance validation
+
+Before a bend-post fixture renders, the application validates a derived clearance report. Distinct tool circles must meet the configured minimum post gap. Each tool circle must remain at least nominal strap thickness plus configured strap clearance from every nonlocal analytical primitive. The post's own source arc and immediately tangent neighboring primitives are excluded as intentional contact. Clearance violations are assertion failures; they are not silently rendered.
+

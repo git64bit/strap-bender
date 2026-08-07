@@ -21,7 +21,7 @@ STRAP_BENDER_RADIUS_OBSERVATION_CONTRACT_VERSION = 1;
 STRAP_BENDER_RADIUS_CALIBRATION_COUPON_CONTRACT_VERSION = 1;
 STRAP_BENDER_CALIBRATION_TRIAL_CONTRACT_VERSION = 1;
 STRAP_BENDER_CALIBRATION_EVIDENCE_REGISTRY_CONTRACT_VERSION = 1;
-STRAP_BENDER_BEND_POST_FIXTURE_CONTRACT_VERSION = 1;
+STRAP_BENDER_BEND_POST_FIXTURE_CONTRACT_VERSION = 2;
 
 include <lib/indices.scad>
 include <lib/material_indices.scad>
@@ -57,6 +57,7 @@ include <paths/compile_pattern_instance.scad>
 include <paths/sample_analytical_path.scad>
 include <calibration/radius_coupon_math.scad>
 include <fixtures/bend_post_fixture_math.scad>
+include <fixtures/bend_post_clearance_math.scad>
 include <lib/validation.scad>
 include <lib/value_schedule_validation.scad>
 include <lib/polygon_validation.scad>

@@ -96,7 +96,9 @@ Implementation status:
 - The first radius policy is `nominal_target`: tool radius equals requested finished inside radius and the plan status is always `experimental_uncompensated`. This policy exists so fixture software can be completed before empirical springback fitting.
 - Base bounds cover the exact analytical path and complete post circles plus configurable margin. Configured print-envelope width/depth are asserting constraints.
 - Post height is validated against nominal strap width, and post circular tessellation is bounded by both chord error and maximum angular step.
-- Batch 015 intentionally has no integral retention and no long-form segmentation. Strap clearance/retention, fixture collision diagnostics, segmentation, component labels, and assembly datums remain bounded Phase 5/6 work.
+- Batch 015 intentionally has no integral retention and no long-form segmentation.
+- Batch 016 adds exact post/post gap analysis and exact post/nonlocal-path clearance analysis. The nonlocal required gap equals nominal strap thickness plus a configurable clearance allowance; local source arcs and their tangent neighbors are intentionally excluded. Unsafe full-form fixtures are rejected before rendering.
+- Integral retention, fixture segmentation, component labels, and assembly datums remain bounded Phase 5/6 work.
 
 ## Phase 6 — long-form fixture strategy
 

@@ -45,6 +45,22 @@ module run_bend_post_fixture_pipeline(analytical_path) {
     report_bend_post_fixture_plan(plan, fixture, wb_report_level);
     echo("STRAP BENDER BEND-POST FIXTURE PLAN VALIDATION: PASS");
 
+    clearance_report = analyze_bend_post_fixture_clearance(
+        plan,
+        fixture,
+        analytical_path,
+        STRAP_MATERIALS
+    );
+    report_bend_post_fixture_clearance(clearance_report, wb_report_level);
+    validate_bend_post_fixture_clearance(
+        clearance_report,
+        plan,
+        fixture,
+        analytical_path,
+        STRAP_MATERIALS
+    );
+    echo("STRAP BENDER BEND-POST FIXTURE CLEARANCE VALIDATION: PASS");
+
     render_bend_post_fixture(plan, fixture);
     echo("STRAP BENDER BEND-POST FIXTURE RENDER: PASS");
 }

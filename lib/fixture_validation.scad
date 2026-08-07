@@ -2,7 +2,7 @@
 // LibFile: fixture_validation.scad
 // Project: Strap Bender
 // FileGroup: Fixture Validation
-// FileSummary: Validates nominal bend-post fixture specifications and plans.
+// FileSummary: Validates bend-post fixture specifications, plans, and clearances.
 //////////////////////////////////////////////////////////////////////
 
 function sb_bend_post_radius_mode_valid(mode) =
@@ -11,8 +11,8 @@ function sb_bend_post_retention_mode_valid(mode) =
     mode == "none";
 
 module validate_bend_post_fixture(fixture, material_registry) {
-    assert(is_list(fixture) && len(fixture) == 14,
-        "Bend-post fixture records must contain fourteen fields.");
+    assert(is_list(fixture) && len(fixture) == 16,
+        "Bend-post fixture records must contain sixteen fields.");
     assert(fixture[BF_RECORD_TYPE] == STRAP_BENDER_BEND_POST_FIXTURE_RECORD,
         "Invalid bend-post fixture record type.");
     assert(sb_schema_version_valid(fixture[BF_SCHEMA_VERSION]),
@@ -43,6 +43,12 @@ module validate_bend_post_fixture(fixture, material_registry) {
     assert(sb_finite_number(bend_post_fixture_post_height_mm(fixture)) &&
         bend_post_fixture_post_height_mm(fixture) > 0,
         "Fixture post height must be finite and positive.");
+    assert(sb_finite_number(bend_post_fixture_strap_clearance_mm(fixture)) &&
+        bend_post_fixture_strap_clearance_mm(fixture) >= 0,
+        "Fixture strap clearance must be finite and nonnegative.");
+    assert(sb_finite_number(bend_post_fixture_minimum_post_gap_mm(fixture)) &&
+        bend_post_fixture_minimum_post_gap_mm(fixture) >= 0,
+        "Fixture minimum post gap must be finite and nonnegative.");
     assert(sb_finite_number(
             bend_post_fixture_max_base_width_mm(fixture)) &&
         bend_post_fixture_max_base_width_mm(fixture) > 0,
@@ -202,3 +208,99 @@ module validate_bend_post_fixture_plan(
             " mm exceeds configured print envelope ",
             bend_post_fixture_max_base_depth_mm(fixture), " mm."));
 }
+
+module validate_fixture_clearance_issue(issue) {
+    assert(is_list(issue) && len(issue) == 8,
+        "Fixture clearance issue records must contain eight fields.");
+    assert(issue[CI_RECORD_TYPE] == STRAP_BENDER_FIXTURE_CLEARANCE_ISSUE_RECORD,
+        "Invalid fixture clearance issue record type.");
+    assert(sb_schema_version_valid(issue[CI_SCHEMA_VERSION]),
+        "Unsupported fixture clearance issue schema version.");
+    assert(fixture_clearance_issue_kind(issue) == "post_post" ||
+            fixture_clearance_issue_kind(issue) == "post_path",
+        "Fixture clearance issue kind must be post_post or post_path.");
+    assert(sb_nonnegative_integer(
+            fixture_clearance_issue_primary_source_index(issue)) &&
+        sb_nonnegative_integer(
+            fixture_clearance_issue_secondary_source_index(issue)),
+        "Fixture clearance issue source indexes must be nonnegative integers.");
+    assert(sb_finite_number(fixture_clearance_issue_measured_gap_mm(issue)),
+        "Fixture clearance measured gap must be finite.");
+    assert(sb_finite_number(fixture_clearance_issue_required_gap_mm(issue)) &&
+        fixture_clearance_issue_required_gap_mm(issue) >= 0,
+        "Fixture clearance required gap must be finite and nonnegative.");
+    assert(is_string(fixture_clearance_issue_label(issue)),
+        "Fixture clearance issue label must be a string.");
+}
+module validate_bend_post_fixture_clearance(
+    report,
+    plan,
+    fixture,
+    analytical_path,
+    material_registry
+) {
+    assert(is_list(report) && len(report) == 12,
+        "Fixture clearance reports must contain twelve fields.");
+    assert(report[CR_RECORD_TYPE] == STRAP_BENDER_FIXTURE_CLEARANCE_REPORT_RECORD,
+        "Invalid fixture clearance report record type.");
+    assert(sb_schema_version_valid(report[CR_SCHEMA_VERSION]),
+        "Unsupported fixture clearance report schema version.");
+    assert(fixture_clearance_report_fixture_name(report) ==
+        bend_post_fixture_name(fixture),
+        "Clearance report must preserve fixture identity.");
+    assert(fixture_clearance_report_source_path_name(report) ==
+        analytical_path_name(analytical_path),
+        "Clearance report must preserve analytical-path identity.");
+    assert(bend_post_fixture_plan_fixture_name(plan) ==
+        fixture_clearance_report_fixture_name(report),
+        "Clearance report and fixture plan must reference the same fixture.");
+    material = named_record(
+        material_registry,
+        bend_post_fixture_strap_material_name(fixture),
+        "strap material"
+    );
+    expected_thickness = strap_material_nominal_thickness_mm(material);
+    expected_path_gap = expected_thickness +
+        bend_post_fixture_strap_clearance_mm(fixture);
+    assert(sb_near(
+            fixture_clearance_report_nominal_strap_thickness_mm(report),
+            expected_thickness,
+            SB_NUMERIC_POSITION_TOLERANCE_MM
+        ),
+        "Clearance report must preserve nominal strap thickness.");
+    assert(sb_near(
+            fixture_clearance_report_required_nonlocal_path_gap_mm(report),
+            expected_path_gap,
+            SB_NUMERIC_POSITION_TOLERANCE_MM
+        ),
+        "Clearance report required path gap is inconsistent with fixture policy.");
+    assert(sb_near(
+            fixture_clearance_report_required_post_gap_mm(report),
+            bend_post_fixture_minimum_post_gap_mm(fixture),
+            SB_NUMERIC_POSITION_TOLERANCE_MM
+        ),
+        "Clearance report required post gap is inconsistent with fixture policy.");
+    pair_issues = fixture_clearance_report_post_pair_issues(report);
+    path_issues = fixture_clearance_report_post_path_issues(report);
+    assert(is_list(pair_issues) && is_list(path_issues),
+        "Fixture clearance issue collections must be lists.");
+    for (issue = pair_issues)
+        validate_fixture_clearance_issue(issue);
+    for (issue = path_issues)
+        validate_fixture_clearance_issue(issue);
+    pair_min = fixture_clearance_report_minimum_post_pair_gap_mm(report);
+    path_min = fixture_clearance_report_minimum_post_path_gap_mm(report);
+    assert(is_undef(pair_min) || sb_finite_number(pair_min),
+        "Minimum post-pair gap must be finite or undefined when no pair exists.");
+    assert(is_undef(path_min) || sb_finite_number(path_min),
+        "Minimum post/path gap must be finite or undefined when none exists.");
+    assert(is_string(fixture_clearance_report_notes(report)),
+        "Fixture clearance report notes must be a string.");
+    assert(len(pair_issues) == 0,
+        str("Fixture post/post clearance failed with ", len(pair_issues),
+            " issue(s). Increase spacing, reduce tool radii, or segment the fixture."));
+    assert(len(path_issues) == 0,
+        str("Fixture post/nonlocal-path clearance failed with ", len(path_issues),
+            " issue(s). The target path approaches an unrelated bend post too closely."));
+}
+

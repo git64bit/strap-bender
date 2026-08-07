@@ -1,0 +1,132 @@
+STRAP BENDER — BATCH 016 DELTA
+
+Base repository:
+  https://github.com/git64bit/strap-bender
+
+Required base commit:
+  5aa69d8
+  5aa69d8ff3112fed62a965607b4a9735386befe2
+
+Scope:
+  Phase 5 bounded continuation: pre-render clearance/interference analysis for
+  the full-form bend-post fixture family.
+
+Development priority:
+  Application completion remains primary. Pending coupon measurements do not
+  block this batch or subsequent fixture/segmentation/application work.
+
+Implemented:
+  - bend-post fixture contract version advances from 1 to 2;
+  - fixture source adds explicit strap_clearance_mm;
+  - fixture source adds explicit minimum_post_gap_mm;
+  - nonlocal required path gap = nominal strap thickness + strap clearance;
+  - exact circle-to-circle post/post gap analysis;
+  - exact point-to-line-segment distance for post/nonlocal-line checks;
+  - exact point-to-circular-arc distance for post/nonlocal-arc checks;
+  - own source arc and immediately tangent neighboring primitives are excluded
+    from nonlocal checks because contact there is intentional;
+  - closed-path station wrap is handled when identifying tangent neighbors;
+  - derived clearance issue and clearance report records preserve source-command
+    provenance and measured/required gaps;
+  - unsafe full-form fixtures assert before geometry rendering;
+  - all four shape workbenches expose strap-clearance and minimum-post-gap
+    controls without adding per-bend Customizer fields;
+  - rounded-square contract proves a safe fixture;
+  - strict-gap synthetic contract proves post/post issue detection.
+
+This batch deliberately does NOT add:
+  - integral strap retention or outer followers;
+  - strap solid or neutral-axis geometry;
+  - empirical springback compensation;
+  - long-form segmentation or assembly components;
+  - cut-length or closure allowances;
+  - Catalog promotion.
+
+New files:
+  fixtures/bend_post_clearance_math.scad
+  tests/bend_post_clearance_contract.scad
+  BATCH_016_DELTA.txt
+
+Changed files:
+  README.md
+  config/defaults.scad
+  config/fixtures.scad
+  docs/ARCHITECTURE.md
+  docs/DATA_MODEL.md
+  docs/FIXTURE_DESIGN_BOUNDARY.md
+  docs/OPEN_DECISIONS.md
+  docs/ROADMAP.md
+  docs/VALIDATION_CONTRACT.md
+  lib/fixture_accessors.scad
+  lib/fixture_indices.scad
+  lib/fixture_reporting.scad
+  lib/fixture_schema.scad
+  lib/fixture_validation.scad
+  main.scad
+  strap_bender.scad
+  tests/bend_post_fixture_contract.scad
+  tests/bend_post_fixture_workbench_contract.scad
+  tests/public_foundation_contract.scad
+  workbenches/bend-program.scad
+  workbenches/regular-polygon.scad
+  workbenches/vertex-polygon.scad
+  workbenches/wave-pattern.scad
+
+Deleted files:
+  None.
+
+Upload:
+  1. Confirm the repository is at commit 5aa69d8.
+  2. Upload every file in this archive as a complete file while preserving
+     repository-relative paths.
+  3. Create the two new .scad files exactly as named above.
+  4. Do not modify prior BATCH_*_DELTA files, LICENSE, or unrelated files.
+
+OpenSCAD verification:
+  1. Open tests/public_foundation_contract.scad and press F5.
+     Confirm final console line:
+       STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+  2. Open tests/bend_post_fixture_contract.scad and press F5.
+     Confirm a rectangular base with four posts renders and final line:
+       STRAP BENDER BEND-POST FIXTURE CONTRACT: PASS
+  3. Open tests/bend_post_clearance_contract.scad and press F5.
+     Confirm final console line:
+       STRAP BENDER BEND-POST CLEARANCE CONTRACT: PASS
+  4. Open tests/bend_post_fixture_workbench_contract.scad and press F5.
+     Confirm final console line:
+       STRAP BENDER BEND-POST FIXTURE WORKBENCH CONTRACT: PASS
+  5. Re-run tests/workbench_registry_contract.scad and press F5.
+     Confirm its final PASS message appears without warnings/errors.
+  6. Re-run tests/vertex_polygon_workbench_wrapper_contract.scad and press F5.
+     Confirm its final PASS message appears without warnings/errors.
+  7. Re-run tests/regular_polygon_workbench_wrapper_contract.scad and press F5.
+     Confirm its final PASS message appears without warnings/errors.
+  8. Re-run tests/wave_pattern_workbench_wrapper_contract.scad and press F5.
+     Confirm its final PASS message appears without warnings/errors.
+
+Manual workbench check:
+  - Open workbenches/regular-polygon.scad.
+  - Set Bend-post fixture > show_bend_post_fixture = true.
+  - Leave fixture_strap_clearance_mm = 0.25 and
+    fixture_minimum_post_gap_mm = 1.
+  - Press F5.
+  - The console must report zero post/post and zero post/nonlocal-path issues
+    before rendering the fixture.
+
+Static verification performed before delivery:
+  - commit 5aa69d8ff3112fed62a965607b4a9735386befe2 was reconciled as the
+    accepted Batch 015 base;
+  - modified/new .scad files pass balanced delimiter/string/comment checks;
+  - every delivered .scad file remains below the 500-line project limit;
+  - the Wave Pattern workbench retains show_diagnostic_preview = true;
+  - the physical calibration-trial registry is not modified;
+  - no empirical PET behavior is invented.
+
+OpenSCAD execution note:
+  OpenSCAD is not installed in the delivery environment. Direct-open F5 tests
+  above require execution on the user's OpenSCAD installation.
+
+After acceptance:
+  Continue Phase 5 with integral retention/follower geometry, then proceed to
+  Phase 6 long-form segmentation, component labels, and assembly datums without
+  waiting for coupon measurements.

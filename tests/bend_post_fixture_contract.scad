@@ -29,6 +29,8 @@ fixture = bend_post_fixture_spec(
     base_thickness_mm = 3,
     base_margin_mm = 8,
     post_height_mm = 18,
+    strap_clearance_mm = 0.25,
+    minimum_post_gap_mm = 1,
     max_base_width_mm = 220,
     max_base_depth_mm = 220,
     tool_surface_chord_error_mm = 0.02,
@@ -76,6 +78,20 @@ assert(len([
 assert(bend_post_fixture_plan_status(plan) ==
     "experimental_uncompensated",
     "Nominal fixture plan must be explicitly experimental.");
+clearance = analyze_bend_post_fixture_clearance(
+    plan, fixture, path, LABORATORY_STRAP_MATERIALS
+);
+assert(fixture_clearance_report_issue_count(clearance) == 0,
+    "Rounded-square fixture must pass clearance analysis.");
+assert(abs(
+        fixture_clearance_report_required_nonlocal_path_gap_mm(clearance) -
+        (0.508 + 0.25)
+    ) <= tolerance,
+    "Required nonlocal path gap must include strap thickness plus clearance.");
+validate_bend_post_fixture_clearance(
+    clearance, plan, fixture, path, LABORATORY_STRAP_MATERIALS
+);
+report_bend_post_fixture_clearance(clearance, "full");
 
 report_bend_post_fixture(fixture, "summary");
 report_bend_post_fixture_plan(plan, fixture, "full");

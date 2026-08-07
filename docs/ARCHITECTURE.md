@@ -126,12 +126,14 @@ one derived bend station per analytical arc
       ↓
 base bounds + print-envelope validation
       ↓
+post/post + post/nonlocal-path clearance analysis
+      ↓
 full-form base and cylindrical inside-form posts
 ```
 
 The target path remains authoritative. Each derived station preserves the source command index, label, global station interval, target arc center, signed bend angle, desired finished inside radius, and target tangent entry/exit points. Separate tool center and tool tangent datums are also stored; nominal mode makes them identical to the target values. The first radius policy is `nominal_target`, so the printed post radius equals the requested target radius and the plan is explicitly `experimental_uncompensated`. Later empirical compensation may change tool radius, tool center, and tool tangent datums without changing shape authoring or the authoritative analytical target path.
 
-The Batch 015 renderer produces one rectangular base and one full cylindrical post per bend. It is deliberately open-top and contains no clamp, outer follower, or strap-clearance channel. Long-path segmentation and component assembly remain separate planners rather than changes to the bend program.
+The Batch 015 renderer produces one rectangular base and one full cylindrical post per bend. Batch 016 inserts exact fixture-clearance analysis before that renderer. It checks tool-circle separation and the distance from each tool circle to unrelated analytical primitives using the nominal strap thickness plus an explicit clearance allowance. It remains open-top and contains no clamp or outer follower. Long-path segmentation and component assembly remain separate planners rather than changes to the bend program.
 
 ## Target and fixture boundary
 

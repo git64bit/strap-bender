@@ -46,7 +46,9 @@ The first production-shape software family uses a rectangular base and one full 
 
 In `nominal_target` mode each tool radius equals the requested finished inside radius. This is an intentionally uncompensated construction used to complete fixture software before empirical PET correction exists. The base covers the analytical path and complete post circles plus margin, and validation rejects a base larger than the configured printer envelope. Posts are open at the top so the strap can be lifted vertically; no integral retention is claimed.
 
-This family is suitable for small shapes that fit one print envelope. It is not the long-form solution and does not yet detect post/post or post/nonlocal-path interference.
+This family is suitable for small shapes that fit one print envelope. It is not the long-form solution.
+
+Batch 016 adds a pre-render clearance analysis. Every post pair is checked by exact circle-to-circle gap. Every post is also checked against every nonlocal analytical line or arc using exact point-to-segment or point-to-arc distance. The station's own source arc and its immediate tangent neighbors are excluded because contact there is intentional. The required nonlocal path gap is nominal strap thickness plus the fixture's explicit clearance allowance. A separate minimum post-to-post material gap is also configurable. Any violation rejects the full-form fixture before geometry dispatch. This is a conservative collision screen; it does not yet define integral retention geometry.
 
 ## Other candidate fixture families
 

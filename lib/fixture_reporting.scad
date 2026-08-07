@@ -2,7 +2,7 @@
 // LibFile: fixture_reporting.scad
 // Project: Strap Bender
 // FileGroup: Fixture Reporting
-// FileSummary: Reports bend-post fixture planning, datums, and limitations.
+// FileSummary: Reports bend-post fixture planning, clearance, and limitations.
 //////////////////////////////////////////////////////////////////////
 
 module report_bend_post_fixture(fixture, level = "summary") {
@@ -15,6 +15,9 @@ module report_bend_post_fixture(fixture, level = "summary") {
         bend_post_fixture_base_margin_mm(fixture), " mm"));
     echo(str("Post height: ",
         bend_post_fixture_post_height_mm(fixture), " mm"));
+    echo(str("Strap clearance / minimum post gap: ",
+        bend_post_fixture_strap_clearance_mm(fixture), " / ",
+        bend_post_fixture_minimum_post_gap_mm(fixture), " mm"));
     echo(str("Print envelope: ",
         bend_post_fixture_max_base_width_mm(fixture), " x ",
         bend_post_fixture_max_base_depth_mm(fixture), " mm"));
@@ -81,3 +84,43 @@ module report_bend_post_fixture_plan(plan, fixture, level = "summary") {
         "vertically from the posts."
     ));
 }
+
+module report_bend_post_fixture_clearance(report, level = "summary") {
+    pair_issues = fixture_clearance_report_post_pair_issues(report);
+    path_issues = fixture_clearance_report_post_path_issues(report);
+    echo("--- Strap Bender bend-post fixture clearance ---");
+    echo(str("Nominal strap thickness: ",
+        fixture_clearance_report_nominal_strap_thickness_mm(report), " mm"));
+    echo(str("Required nonlocal post/path gap: ",
+        fixture_clearance_report_required_nonlocal_path_gap_mm(report), " mm"));
+    echo(str("Required post/post gap: ",
+        fixture_clearance_report_required_post_gap_mm(report), " mm"));
+    echo(str("Minimum measured post/post gap: ",
+        fixture_clearance_report_minimum_post_pair_gap_mm(report)));
+    echo(str("Minimum measured post/nonlocal-path gap: ",
+        fixture_clearance_report_minimum_post_path_gap_mm(report)));
+    echo(str("Post/post issues: ", len(pair_issues)));
+    echo(str("Post/nonlocal-path issues: ", len(path_issues)));
+    if (level == "full") {
+        for (issue = pair_issues)
+            echo(str(
+                "CLEARANCE ISSUE post/post commands ",
+                fixture_clearance_issue_primary_source_index(issue), " / ",
+                fixture_clearance_issue_secondary_source_index(issue),
+                ": measured ", fixture_clearance_issue_measured_gap_mm(issue),
+                " mm; required ", fixture_clearance_issue_required_gap_mm(issue),
+                " mm"
+            ));
+        for (issue = path_issues)
+            echo(str(
+                "CLEARANCE ISSUE post/path commands ",
+                fixture_clearance_issue_primary_source_index(issue), " / ",
+                fixture_clearance_issue_secondary_source_index(issue),
+                ": measured ", fixture_clearance_issue_measured_gap_mm(issue),
+                " mm; required ", fixture_clearance_issue_required_gap_mm(issue),
+                " mm"
+            ));
+        echo(str("Notes: ", fixture_clearance_report_notes(report)));
+    }
+}
+
