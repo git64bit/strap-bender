@@ -26,6 +26,11 @@ Open each `.scad` file in this directory directly and press F5. A successful tes
 - `analytical_path_diagnostics_contract.scad` verifies exact line/line crossing and near distance, line/arc tangency and near distance, arc/arc crossing, nonadjacent-pair selection, provenance, report validation, and intersection classification.
 - The four shape workbench routes enable normalized path diagnostics by default with a configurable near threshold. Adjacent analytical continuity neighbors are excluded.
 
+## Batch 021 nominal strap cut-plan contract
+
+- `strap_cut_plan_contract.scad` verifies nominal mid-thickness development using the ULINE S-1655 vendor nominal thickness, explicit custom-fraction development, open-path start/end allowances, closed-path overlap/joining allowances, and closure-unassigned status.
+- All four shape workbenches enable the nominal cut report by default. Every reported cut length is explicitly nominal and uncalibrated; no contract treats the 0.5 default as measured PET behavior.
+
 ## Sampled diagnostic path
 
 - `sampled_path_contract.scad` verifies chord-error control, exact endpoint retention, nonduplicated primitive boundaries, and sampling invariance of analytical length.

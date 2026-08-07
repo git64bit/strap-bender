@@ -113,6 +113,26 @@ The compact block and instance remain authoritative. Expanded commands and resol
 
 Line and circular-arc primitives are authoritative. Batch 003 implements this boundary for explicit bend programs using the desired finished inside edge as the named analytical reference axis. Batch 004 adds a sampled-path consumer controlled by maximum chord error and maximum angular step, plus a thin diagnostic renderer. Batch 020 performs self-intersection and near-pass analysis directly on the exact primitives rather than on sampled display chords. The sampled record is derived display data. Preview resolution may change point count and chordal display length, but it must not alter analytical validation, measurements, exact bounds, stations, or fixture datum positions.
 
+## Nominal developed/cut-length route
+
+Batch 021 adds a measurement/planning consumer beside preview and fixture planning:
+
+```text
+analytical path + strap material
+      ↓
+transient cutting-policy record
+      ↓
+straight length + nominal development-axis arc length
+      ↓
+explicit end / overlap / joining allowances
+      ↓
+nominal cut plan + status
+```
+
+The default development mode uses a geometric mid-thickness axis, explicitly one-half of vendor nominal thickness outward from the finished inside edge. `custom_fraction` exposes the same fraction as authoring input without claiming it is calibrated. The analytical target path remains unchanged.
+
+Open paths require closure mode `none`. Closed paths may remain `none` (physical seam unassigned) or explicitly select `butt` or `overlap`. Overlap and joining allowances are never inferred. This route is active for all four shape workbenches independently of fixture rendering.
+
 ## Bend-post fixture route
 
 Batch 015 adds the first production-shape fixture planner as a consumer of the exact analytical path:

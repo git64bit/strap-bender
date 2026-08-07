@@ -11,6 +11,7 @@ STRAP_MATERIALS =
     wb_workbench_name == "radius_observation" ||
     wb_workbench_name == "calibration_evidence" ||
     wb_workbench_name == "development" ||
+    wb_cut_plan_enabled ||
     wb_render_mode == "bend_post_fixture"
         ? LABORATORY_STRAP_MATERIALS
         : [];

@@ -77,6 +77,8 @@ arc length = neutral-axis radius × absolute bend angle in radians
 
 Until a neutral-axis calibration exists, reports must label the result as a nominal estimate rather than an exact cut length.
 
+Batch 021 implements two nominal development modes. `nominal_mid_thickness` uses a development radius of `inside radius + 0.5 × vendor nominal thickness`. `custom_fraction` uses `inside radius + fraction × vendor nominal thickness`, where the explicit fraction is constrained from 0 through 1. Neither mode claims the selected fraction is the physical PET neutral axis.
+
 ## Cutting length
 
 Cut length is derived from developed length plus separately named allowances, such as:
@@ -88,6 +90,8 @@ Cut length is derived from developed length plus separately named allowances, su
 - calibration correction.
 
 No allowance receives an undocumented default.
+
+Batch 021 exposes start allowance, end allowance, closure overlap, and joining allowance separately and defaults each to zero. Open paths require closure mode `none`. Closed paths may choose `none`, `butt`, or `overlap`; `none` means the geometry is closed but the physical seam process remains unassigned. Only `overlap` contributes the explicit overlap value.
 
 ## Tangency and continuity
 

@@ -146,6 +146,26 @@ wb_radius_observation_measurement_uncertainty_mm =
 wb_radius_observation_notes = is_undef(observation_notes)
     ? "" : observation_notes;
 
+wb_cut_plan_enabled = is_undef(cut_plan_enabled)
+    ? (wb_workbench_name == "bend_program" ||
+        wb_workbench_name == "vertex_polygon" ||
+        wb_workbench_name == "regular_polygon" ||
+        wb_workbench_name == "wave_pattern")
+    : cut_plan_enabled;
+wb_cut_development_mode = is_undef(cut_development_mode)
+    ? "nominal_mid_thickness" : cut_development_mode;
+wb_cut_neutral_axis_fraction = is_undef(cut_neutral_axis_fraction)
+    ? 0.5 : cut_neutral_axis_fraction;
+wb_cut_start_allowance_mm = is_undef(cut_start_allowance_mm)
+    ? 0 : cut_start_allowance_mm;
+wb_cut_end_allowance_mm = is_undef(cut_end_allowance_mm)
+    ? 0 : cut_end_allowance_mm;
+wb_cut_closure_mode = is_undef(cut_closure_mode)
+    ? "none" : cut_closure_mode;
+wb_cut_closure_overlap_mm = is_undef(cut_closure_overlap_mm)
+    ? 0 : cut_closure_overlap_mm;
+wb_cut_joining_allowance_mm = is_undef(cut_joining_allowance_mm)
+    ? 0 : cut_joining_allowance_mm;
 wb_path_diagnostics_enabled = is_undef(path_diagnostics_enabled)
     ? true : path_diagnostics_enabled;
 wb_path_near_threshold_mm = is_undef(path_near_threshold_mm)

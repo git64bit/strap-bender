@@ -19,6 +19,7 @@
 - Batch 018 resolves the first long-form software strategy: deterministic sequential components split only inside analytical straight regions, with exact global station/XY/heading setup datums and local print origins.
 - Batch 019 resolves the first physical sequential alignment aid: matching keyed pin-pair holes derived from each exact interior split datum, plus a recessed zero-padded component index mark.
 - Batch 020 resolves normalized path detection: nonadjacent exact analytical line/arc primitives are checked for intersections and configurable near passes with source-command provenance. Detection remains diagnostic rather than an automatic shape rejection.
+- Batch 021 resolves the application-level cutting-policy software boundary: nominal mid-thickness or explicit custom-fraction development is separated from user-entered start/end, overlap, and joining allowances. Closed geometry may intentionally remain `closure_unassigned`; no physical seam method is invented.
 
 ## Physical inputs still required
 
@@ -32,11 +33,11 @@ Batch 010 can record the method, stated uncertainty, and post-release rest inter
 
 ### Neutral-axis model
 
-Determine whether nominal centerline length is sufficient or whether a calibrated neutral-axis factor is required for accurate cutting length.
+Batch 021 supplies a nominal software model using either explicit mid-thickness (0.5) or a user-entered custom fraction of nominal thickness. Physical testing must still determine whether that approximation is adequate or whether a calibrated neutral-axis factor/correction is required for production accuracy.
 
 ### End and closure policy
 
-Decide how open-path tails are handled and how closed paths are joined. Required overlap, trimming, welding, fastening, or interlocking allowance must remain separate from geometric path length.
+Batch 021 keeps start allowance, end allowance, closure overlap, and joining allowance as separate explicit inputs. The remaining physical decision is how actual open-path tails and closed seams are trimmed, welded, fastened, overlapped, or interlocked and which numeric allowances those processes require. A closed path may remain explicitly unassigned until that decision is made.
 
 ## Fixture decisions still required
 

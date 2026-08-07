@@ -80,7 +80,8 @@ Implementation status:
 - Batch 011 adds the first printable calibration tooling: open inside-form coupons with explicit designed tool radius, signed bend angle, tangent legs, material-linked form height, base geometry, and bounded chordal tool-surface tessellation. R1.6 and R5 reference coupons remain experimental Laboratory geometry.
 - Batch 012 adds a guarded Radius Observation workbench and a calibration-trial provenance wrapper. A ready trial derives material, signed bend angle, and designed tool radius from one exact named coupon, embeds the user-entered physical observation, and validates that the observation remains consistent with the source tool. No physical observation is registered by the batch.
 - Batch 013 adds the persistent Laboratory calibration-trial registry, unique-name/full-provenance registry validation, and a report-only Calibration Evidence audit workbench. The initial registry is deliberately empty; transient or synthetic values are never promoted automatically.
-- Real measurement population, target-to-tool mapping, neutral-axis evaluation, and cut-length correction remain later bounded work. They are calibration refinements, not blockers for the remaining application architecture and fixture software.
+- Batch 021 adds the application-level nominal developed/cut-length route. It supports explicit mid-thickness or custom-fraction development assumptions plus separately named end, overlap, and joining allowances. Results remain `nominal_uncalibrated`; a closed path with no selected seam policy is marked `nominal_uncalibrated_closure_unassigned`.
+- Real measurement population, target-to-tool mapping, calibrated neutral-axis evaluation, and empirical cut-length correction remain later bounded refinements. They do not block the remaining application architecture.
 
 ## Phase 5 — first fixture family
 

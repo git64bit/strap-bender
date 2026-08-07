@@ -11,6 +11,15 @@ program_name_selected = "OPEN_MIXED_RADIUS_EXAMPLE"; // [OPEN_MIXED_RADIUS_EXAMP
 /* [Analytical path diagnostics] */
 path_diagnostics_enabled = true;
 path_near_threshold_mm = 1; // [0:0.1:20]
+/* [Nominal strap cut plan] */
+cut_plan_enabled = true;
+cut_development_mode = "nominal_mid_thickness"; // [nominal_mid_thickness,custom_fraction]
+cut_neutral_axis_fraction = 0.5; // [0:0.05:1]
+cut_start_allowance_mm = 0; // [0:1:500]
+cut_end_allowance_mm = 0; // [0:1:500]
+cut_closure_mode = "none"; // [none,butt,overlap]
+cut_closure_overlap_mm = 0; // [0:1:500]
+cut_joining_allowance_mm = 0; // [0:1:500]
 /* [Diagnostic preview] */
 show_diagnostic_preview = true;
 sample_chord_error_mm = 0.05; // [0.001:0.001:1]

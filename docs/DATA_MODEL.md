@@ -122,6 +122,14 @@ A generated, non-authoritative container for a display polyline. Batch 004 recor
 
 Batch 020 adds derived, non-authoritative diagnostics for the normalized analytical path. A pair record stores the two primitive indexes, both source-command indexes and labels, primitive kinds, exact minimum distance, and classification as `intersection` or `near`. The path-level report stores the source path name, configured near threshold, number of nonlocal pairs checked, number surviving the bounds prefilter, the interaction records, and explanatory notes. Adjacent continuity neighbors are excluded, including the first/last primitive pair of a closed path. The report never becomes target-shape authority and does not depend on sampled display geometry.
 
+### Strap cut source and derived plan
+
+Batch 021 adds a source cutting-policy record and a separate derived cut plan. The source record stores stable name, exact strap-material identity, development mode, explicit neutral-axis fraction, start/end allowances, closure mode, closure-overlap allowance, joining allowance, and notes. Supported development modes are `nominal_mid_thickness` and `custom_fraction`; supported closure modes are `none`, `butt`, and `overlap`.
+
+The derived plan stores path/material identity, vendor nominal thickness, resolved development fraction, exact finished-inside-edge reference length, straight/inside-arc decomposition, nominal developed arc length, nominal total developed length, explicit allowance total, nominal cut length, status, and notes. It is reproducible from the analytical path, source cutting policy, and strap-material record. It never becomes target-shape authority and it does not claim a calibrated PET neutral axis.
+
+A closed path using closure mode `none` is retained as valid software geometry but receives status `nominal_uncalibrated_closure_unassigned`. An overlap allowance contributes only when `closure_mode = overlap`; no hidden joining or trimming defaults are introduced.
+
 ### Forming calibration
 
 Relates target geometry to fixture geometry for one physical strap and forming process. Expected fields include:

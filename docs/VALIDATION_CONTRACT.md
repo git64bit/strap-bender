@@ -189,6 +189,14 @@ The analytical path should report:
 
 Batch 020 requires every nonadjacent primitive pair to be considered. Analytical bounds may safely reject a pair only when their exact bounds separation already exceeds the configured near threshold. Remaining candidates use exact finite line/line, line/arc, or arc/arc distance. Sequential primitive neighbors are intentional continuity contacts and are excluded; for closed paths the first and last primitives are also neighbors. Intersections and near passes are diagnostic records rather than assertion failures while crossing policy remains unresolved.
 
+## Batch 021 nominal strap cut-plan validation
+
+The cutting-policy source must have a non-empty name, resolve exactly one strap material, use development mode `nominal_mid_thickness` or `custom_fraction`, and carry a finite neutral-axis fraction from 0 through 1. Mid-thickness mode explicitly resolves to 0.5 rather than silently accepting another value.
+
+Start/end, overlap, and joining allowances must be finite and nonnegative. Open analytical paths require closure mode `none` with zero overlap and joining allowance. Closed paths may use `none`, `butt`, or `overlap`; overlap mode requires a positive explicit overlap value, while non-overlap modes require overlap to remain zero. A closed `none` policy must not contain a joining allowance because the physical seam is intentionally unassigned.
+
+The derived plan must reproduce the analytical path's exact inside-reference length, decompose that length into straight plus inside-arc length, calculate every nominal developed arc from the selected thickness fraction, and satisfy `cut length = nominal developed length + explicit allowance total`. Status must remain nominal/uncalibrated, with an additional closure-unassigned status for closed paths using no seam policy. These validations prove deterministic software arithmetic only and do not validate a physical PET neutral-axis location.
+
 ## Fixture validation
 
 Batch 015 requires the bend-post fixture source and derived plan to check:

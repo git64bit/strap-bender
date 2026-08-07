@@ -45,6 +45,8 @@ assert(STRAP_BENDER_FIXTURE_SEGMENTATION_CONTRACT_VERSION == 1,
     "Unexpected fixture-segmentation contract version.");
 assert(STRAP_BENDER_FIXTURE_SETUP_AID_CONTRACT_VERSION == 1,
     "Unexpected fixture setup-aid contract version.");
+assert(STRAP_BENDER_STRAP_CUT_PLAN_CONTRACT_VERSION == 1,
+    "Unexpected strap cut-plan contract version.");
 
 material = strap_material_spec(
     "TEST_STRAP",
@@ -191,6 +193,22 @@ shape = bend_program_shape_spec(
     "open",
     pose
 );
+foundation_path = compile_bend_program(shape);
+cut_source = strap_cut_spec(
+    "TEST_STRAP_CUT",
+    "TEST_STRAP",
+    "nominal_mid_thickness",
+    0.5,
+    2,
+    3,
+    "none",
+    0,
+    0,
+    "Synthetic public-foundation cutting policy."
+);
+validate_strap_cut_spec(cut_source, foundation_path, [material]);
+cut_plan = plan_strap_cut(foundation_path, cut_source, [material]);
+validate_strap_cut_plan(cut_plan, cut_source, foundation_path, [material]);
 path_pair_diagnostic = path_pair_diagnostic_spec(
     0, 2, 0, 2, "A", "B", "line", "arc", 0.5, "near"
 );
@@ -305,6 +323,12 @@ assert(command_angle_degrees(bend) == -90 &&
 assert(shape_name(shape) == "TEST_SHAPE" &&
     len(shape_commands(shape)) == 2,
     "Shape accessor contract failed.");
+assert(strap_cut_name(cut_source) == "TEST_STRAP_CUT" &&
+    strap_cut_development_mode(cut_source) == "nominal_mid_thickness" &&
+    strap_cut_plan_source_name(cut_plan) == "TEST_STRAP_CUT" &&
+    strap_cut_plan_cut_length_mm(cut_plan) >
+        strap_cut_plan_nominal_developed_length_mm(cut_plan),
+    "Strap cut-plan constructor, accessor, or planning contract failed.");
 assert(path_pair_first_primitive_index(path_pair_diagnostic) == 0 &&
     path_pair_second_primitive_index(path_pair_diagnostic) == 2 &&
     path_pair_minimum_distance_mm(path_pair_diagnostic) == 0.5 &&

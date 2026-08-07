@@ -26,6 +26,7 @@ include <config/materials.scad>
 include <config/calibration_coupons.scad>
 include <config/calibration_trials.scad>
 include <config/calibration_evidence.scad>
+include <config/cut_planning.scad>
 include <config/fixtures.scad>
 include <config/fixture_setup.scad>
 include <config/workbenches.scad>
@@ -120,6 +121,18 @@ module run_normalized_shape_pipeline(shape) {
     validate_analytical_path(analytical_path);
     report_analytical_path(analytical_path, wb_report_level);
     echo("STRAP BENDER ANALYTICAL PATH VALIDATION: PASS");
+    if (wb_cut_plan_enabled) {
+        cut_spec = WORKBENCH_STRAP_CUT_SPEC;
+        validate_strap_cut_spec(cut_spec, analytical_path, STRAP_MATERIALS);
+        cut_plan = plan_strap_cut(analytical_path, cut_spec, STRAP_MATERIALS);
+        validate_strap_cut_plan(
+            cut_plan, cut_spec, analytical_path, STRAP_MATERIALS
+        );
+        report_strap_cut_plan(
+            cut_plan, cut_spec, analytical_path, wb_report_level
+        );
+        echo("STRAP BENDER NOMINAL STRAP CUT PLAN VALIDATION: PASS");
+    }
     if (wb_path_diagnostics_enabled) {
         assert(sb_finite_number(wb_path_near_threshold_mm) &&
             wb_path_near_threshold_mm >= 0,

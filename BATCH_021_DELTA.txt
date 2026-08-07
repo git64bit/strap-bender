@@ -1,0 +1,227 @@
+STRAP BENDER — BATCH 021 DELTA
+
+Base repository:
+ https://github.com/git64bit/strap-bender
+
+Required base commit:
+ 8d72e69
+ 8d72e6995eac9137d049c0ddf503883491e75ab9
+
+Scope:
+ Application-completion continuation: nominal developed strap length, explicit
+ cutting allowances, and open/closed end-policy handling.
+
+Development priority:
+ Application completion remains primary. Pending coupon measurements,
+ springback fitting, neutral-axis calibration, and empirical PET cut correction
+ do not block this batch or subsequent application work.
+
+Batch 021 implements:
+ - strap cut-plan contract version 1;
+ - a source cutting-policy record separated from the derived cutting plan;
+ - exact strap-material lookup for nominal thickness provenance;
+ - nominal_mid_thickness development mode using exactly 0.5 of vendor nominal
+   thickness outward from the finished inside edge;
+ - custom_fraction development mode with an explicit fraction from 0 through 1;
+ - exact decomposition of the analytical path into straight and inside-edge arc
+   lengths;
+ - nominal developed arc length from each exact circular analytical primitive;
+ - nominal developed strap length independent of display sampling;
+ - independent explicit start and end allowances;
+ - explicit closure modes none, butt, and overlap;
+ - explicit overlap and joining allowances with zero defaults;
+ - open-path validation requiring no closure overlap or joining allowance;
+ - closed overlap validation requiring a positive explicit overlap;
+ - an explicit closure-unassigned status for closed geometry with no selected
+   physical seam policy;
+ - nominal cut length = nominal developed length + explicit allowances;
+ - millimetre and foot reporting for developed and cut lengths;
+ - full bend-by-bend development-radius/arc reporting;
+ - nominal cut-plan controls in Bend Program, Vertex Polygon, Regular Polygon,
+   and Wave Pattern workbenches;
+ - material routing for cut planning independent of fixture rendering;
+ - a direct-open contract covering open and closed cutting policies;
+ - public-foundation version, constructor, accessor, planning, and validation
+   coverage.
+
+Important Batch 021 boundary:
+ The default 0.5 thickness fraction is a geometric nominal assumption only. It
+ is NOT a measured PET neutral-axis location. The custom fraction is an explicit
+ user assumption, not a fitted material parameter. Every generated cut plan is
+ therefore marked nominal_uncalibrated or
+ nominal_uncalibrated_closure_unassigned.
+
+No hidden cutting allowance exists. Start allowance, end allowance, overlap,
+ and joining allowance each default to zero and are reported independently.
+
+This batch deliberately does NOT add:
+ - empirical target-to-tool radius compensation;
+ - calibrated neutral-axis or K-factor fitting;
+ - empirical cut-length correction;
+ - a prescribed welding, fastening, interlocking, or trimming process;
+ - automatic overlap or joining values;
+ - strap-solid rendering;
+ - manufacturing/export manifests;
+ - Catalog promotion.
+
+New files:
+ config/cut_planning.scad
+ lib/cut_plan_indices.scad
+ lib/cut_plan_schema.scad
+ lib/cut_plan_accessors.scad
+ lib/cut_plan_validation.scad
+ lib/cut_plan_reporting.scad
+ paths/strap_cut_math.scad
+ tests/strap_cut_plan_contract.scad
+ BATCH_021_DELTA.txt
+
+Changed files:
+ README.md
+ config/defaults.scad
+ config/materials.scad
+ docs/ARCHITECTURE.md
+ docs/DATA_MODEL.md
+ docs/GEOMETRY_CONVENTIONS.md
+ docs/OPEN_DECISIONS.md
+ docs/ROADMAP.md
+ docs/VALIDATION_CONTRACT.md
+ main.scad
+ strap_bender.scad
+ tests/README.md
+ tests/public_foundation_contract.scad
+ workbenches/bend-program.scad
+ workbenches/vertex-polygon.scad
+ workbenches/regular-polygon.scad
+ workbenches/wave-pattern.scad
+
+Application / verification procedure:
+
+1. Confirm the repository is clean and at accepted Batch 020:
+
+ cd /root/strap-bender
+ git status --short
+ git rev-parse HEAD
+
+Expected HEAD:
+ 8d72e6995eac9137d049c0ddf503883491e75ab9
+
+2. Upload strap-bender-batch-021.zip to the orchestrator.
+
+3. Overlay the complete delta while preserving repository-relative paths.
+Example if the ZIP is in /root:
+
+ cd /root/strap-bender
+ unzip -o /root/strap-bender-batch-021.zip -d /root/strap-bender
+
+4. Confirm the expected delta only:
+
+ git status --short
+
+Required OpenSCAD F5 verification:
+
+1. tests/public_foundation_contract.scad
+   Expected final line:
+   STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+
+2. tests/strap_cut_plan_contract.scad
+   Expected final line:
+   STRAP BENDER STRAP CUT PLAN CONTRACT: PASS
+   Confirm the open synthetic plan reports 12 mm total explicit allowances and
+   the closed synthetic overlap plan reports 21 mm.
+
+3. tests/analytical_path_contract.scad
+   Expected final line:
+   STRAP BENDER ANALYTICAL PATH CONTRACT: PASS
+   This proves the exact path kernel remains unchanged.
+
+4. tests/closed_path_contract.scad
+   Expected final line:
+   STRAP BENDER CLOSED-PATH CONTRACT: PASS
+
+5. tests/analytical_path_diagnostics_contract.scad
+   Expected final line:
+   STRAP BENDER ANALYTICAL PATH DIAGNOSTICS CONTRACT: PASS
+
+6. tests/bend_post_fixture_contract.scad
+   Expected final line:
+   STRAP BENDER BEND-POST FIXTURE CONTRACT: PASS
+
+7. tests/fixture_setup_aid_contract.scad
+   Expected final line:
+   STRAP BENDER FIXTURE SETUP-AID CONTRACT: PASS
+
+8. tests/long_wave_contract.scad
+   Expected final line:
+   STRAP BENDER LONG-WAVE CONTRACT: PASS
+
+9. tests/workbench_wrapper_contract.scad
+   Expected final line:
+   STRAP BENDER WORKBENCH WRAPPER CONTRACT: PASS
+   Confirm the default Bend Program route reports a nominal cut plan before its
+   diagnostic preview.
+
+10. tests/vertex_polygon_workbench_wrapper_contract.scad
+    Expected final line:
+    STRAP BENDER VERTEX-POLYGON WORKBENCH WRAPPER CONTRACT: PASS
+    Its default closed geometry should report closure-unassigned rather than
+    fail validation.
+
+11. tests/regular_polygon_workbench_wrapper_contract.scad
+    Expected final line:
+    STRAP BENDER REGULAR-POLYGON WORKBENCH WRAPPER CONTRACT: PASS
+
+12. tests/wave_pattern_workbench_wrapper_contract.scad
+    Expected final line:
+    STRAP BENDER WAVE-PATTERN WORKBENCH WRAPPER CONTRACT: PASS
+    Confirm Wave Pattern still renders its diagnostic preview by default.
+
+Manual nominal cut-plan verification:
+
+A. Open workbenches/bend-program.scad and press F5 with defaults.
+B. Confirm the console contains:
+   --- Strap Bender nominal strap cut plan ---
+   STRAP BENDER NOMINAL STRAP CUT PLAN VALIDATION: PASS
+   Status: nominal_uncalibrated
+C. Confirm the open-path start/end allowances are zero by default and no closure
+   allowance is inferred.
+
+D. Open workbenches/vertex-polygon.scad and press F5 with defaults.
+E. Confirm the closed rounded-square path succeeds and reports:
+   Status: nominal_uncalibrated_closure_unassigned
+   Closure warning: closed path has no selected physical seam policy.
+F. Set cut_closure_mode = "overlap" and cut_closure_overlap_mm = 20, leaving all
+   other allowances zero. Press F5 again.
+G. Confirm NOMINAL CUT LENGTH is exactly 20 mm greater than Nominal developed
+   strap length and status becomes nominal_uncalibrated.
+H. Restore closure mode to none and overlap to zero.
+
+Manual fixture regression:
+
+A. In workbenches/vertex-polygon.scad set Show bend post fixture = true.
+B. Press F5.
+C. Confirm the nominal cut plan reports first, followed by existing fixture
+   source/plan/clearance validation, and the fixture renders with no warnings or
+   errors.
+D. Restore Show bend post fixture = false.
+
+Static verification performed before delivery:
+ - Batch 021 was overlaid onto the reconstructed accepted Batch 020 tree;
+ - all repository .scad files pass delimiter/comment/string balance checks;
+ - all include/use targets resolve in the overlaid repository;
+ - function/module declarations are unique repository-wide;
+ - all project-prefixed/custom call sites resolve to declarations;
+ - every .scad file remains below the 500-line project limit;
+ - Wave Pattern retains show_diagnostic_preview = true;
+ - all four shape workbenches enable cut_plan_enabled = true by default;
+ - no calibration registry or physical PET evidence file is changed;
+ - no empirical PET behavior or hidden manufacturing allowance is invented.
+
+OpenSCAD execution note:
+ OpenSCAD is not installed in the delivery environment. The F5 tests above
+ require execution on the user's OpenSCAD installation.
+
+After acceptance:
+ Continue application completion with manufacturing/export manifests and
+ Catalog-ready object packaging. Strap-solid visualization remains an
+ independent display capability; empirical coupon-derived compensation and
+ calibrated neutral-axis refinement remain later revision work.
