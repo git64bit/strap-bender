@@ -81,6 +81,34 @@ wb_wave_radius_interval = is_undef(wave_radius_interval)
 wb_wave_radius_first_position = is_undef(wave_radius_first_position)
     ? 3 : wave_radius_first_position;
 
+
+wb_radius_coupon_name = is_undef(radius_coupon_name_selected)
+    ? "CUSTOM_RADIUS_CALIBRATION_COUPON" : radius_coupon_name_selected;
+wb_radius_coupon_strap_material_name = is_undef(strap_material_name_selected)
+    ? "ULINE_S_1655_BLACK" : strap_material_name_selected;
+wb_radius_coupon_tool_inside_radius_mm = is_undef(tool_inside_radius_mm)
+    ? 1.6 : tool_inside_radius_mm;
+wb_radius_coupon_bend_angle_degrees = is_undef(bend_angle_degrees)
+    ? 90 : bend_angle_degrees;
+wb_radius_coupon_entry_tangent_mm = is_undef(entry_tangent_mm)
+    ? 30 : entry_tangent_mm;
+wb_radius_coupon_exit_tangent_mm = is_undef(exit_tangent_mm)
+    ? 30 : exit_tangent_mm;
+wb_radius_coupon_form_depth_mm = is_undef(form_depth_mm)
+    ? 8 : form_depth_mm;
+wb_radius_coupon_form_height_mm = is_undef(form_height_mm)
+    ? 18 : form_height_mm;
+wb_radius_coupon_base_thickness_mm = is_undef(base_thickness_mm)
+    ? 3 : base_thickness_mm;
+wb_radius_coupon_base_margin_mm = is_undef(base_margin_mm)
+    ? 5 : base_margin_mm;
+wb_radius_coupon_tool_surface_chord_error_mm =
+    is_undef(tool_surface_chord_error_mm)
+        ? 0.02 : tool_surface_chord_error_mm;
+wb_radius_coupon_tool_surface_max_angle_step_degrees =
+    is_undef(tool_surface_max_angle_step_degrees)
+        ? 5 : tool_surface_max_angle_step_degrees;
+
 wb_sample_chord_error_mm = is_undef(sample_chord_error_mm)
     ? SB_DEFAULT_SAMPLE_CHORD_ERROR_MM : sample_chord_error_mm;
 wb_sample_max_angle_step_degrees =

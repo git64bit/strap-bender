@@ -8,6 +8,7 @@
 
 STRAP_MATERIALS =
     wb_workbench_name == "strap_profile" ||
+    wb_workbench_name == "radius_calibration" ||
     wb_workbench_name == "development"
         ? LABORATORY_STRAP_MATERIALS
         : [];

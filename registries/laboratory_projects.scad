@@ -56,5 +56,16 @@ LABORATORY_PROJECTS = [
             "parameters, expands the named topology, and enters the shared ",
             "bend-program and analytical-path pipeline."
         )
+    ),
+    project_spec(
+        name = "RADIUS_CALIBRATION_LAB",
+        kind = "radius_calibration",
+        status = "laboratory",
+        notes = str(
+            "Mutable experimental calibration-tool laboratory. It renders ",
+            "one open inside-form coupon with a known designed tool radius ",
+            "and bend angle so physical observations can be collected ",
+            "without asserting a springback compensation law."
+        )
     )
 ];

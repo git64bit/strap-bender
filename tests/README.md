@@ -11,6 +11,7 @@ Open each `.scad` file in this directory directly and press F5. A successful tes
 - `workbench_wrapper_contract.scad`
 - `strap_material_records_contract.scad`
 - `strap_profile_workbench_wrapper_contract.scad`
+- `radius_calibration_workbench_wrapper_contract.scad`
 
 ## Analytical path kernel
 
@@ -72,3 +73,11 @@ The product record contains vendor nominal data. It does not claim measured dime
 - `radius_observation_contract.scad` verifies specimen measurements, forming-condition fields, material provenance, exact-name lookup, springback delta, and finished/tool radius ratios.
 
 All values in the Batch 010 contract are explicitly synthetic test data. The repository still contains no claimed physical springback measurements and no fitted compensation curve.
+
+
+## Batch 011 radius-calibration coupon contracts
+
+- `radius_calibration_coupon_contract.scad` verifies material-linked coupon records, R1.6/R5 exact-name lookup, analytical entry/exit tangent datums, negative-angle mirroring, bounded circular-surface tessellation, and renders the printable reference coupon.
+- `radius_calibration_workbench_wrapper_contract.scad` executes the exact default Radius Calibration Customizer route through `main.scad`.
+
+The designed tool radius is not a predicted relaxed PET radius. Coupon geometry exists to collect physical evidence for a later compensation model.

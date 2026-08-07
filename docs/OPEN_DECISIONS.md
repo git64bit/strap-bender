@@ -33,7 +33,9 @@ Decide how open-path tails are handled and how closed paths are joined. Required
 
 ## Fixture decisions still required
 
-- first fixture family to prototype;
+Batch 011 resolves only the small calibration-tool topology: an open inside-form coupon without integrated retention. It does not select a production-shape fixture family.
+
+- first production fixture family to prototype;
 - strap insertion and retention method;
 - minimum practical printed tool radius;
 - fixture height relative to strap width;
@@ -63,4 +65,4 @@ The physical product identity is now fixed as ULINE S-1655 black, smooth, 5/8 in
 
 ## Calibration evidence boundary
 
-Batch 010 defines how a real radius observation will be preserved but intentionally registers no physical observation. Test records use future-dated synthetic values and explicit TEST DATA notes so they cannot be mistaken for empirical PET behavior. A target-to-tool mapping must not be introduced until real observations exist for a defined forming process and measurement method.
+Batch 010 defines how a real radius observation will be preserved but intentionally registers no physical observation. Batch 011 supplies experimental printable tool geometry for producing those observations. Test records use future-dated synthetic values and explicit TEST DATA notes so they cannot be mistaken for empirical PET behavior. A target-to-tool mapping must not be introduced until real observations exist for a defined forming process and measurement method.

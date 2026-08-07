@@ -17,6 +17,7 @@ function sb_project_kind_valid(kind) =
     kind == "regular_polygon" ||
     kind == "pattern" ||
     kind == "strap_material" ||
+    kind == "radius_calibration" ||
     kind == "catalog";
 function sb_project_status_valid(status) =
     status == "stub" ||

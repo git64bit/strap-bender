@@ -15,12 +15,14 @@ include <registries/laboratory_regular_polygons.scad>
 include <patterns/standard_patterns.scad>
 include <registries/laboratory_pattern_instances.scad>
 include <registries/laboratory_strap_materials.scad>
+include <registries/laboratory_radius_coupons.scad>
 include <config/projects.scad>
 include <config/programs.scad>
 include <config/polygons.scad>
 include <config/regular_polygons.scad>
 include <config/patterns.scad>
 include <config/materials.scad>
+include <config/calibration_coupons.scad>
 include <config/workbenches.scad>
 
 module run_normalized_shape_pipeline(shape) {
@@ -121,6 +123,17 @@ module run_strap_material_pipeline(material) {
     echo("STRAP BENDER STRAP MATERIAL VALIDATION: PASS");
 }
 
+module run_radius_calibration_coupon_pipeline(coupon) {
+    validate_radius_calibration_coupon(coupon, STRAP_MATERIALS);
+    report_radius_calibration_coupon(coupon, wb_report_level);
+    echo("STRAP BENDER RADIUS CALIBRATION COUPON VALIDATION: PASS");
+
+    if (wb_render_mode == "calibration_coupon") {
+        render_radius_calibration_coupon(coupon);
+        echo("STRAP BENDER RADIUS CALIBRATION COUPON RENDER: PASS");
+    }
+}
+
 module run_strap_bender_project() {
     validate_workbench_selection(
         wb_workbench_name,
@@ -175,6 +188,13 @@ module run_strap_bender_project() {
             "pattern block"
         );
         run_pattern_pipeline(pattern_instance, pattern);
+    } else if (project_kind(project) == "radius_calibration") {
+        coupon = named_record(
+            RADIUS_CALIBRATION_COUPONS,
+            wb_radius_coupon_name,
+            "radius calibration coupon"
+        );
+        run_radius_calibration_coupon_pipeline(coupon);
     } else {
         echo("Strap Bender Catalog contains no accepted geometry.");
     }

@@ -12,6 +12,7 @@ WORKBENCH_NAMES = [
     "regular_polygon",
     "wave_pattern",
     "strap_profile",
+    "radius_calibration",
     "catalog"
 ];
 
@@ -22,12 +23,14 @@ function workbench_name_valid(name) =
 function workbench_render_mode_allowed(name, mode) =
     name == "catalog" || name == "strap_profile"
         ? mode == "report_only"
-        : (name == "development" ||
-            name == "bend_program" ||
-            name == "vertex_polygon" ||
-            name == "regular_polygon" ||
-            name == "wave_pattern") &&
-            (mode == "report_only" || mode == "diagnostic_path");
+        : name == "radius_calibration"
+            ? (mode == "report_only" || mode == "calibration_coupon")
+            : (name == "development" ||
+                name == "bend_program" ||
+                name == "vertex_polygon" ||
+                name == "regular_polygon" ||
+                name == "wave_pattern") &&
+                (mode == "report_only" || mode == "diagnostic_path");
 
 module validate_workbench_selection(
     workbench_name,

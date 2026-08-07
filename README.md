@@ -39,6 +39,7 @@ workbenches/vertex-polygon.scad   named ordered-vertex polygon selection
 workbenches/regular-polygon.scad  schedule-capable regular-polygon Customizer
 workbenches/wave-pattern.scad     compact repeated S-wave Customizer
 workbenches/strap-profile.scad    exact physical strap product report
+workbenches/radius-calibration.scad printable experimental radius coupon
 workbenches/catalog.scad          read-only accepted-object route
 default.scad                      maintainer route
 ```
@@ -54,6 +55,7 @@ registries/laboratory_regular_polygons.scad
 patterns/standard_patterns.scad
 registries/laboratory_pattern_instances.scad
 registries/laboratory_strap_materials.scad
+registries/laboratory_radius_coupons.scad
 ```
 
 The bend-program registry contains a small mixed-radius example and a synthetic 36-bend scale example. The vertex-polygon registry contains a rounded square and a concave L-shaped example. The regular-polygon registry contains triangle, square, mixed-radius pentagon, and every-third-radius nonagon examples. Batch 007 adds reusable constant, explicit, periodic, and every-nth numeric schedules.
@@ -64,13 +66,15 @@ Batch 009 begins Phase 4 with the confirmed ULINE S-1655 black PET polyester str
 
 Batch 010 adds the physical radius-observation evidence contract. One observation records specimen dimensions, bend angle, tool radius, forming conditions, post-release rest time, measured finished inside radius, measurement method, date, and stated uncertainty. Direct springback delta and radius ratios are derived from the observation, but no target-to-tool compensation model is fitted yet. No synthetic observation is registered as real calibration data.
 
+Batch 011 adds the first printable calibration tooling: an open inside-form coupon with a designed tool radius, signed bend angle, tangent support lengths, full-width vertical form, and base. The designed tool radius is deliberately not treated as the predicted relaxed PET radius. Reference R1.6 and R5 coupons are Laboratory geometry only.
+
 ## Tests
 
 Open each file under `tests/` directly and use F5. Every successful contract prints a final `PASS` message in the OpenSCAD console.
 
 The arbitrary-length source-record contract validates a 73-command program containing 36 bends and 37 straights. Every third bend uses a 5 mm finished inside radius; the remaining bends use 1.6 mm.
 
-The analytical contracts verify mixed left/right bends, unequal segment lengths, exact arc centers and bounds, rounded-square closure, and analytical compilation of the complete 73-command scale example. Sampling contracts verify chord-error control, exact endpoint retention, absence of duplicate primitive-boundary points, convergence toward exact arc length, and diagnostic geometry dispatch. Polygon contracts verify convex and concave classification, source-vertex provenance, tangent-setback feasibility, exact closure, and equivalence with an explicit bend program. Regular-polygon contracts verify triangle generation, dimension authorities, explicit corner-radius preservation, compact schedule resolution, and complete Customizer routing. Pattern contracts verify parameter-slot validation, exact expansion order, repetition and local-element provenance, explicit per-wave segment arrays, every-third-wave radius assignment, and a sampled analytical path between 10 and 20 feet. Strap-material contracts verify exact product identity, canonical metric storage, reversible vendor-unit conversions, explicit vendor-source provenance, validation, exact-name lookup, and the report-only Strap Profile route. Radius-observation contracts verify measured-evidence fields, material provenance, direct springback metrics, and exact-name lookup using explicitly synthetic test records only.
+The analytical contracts verify mixed left/right bends, unequal segment lengths, exact arc centers and bounds, rounded-square closure, and analytical compilation of the complete 73-command scale example. Sampling contracts verify chord-error control, exact endpoint retention, absence of duplicate primitive-boundary points, convergence toward exact arc length, and diagnostic geometry dispatch. Polygon contracts verify convex and concave classification, source-vertex provenance, tangent-setback feasibility, exact closure, and equivalence with an explicit bend program. Regular-polygon contracts verify triangle generation, dimension authorities, explicit corner-radius preservation, compact schedule resolution, and complete Customizer routing. Pattern contracts verify parameter-slot validation, exact expansion order, repetition and local-element provenance, explicit per-wave segment arrays, every-third-wave radius assignment, and a sampled analytical path between 10 and 20 feet. Strap-material contracts verify exact product identity, canonical metric storage, reversible vendor-unit conversions, explicit vendor-source provenance, validation, exact-name lookup, and the report-only Strap Profile route. Radius-observation contracts verify measured-evidence fields, material provenance, direct springback metrics, and exact-name lookup using explicitly synthetic test records only. Radius-calibration contracts verify the printable coupon record, exact tangent datums, left/right geometry, bounded chordal surface resolution, material provenance, and the exact Customizer wrapper.
 
 ## Current status
 
@@ -92,7 +96,9 @@ Batch 009 begins Phase 4 with a versioned physical strap product record and the 
 
 Batch 010 adds the schema, validation, reporting, exact-name support, and direct derived metrics needed to preserve individual physical radius observations. It deliberately registers no fabricated calibration measurements and does not yet fit a target-to-tool radius mapping.
 
-No arbitrary formula schedule, polygon self-intersection analysis, strap solid, fitted forming compensation, neutral-axis cut-length correction, calibration-coupon geometry, or production fixture geometry is implemented yet.
+Batch 011 adds a small printable inside-form radius-calibration coupon family and dedicated workbench so real bend observations can be collected against known designed tool geometry. It does not add retention, process recommendations, empirical measurements, or a compensation curve.
+
+No arbitrary formula schedule, polygon self-intersection analysis, strap solid, fitted forming compensation, neutral-axis cut-length correction, or production-shape fixture family is implemented yet.
 
 ## Design documents
 

@@ -32,13 +32,14 @@ geometry dispatch
 
 ## Workbench plan
 
-The Bend Program, Vertex Polygon, Regular Polygon, Wave Pattern, and Catalog routes are implemented:
+The Bend Program, Vertex Polygon, Regular Polygon, Wave Pattern, Radius Calibration, and Catalog routes are implemented:
 
 ```text
 workbenches/bend-program.scad      explicit ordered straights and bends
 workbenches/vertex-polygon.scad    named ordered vertices and corner radii
 workbenches/regular-polygon.scad   schedule-capable regular polygon generator
 workbenches/wave-pattern.scad      compact repeated S-wave generator
+workbenches/radius-calibration.scad experimental printable radius coupon
 workbenches/catalog.scad           read-only accepted-object route
 ```
 
@@ -63,6 +64,13 @@ docs/         project contracts and decisions
 ```
 
 Folders should be created only when the first implementation requires them.
+
+
+## Calibration-tool route
+
+Batch 011 adds a calibration-tool branch beside the target-path compiler. The Radius Calibration workbench constructs one native coupon record, validates its material provenance and geometry, reports exact contact datums and tessellation error, and dispatches printable coupon geometry. It does not pass through the target finished-inside-edge path compiler because its radius is explicitly a tool radius rather than a desired finished radius.
+
+The printable coupon keeps analytical tool intent separate from tessellation: the radius and tangent datums remain exact record-derived quantities while polygon facets are generated only for rendering.
 
 ## Schedule boundary
 

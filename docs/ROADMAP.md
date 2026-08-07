@@ -71,7 +71,8 @@ Implementation status:
 Implementation status:
 - Batch 009 adds a versioned physical strap product record, exact-name registry, validation, reporting, and report-only Strap Profile workbench for confirmed ULINE S-1655 black PET polyester strapping. Vendor nominal values remain distinct from future measured and calibration data.
 - Batch 010 adds the radius-observation evidence record, strap-material provenance validation, direct springback delta/ratio reporting, and exact-name support. Contract values are synthetic and are not registered as physical calibration evidence.
-- Radius coupon geometry, real measurement registration, target-to-tool mapping, neutral-axis evaluation, and cut-length correction remain later bounded work.
+- Batch 011 adds the first printable calibration tooling: open inside-form coupons with explicit designed tool radius, signed bend angle, tangent legs, material-linked form height, base geometry, and bounded chordal tool-surface tessellation. R1.6 and R5 reference coupons remain experimental Laboratory geometry.
+- Real measurement registration, target-to-tool mapping, neutral-axis evaluation, and cut-length correction remain later bounded work.
 
 ## Phase 5 — first fixture family
 

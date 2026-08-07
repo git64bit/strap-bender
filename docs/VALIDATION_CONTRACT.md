@@ -59,6 +59,22 @@ Batch 010 requires each physical bend observation to have:
 
 Direct springback delta and radius ratios may be calculated from a valid observation. Those quantities do not establish an interpolation, regression, or target-to-tool compensation model.
 
+## Radius-calibration coupon validation
+
+Batch 011 requires each printable calibration coupon to have:
+
+- the exact coupon record type and current schema version;
+- a non-empty stable name and exactly one referenced strap material;
+- positive finite designed tool radius, tangent lengths, form depth and height, base thickness, and base margin;
+- a finite nonzero signed bend angle with magnitude no greater than 180 degrees;
+- form height at least the referenced strap product's nominal width;
+- positive tool-surface chord error smaller than the designed radius;
+- a valid positive maximum angular facet step;
+- a resolved circular-arc facet count whose ideal-circle sagitta does not exceed the requested chord-error bound;
+- notes stored as a string.
+
+These checks validate CAD geometry, not printer accuracy or PET behavior. A valid coupon still carries no claim about the relaxed finished radius.
+
 ## Pattern validation
 
 - pattern blocks contain at least one valid local element;

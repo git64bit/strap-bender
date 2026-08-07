@@ -11,7 +11,7 @@
 
 ## Strap orientation
 
-The PET strap is treated as a ribbon whose width is normal to the shape plane and whose thickness lies across the in-plane bend. Exact orientation will be confirmed against the selected ULINE product and fixture method before implementation.
+The PET strap is treated as a ribbon whose width is normal to the shape plane and whose thickness lies across the in-plane bend. Batch 011 makes this explicit in the calibration coupon: strap width runs along Z while the thin dimension bends in XY around the inside-form surface. Production fixture retention and removal remain separate decisions.
 
 ## Phase 1 analytical reference axis
 
@@ -130,3 +130,8 @@ Batch 006 defines three unambiguous authorities on the sharp, unrounded regular 
 - `apothem`: perpendicular distance from center to a sharp side line.
 
 The generator resolves the other two values analytically. `first_vertex_angle_degrees` locates the ray from center to source vertex 0. Vertices advance counter-clockwise in equal angular increments. Corner rounding occurs after sharp-vertex generation and does not redefine the governing dimension.
+
+
+## Calibration coupon tool surface
+
+The Batch 011 coupon uses a designed **tool inside radius**, not a desired finished radius. Two straight contact faces are tangent to one ideal circular arc. The ideal tangent points and arc center are derived analytically. Printable arc facets are bounded by both a requested maximum chord error and maximum angular step; the reported sagitta describes CAD tessellation only and does not claim printer or forming tolerance.

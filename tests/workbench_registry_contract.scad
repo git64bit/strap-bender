@@ -14,6 +14,7 @@ include <../registries/laboratory_regular_polygons.scad>
 include <../patterns/standard_patterns.scad>
 include <../registries/laboratory_pattern_instances.scad>
 include <../registries/laboratory_strap_materials.scad>
+include <../registries/laboratory_radius_coupons.scad>
 include <../config/workbenches.scad>
 
 all_projects = concat(LABORATORY_PROJECTS, CATALOG_PROJECTS);
@@ -36,6 +37,11 @@ pattern_project = named_record(
 strap_project = named_record(
     all_projects,
     "STRAP_PROFILE_LAB",
+    "project"
+);
+radius_calibration_project = named_record(
+    all_projects,
+    "RADIUS_CALIBRATION_LAB",
     "project"
 );
 catalog_project = named_record(
@@ -103,12 +109,18 @@ strap_material = named_record(
     "ULINE_S_1655_BLACK",
     "strap material"
 );
+radius_coupon = named_record(
+    LABORATORY_RADIUS_CALIBRATION_COUPONS,
+    "ULINE_R90_TOOL_R1_6_EXPERIMENTAL",
+    "radius calibration coupon"
+);
 
 validate_project(lab_project);
 validate_project(polygon_project);
 validate_project(regular_project);
 validate_project(pattern_project);
 validate_project(strap_project);
+validate_project(radius_calibration_project);
 validate_project(catalog_project);
 validate_bend_program_shape(small_program);
 validate_bend_program_shape(scale_program);
@@ -122,6 +134,10 @@ validate_pattern_block(wave_pattern);
 validate_pattern_instance(long_wave, wave_pattern);
 validate_pattern_instance(variable_wave, wave_pattern);
 validate_strap_material(strap_material);
+validate_radius_calibration_coupon(
+    radius_coupon,
+    LABORATORY_STRAP_MATERIALS
+);
 
 assert(len(records_named(all_projects, "BEND_PROGRAM_LAB")) == 1,
     "Laboratory project registry exact-name contract failed.");
@@ -133,6 +149,8 @@ assert(len(records_named(all_projects, "WAVE_PATTERN_LAB")) == 1,
     "Wave-pattern project registry exact-name contract failed.");
 assert(len(records_named(all_projects, "STRAP_PROFILE_LAB")) == 1,
     "Strap-profile project registry exact-name contract failed.");
+assert(len(records_named(all_projects, "RADIUS_CALIBRATION_LAB")) == 1,
+    "Radius-calibration project registry exact-name contract failed.");
 assert(len(records_named(all_projects, "CATALOG_WORKBENCH_STUB")) == 1,
     "Catalog project registry exact-name contract failed.");
 assert(len(records_named(
@@ -203,6 +221,8 @@ assert(workbench_name_valid("wave_pattern"),
     "Wave Pattern workbench must be registered.");
 assert(workbench_name_valid("strap_profile"),
     "Strap Profile workbench must be registered.");
+assert(workbench_name_valid("radius_calibration"),
+    "Radius Calibration workbench must be registered.");
 assert(workbench_render_mode_allowed("bend_program", "report_only"),
     "Bend Program report-only route must be allowed.");
 assert(workbench_render_mode_allowed("bend_program", "diagnostic_path"),
@@ -254,5 +274,25 @@ assert(!workbench_render_mode_allowed(
         "diagnostic_path"
     ),
     "Strap Profile must not allow a geometry render route.");
+assert(workbench_render_mode_allowed(
+        "radius_calibration",
+        "calibration_coupon"
+    ),
+    "Radius Calibration must allow printable coupon rendering.");
+assert(workbench_render_mode_allowed(
+        "radius_calibration",
+        "report_only"
+    ),
+    "Radius Calibration must allow report-only routing.");
+assert(!workbench_render_mode_allowed(
+        "radius_calibration",
+        "diagnostic_path"
+    ),
+    "Radius Calibration must reject diagnostic-path rendering.");
+assert(len(records_named(
+        LABORATORY_RADIUS_CALIBRATION_COUPONS,
+        "ULINE_R90_TOOL_R1_6_EXPERIMENTAL"
+    )) == 1,
+    "Radius-coupon registry exact-name contract failed.");
 
 echo("STRAP BENDER WORKBENCH REGISTRY CONTRACT: PASS");

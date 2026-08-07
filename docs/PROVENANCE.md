@@ -48,3 +48,8 @@ Batch 009 registers ULINE product S-1655 from the official ULINE product page, c
 ## Calibration evidence
 
 Batch 010 adds a schema for physical radius observations. No empirical observation is registered by this batch. Values used by `tests/radius_observation_contract.scad` are synthetic contract fixtures only and carry no manufacturing or material-behavior authority. Future calibration records must reference the exact strap-material identity and preserve specimen/process/measurement provenance rather than overwriting vendor data.
+
+
+## Calibration tooling provenance
+
+Batch 011 adds printable experimental radius-coupon geometry derived only from explicit CAD dimensions and the registered ULINE strap identity. The included R1.6 and R5 values identify designed tool surfaces, not measured PET outcomes or forming recommendations. No empirical radius observation is added or inferred by the coupon registry.

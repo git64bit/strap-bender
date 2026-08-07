@@ -86,4 +86,8 @@ No geometry batch should assume a process that has not been selected and tested.
 
 ## Calibration tooling
 
-Before complex fixtures are accepted, the project should produce small calibration tools covering representative radii and bend angles. Their measured relaxed results will establish the mapping between target radius and fixture radius for the exact strap and process.
+Batch 011 implements the first calibration-tool family as an open inside-form coupon. The strap stands with its width along Z and contacts two tangent faces joined by a circular designed tool radius. A base supports the lower strap edge. The coupon intentionally has no integral outer retention, clamp, heating, or cooling feature; those process choices remain explicit experimental inputs.
+
+Reference Laboratory coupons are provided for 90-degree R1.6 and R5 designed tool radii, and the workbench can author other nonzero signed angles through 180 degrees. Tool-surface facets obey a requested chord-error bound and maximum angular step. Tessellation error is reported separately from printer dimensional accuracy.
+
+Printed coupons and measured relaxed results will establish the evidence needed for a future target-radius-to-tool-radius mapping for the exact strap and process. Batch 011 itself contains no such mapping and does not select the first production-shape fixture family.

@@ -36,6 +36,12 @@ Batch 010 adds one immutable evidence record per physical bend observation. It s
 
 The record can directly derive measured finished-minus-tool radius delta and dimensionless finished/tool or tool/finished ratios. These are summaries of one observation only. They are not a fitted springback law and do not convert a target radius into a tool radius. Synthetic contract-test records are never registered as physical calibration data.
 
+### Radius calibration coupon
+
+Batch 011 adds an experimental printable-tool record for collecting radius observations. It stores stable coupon name, referenced strap material, designed tool inside radius, signed tool bend angle, entry and exit tangent lengths, form depth and height, base thickness and margin, tool-surface chord-error limit, maximum angular facet step, and notes.
+
+The coupon record describes tool geometry only. Its designed radius is not a target-to-tool mapping and does not predict the relaxed finished PET radius. Exact tangent points and the ideal circular radius remain analytical datums; the printable surface is a bounded chordal approximation whose maximum sagitta is reported separately.
+
 ### Shape specification
 
 Owns shape identity, open/closed state, start pose, authoring-front-end identity, source program, and shape-schema version.
