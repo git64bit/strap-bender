@@ -44,6 +44,12 @@ Validation resolves the named coupon and requires the embedded observation's str
 
 No physical trial is registered by Batch 012. The Customizer workbench constructs a transient trial only after an explicit readiness gate is enabled.
 
+### Calibration evidence registry
+
+Batch 013 adds the persistent Laboratory registry for reviewed coupon-linked calibration trials. Registry membership is authoritative evidence provenance: a transient Customizer trial does not become persistent evidence automatically. Every registered trial must have a unique stable name and must pass the complete calibration-trial validation against the active strap-material and calibration-coupon registries.
+
+The initial registry is intentionally empty. Synthetic test trials remain local to contract files and must never be copied into the physical registry. Target-to-tool fitting remains blocked until real measurements are supplied, reviewed, and explicitly registered.
+
 ### Radius calibration coupon
 
 Batch 011 adds an experimental printable-tool record for collecting radius observations. It stores stable coupon name, referenced strap material, designed tool inside radius, signed tool bend angle, entry and exit tangent lengths, form depth and height, base thickness and margin, tool-surface chord-error limit, maximum angular facet step, and notes.

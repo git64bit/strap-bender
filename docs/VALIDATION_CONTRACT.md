@@ -90,6 +90,18 @@ Batch 012 requires each coupon-linked calibration trial to have:
 
 The Radius Observation workbench defaults to `Observation ready = false`. In that state the selected coupon is validated and reported, but no observation or calibration-trial evidence record is constructed. Enabling the gate does not certify the values as physical truth; it only allows the normal evidence validators to run.
 
+## Persistent calibration-evidence registry
+
+A persistent trial registry must:
+
+- be a list of calibration-trial records;
+- contain unique stable trial names;
+- revalidate every trial against the active strap-material and coupon registries;
+- never treat a transient Customizer-ready state as automatic persistence;
+- remain empty rather than inventing measurements when no physical evidence has been supplied.
+
+Synthetic contract fixtures may exercise registry validation locally but must not appear in the physical Laboratory calibration-trial registry.
+
 ## Pattern validation
 
 - pattern blocks contain at least one valid local element;

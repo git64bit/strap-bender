@@ -14,6 +14,7 @@ WORKBENCH_NAMES = [
     "strap_profile",
     "radius_calibration",
     "radius_observation",
+    "calibration_evidence",
     "catalog"
 ];
 
@@ -23,7 +24,7 @@ function workbench_name_valid(name) =
 
 function workbench_render_mode_allowed(name, mode) =
     name == "catalog" || name == "strap_profile" ||
-    name == "radius_observation"
+    name == "radius_observation" || name == "calibration_evidence"
         ? mode == "report_only"
         : name == "radius_calibration"
             ? (mode == "report_only" || mode == "calibration_coupon")

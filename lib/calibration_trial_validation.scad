@@ -48,3 +48,35 @@ module validate_calibration_trial(
         SB_NUMERIC_ANGLE_TOLERANCE_DEGREES
     ), "Calibration trial bend angle must match source coupon.");
 }
+
+
+function calibration_trial_registry_names_unique(trials) =
+    len(trials) == 0
+        ? true
+        : len([
+            for (trial = trials)
+                if (len(records_named(
+                    trials,
+                    calibration_trial_name(trial)
+                )) != 1)
+                    calibration_trial_name(trial)
+        ]) == 0;
+
+module validate_calibration_trial_registry(
+    trials,
+    material_registry,
+    coupon_registry
+) {
+    assert(is_list(trials),
+        "Calibration trial registry must be a list.");
+
+    for (trial = trials)
+        validate_calibration_trial(
+            trial,
+            material_registry,
+            coupon_registry
+        );
+
+    assert(calibration_trial_registry_names_unique(trials),
+        "Calibration trial registry names must be unique.");
+}

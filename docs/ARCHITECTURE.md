@@ -32,7 +32,7 @@ geometry dispatch
 
 ## Workbench plan
 
-The Bend Program, Vertex Polygon, Regular Polygon, Wave Pattern, Radius Calibration, Radius Observation, and Catalog routes are implemented:
+The Bend Program, Vertex Polygon, Regular Polygon, Wave Pattern, Radius Calibration, Radius Observation, Calibration Evidence, and Catalog routes are implemented:
 
 ```text
 workbenches/bend-program.scad      explicit ordered straights and bends
@@ -41,6 +41,7 @@ workbenches/regular-polygon.scad   schedule-capable regular polygon generator
 workbenches/wave-pattern.scad      compact repeated S-wave generator
 workbenches/radius-calibration.scad experimental printable radius coupon
 workbenches/radius-observation.scad guarded coupon-linked observation entry
+workbenches/calibration-evidence.scad persistent evidence-registry audit
 workbenches/catalog.scad           read-only accepted-object route
 ```
 
@@ -78,6 +79,12 @@ The printable coupon keeps analytical tool intent separate from tessellation: th
 Batch 012 adds a report-only Radius Observation branch. The workbench first selects one exact Laboratory calibration coupon. While `Observation ready` is false, it validates and reports only that coupon and emits no radius-observation evidence record. When explicitly enabled, the route constructs one transient radius observation from user-entered specimen/process/measurement values while deriving strap material, signed bend angle, and designed tool radius from the selected coupon. A calibration-trial wrapper preserves the coupon name and validation proves those duplicated observation fields still match the source coupon.
 
 The workbench is an evidence-entry aid, not a database and not a calibration fitter. Synthetic contract values remain local to tests. Persistent physical trials may be registered only after actual measurements are supplied and reviewed.
+
+## Persistent calibration-evidence route
+
+Batch 013 adds a separate report-only registry audit. `registries/laboratory_calibration_trials.scad` is the sole Laboratory persistence point for reviewed physical coupon trials and is deliberately empty at introduction. The Calibration Evidence workbench does not create records. It validates registry-name uniqueness, revalidates every stored trial against the active material and coupon registries, and reports the evidence count.
+
+A transient ready observation from Batch 012 is therefore not automatically promoted. Registration requires an explicit repository change containing the supplied physical values. Until at least one real trial is registered, the audit route states that compensation fitting remains blocked.
 
 ## Schedule boundary
 

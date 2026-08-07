@@ -16,6 +16,7 @@ include <patterns/standard_patterns.scad>
 include <registries/laboratory_pattern_instances.scad>
 include <registries/laboratory_strap_materials.scad>
 include <registries/laboratory_radius_coupons.scad>
+include <registries/laboratory_calibration_trials.scad>
 include <config/projects.scad>
 include <config/programs.scad>
 include <config/polygons.scad>
@@ -24,6 +25,7 @@ include <config/patterns.scad>
 include <config/materials.scad>
 include <config/calibration_coupons.scad>
 include <config/calibration_trials.scad>
+include <config/calibration_evidence.scad>
 include <config/workbenches.scad>
 
 module run_normalized_shape_pipeline(shape) {
@@ -145,6 +147,20 @@ module run_calibration_trial_pipeline(trial, coupon) {
     echo("STRAP BENDER CALIBRATION TRIAL VALIDATION: PASS");
 }
 
+module run_calibration_evidence_pipeline(trials) {
+    validate_calibration_trial_registry(
+        trials,
+        STRAP_MATERIALS,
+        RADIUS_CALIBRATION_COUPONS
+    );
+    report_calibration_trial_registry(
+        trials,
+        RADIUS_CALIBRATION_COUPONS,
+        wb_report_level
+    );
+    echo("STRAP BENDER CALIBRATION EVIDENCE REGISTRY VALIDATION: PASS");
+}
+
 module report_calibration_trial_draft(coupon) {
     validate_radius_calibration_coupon(coupon, STRAP_MATERIALS);
     echo("STRAP BENDER RADIUS OBSERVATION: DRAFT");
@@ -234,6 +250,8 @@ module run_strap_bender_project() {
         } else {
             report_calibration_trial_draft(coupon);
         }
+    } else if (project_kind(project) == "calibration_evidence") {
+        run_calibration_evidence_pipeline(CALIBRATION_TRIALS);
     } else {
         echo("Strap Bender Catalog contains no accepted geometry.");
     }

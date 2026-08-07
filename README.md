@@ -41,6 +41,7 @@ workbenches/wave-pattern.scad     compact repeated S-wave Customizer
 workbenches/strap-profile.scad    exact physical strap product report
 workbenches/radius-calibration.scad printable experimental radius coupon
 workbenches/radius-observation.scad guarded coupon-linked measurement worksheet
+workbenches/calibration-evidence.scad persistent evidence-registry audit
 workbenches/catalog.scad          read-only accepted-object route
 default.scad                      maintainer route
 ```
@@ -57,6 +58,7 @@ patterns/standard_patterns.scad
 registries/laboratory_pattern_instances.scad
 registries/laboratory_strap_materials.scad
 registries/laboratory_radius_coupons.scad
+registries/laboratory_calibration_trials.scad
 ```
 
 The bend-program registry contains a small mixed-radius example and a synthetic 36-bend scale example. The vertex-polygon registry contains a rounded square and a concave L-shaped example. The regular-polygon registry contains triangle, square, mixed-radius pentagon, and every-third-radius nonagon examples. Batch 007 adds reusable constant, explicit, periodic, and every-nth numeric schedules.
@@ -71,13 +73,15 @@ Batch 011 adds the first printable calibration tooling: an open inside-form coup
 
 Batch 012 adds a guarded Radius Observation workbench and a coupon-linked calibration-trial record. A ready trial embeds one radius observation and names the exact calibration coupon used; validation requires the observation material, signed bend angle, and designed tool radius to match that coupon. The default workbench remains a draft and emits no evidence record until `Observation ready` is explicitly enabled.
 
+Batch 013 adds the persistent calibration-evidence registry boundary. The registry is deliberately empty until real measured trials are supplied and reviewed. The Calibration Evidence workbench validates unique trial names, revalidates every registered trial against its strap material and exact source coupon, and reports that compensation fitting remains blocked while no physical evidence is registered.
+
 ## Tests
 
 Open each file under `tests/` directly and use F5. Every successful contract prints a final `PASS` message in the OpenSCAD console.
 
 The arbitrary-length source-record contract validates a 73-command program containing 36 bends and 37 straights. Every third bend uses a 5 mm finished inside radius; the remaining bends use 1.6 mm.
 
-The analytical contracts verify mixed left/right bends, unequal segment lengths, exact arc centers and bounds, rounded-square closure, and analytical compilation of the complete 73-command scale example. Sampling contracts verify chord-error control, exact endpoint retention, absence of duplicate primitive-boundary points, convergence toward exact arc length, and diagnostic geometry dispatch. Polygon contracts verify convex and concave classification, source-vertex provenance, tangent-setback feasibility, exact closure, and equivalence with an explicit bend program. Regular-polygon contracts verify triangle generation, dimension authorities, explicit corner-radius preservation, compact schedule resolution, and complete Customizer routing. Pattern contracts verify parameter-slot validation, exact expansion order, repetition and local-element provenance, explicit per-wave segment arrays, every-third-wave radius assignment, and a sampled analytical path between 10 and 20 feet. Strap-material contracts verify exact product identity, canonical metric storage, reversible vendor-unit conversions, explicit vendor-source provenance, validation, exact-name lookup, and the report-only Strap Profile route. Radius-observation contracts verify measured-evidence fields, material provenance, direct springback metrics, and exact-name lookup using explicitly synthetic test records only. Radius-calibration contracts verify the printable coupon record, exact tangent datums, left/right geometry, bounded chordal surface resolution, material provenance, and the exact Customizer wrapper. Calibration-trial contracts verify exact coupon provenance and require the embedded observation to match the selected coupon's strap material, signed bend angle, and designed tool radius. The Radius Observation wrapper defaults to a non-evidence draft state.
+The analytical contracts verify mixed left/right bends, unequal segment lengths, exact arc centers and bounds, rounded-square closure, and analytical compilation of the complete 73-command scale example. Sampling contracts verify chord-error control, exact endpoint retention, absence of duplicate primitive-boundary points, convergence toward exact arc length, and diagnostic geometry dispatch. Polygon contracts verify convex and concave classification, source-vertex provenance, tangent-setback feasibility, exact closure, and equivalence with an explicit bend program. Regular-polygon contracts verify triangle generation, dimension authorities, explicit corner-radius preservation, compact schedule resolution, and complete Customizer routing. Pattern contracts verify parameter-slot validation, exact expansion order, repetition and local-element provenance, explicit per-wave segment arrays, every-third-wave radius assignment, and a sampled analytical path between 10 and 20 feet. Strap-material contracts verify exact product identity, canonical metric storage, reversible vendor-unit conversions, explicit vendor-source provenance, validation, exact-name lookup, and the report-only Strap Profile route. Radius-observation contracts verify measured-evidence fields, material provenance, direct springback metrics, and exact-name lookup using explicitly synthetic test records only. Radius-calibration contracts verify the printable coupon record, exact tangent datums, left/right geometry, bounded chordal surface resolution, material provenance, and the exact Customizer wrapper. Calibration-trial contracts verify exact coupon provenance and require the embedded observation to match the selected coupon's strap material, signed bend angle, and designed tool radius. The Radius Observation wrapper defaults to a non-evidence draft state. Calibration-evidence contracts verify an intentionally empty physical registry, unique trial names, full revalidation of locally synthetic trial lists, and the report-only registry audit route.
 
 ## Current status
 
@@ -102,6 +106,8 @@ Batch 010 adds the schema, validation, reporting, exact-name support, and direct
 Batch 011 adds a small printable inside-form radius-calibration coupon family and dedicated workbench so real bend observations can be collected against known designed tool geometry. It does not add retention, process recommendations, empirical measurements, or a compensation curve.
 
 Batch 012 adds the guarded measurement-entry route that ties one ready observation to one named coupon without registering any synthetic result as physical evidence. Real measurements are still required before target-to-tool mapping can begin.
+
+Batch 013 adds the explicit persistence boundary for reviewed calibration trials and a report-only audit workbench. The delivered physical trial registry is empty, so the software cannot yet derive or claim any target-to-tool radius compensation.
 
 No arbitrary formula schedule, polygon self-intersection analysis, strap solid, fitted forming compensation, neutral-axis cut-length correction, or production-shape fixture family is implemented yet.
 

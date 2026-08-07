@@ -33,6 +33,8 @@ assert(STRAP_BENDER_RADIUS_CALIBRATION_COUPON_CONTRACT_VERSION == 1,
     "Unexpected radius calibration coupon contract version.");
 assert(STRAP_BENDER_CALIBRATION_TRIAL_CONTRACT_VERSION == 1,
     "Unexpected calibration trial contract version.");
+assert(STRAP_BENDER_CALIBRATION_EVIDENCE_REGISTRY_CONTRACT_VERSION == 1,
+    "Unexpected calibration evidence registry contract version.");
 
 material = strap_material_spec(
     "TEST_STRAP",

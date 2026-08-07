@@ -18,5 +18,6 @@ PROJECTS =
     wb_workbench_name == "strap_profile" ? LABORATORY_PROJECTS :
     wb_workbench_name == "radius_calibration" ? LABORATORY_PROJECTS :
     wb_workbench_name == "radius_observation" ? LABORATORY_PROJECTS :
+    wb_workbench_name == "calibration_evidence" ? LABORATORY_PROJECTS :
     wb_workbench_name == "catalog" ? CATALOG_PROJECTS :
     DEVELOPMENT_PROJECTS;

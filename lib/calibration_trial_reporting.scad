@@ -26,3 +26,27 @@ module report_calibration_trial(
 
     report_radius_observation(observation, report_level);
 }
+
+
+module report_calibration_trial_registry(
+    trials,
+    coupon_registry,
+    report_level = "full"
+) {
+    echo("CALIBRATION EVIDENCE REGISTRY");
+    echo(str("  registered physical trials: ", len(trials)));
+
+    if (len(trials) == 0) {
+        echo("  status: no physical calibration trials registered");
+        echo("  compensation fitting remains blocked");
+    }
+
+    for (trial = trials) {
+        coupon = named_record(
+            coupon_registry,
+            calibration_trial_coupon_name(trial),
+            "radius calibration coupon"
+        );
+        report_calibration_trial(trial, coupon, report_level);
+    }
+}

@@ -77,5 +77,15 @@ LABORATORY_PROJECTS = [
             "one measured radius observation to one exact named calibration ",
             "coupon and verifies material, tool radius, and bend angle."
         )
+    ),
+    project_spec(
+        name = "CALIBRATION_EVIDENCE_LAB",
+        kind = "calibration_evidence",
+        status = "laboratory",
+        notes = str(
+            "Read-only audit route for reviewed physical calibration trials. ",
+            "The registry remains empty until actual measured evidence is ",
+            "supplied; this route does not fit compensation."
+        )
     )
 ];

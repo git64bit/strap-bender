@@ -49,6 +49,11 @@ radius_observation_project = named_record(
     "RADIUS_OBSERVATION_LAB",
     "project"
 );
+calibration_evidence_project = named_record(
+    all_projects,
+    "CALIBRATION_EVIDENCE_LAB",
+    "project"
+);
 catalog_project = named_record(
     all_projects,
     "CATALOG_WORKBENCH_STUB",
@@ -127,6 +132,7 @@ validate_project(pattern_project);
 validate_project(strap_project);
 validate_project(radius_calibration_project);
 validate_project(radius_observation_project);
+validate_project(calibration_evidence_project);
 validate_project(catalog_project);
 validate_bend_program_shape(small_program);
 validate_bend_program_shape(scale_program);
@@ -155,6 +161,11 @@ assert(len(records_named(all_projects, "WAVE_PATTERN_LAB")) == 1,
     "Wave-pattern project registry exact-name contract failed.");
 assert(len(records_named(all_projects, "STRAP_PROFILE_LAB")) == 1,
     "Strap-profile project registry exact-name contract failed.");
+assert(len(records_named(
+        all_projects,
+        "CALIBRATION_EVIDENCE_LAB"
+    )) == 1,
+    "Calibration-evidence project registry exact-name contract failed.");
 assert(len(records_named(all_projects, "RADIUS_CALIBRATION_LAB")) == 1,
     "Radius-calibration project registry exact-name contract failed.");
 assert(len(records_named(all_projects, "CATALOG_WORKBENCH_STUB")) == 1,
@@ -231,6 +242,8 @@ assert(workbench_name_valid("radius_calibration"),
     "Radius Calibration workbench must be registered.");
 assert(workbench_name_valid("radius_observation"),
     "Radius Observation workbench must be registered.");
+assert(workbench_name_valid("calibration_evidence"),
+    "Calibration Evidence workbench must be registered.");
 assert(workbench_render_mode_allowed("bend_program", "report_only"),
     "Bend Program report-only route must be allowed.");
 assert(workbench_render_mode_allowed("bend_program", "diagnostic_path"),
@@ -247,6 +260,13 @@ assert(workbench_render_mode_allowed("wave_pattern", "report_only"),
     "Wave Pattern report-only route must be allowed.");
 assert(workbench_render_mode_allowed("wave_pattern", "diagnostic_path"),
     "Wave Pattern diagnostic-path route must be allowed.");
+assert(workbench_render_mode_allowed("calibration_evidence", "report_only"),
+    "Calibration Evidence report-only route must be allowed.");
+assert(!workbench_render_mode_allowed(
+        "calibration_evidence",
+        "diagnostic_path"
+    ),
+    "Calibration Evidence must reject geometry rendering routes.");
 assert(!workbench_render_mode_allowed("catalog", "diagnostic_path"),
     "Catalog must reject mutable diagnostic rendering routes.");
 assert(!workbench_render_mode_allowed("regular_polygon", "fixture"),

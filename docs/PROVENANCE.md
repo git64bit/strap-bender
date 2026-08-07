@@ -60,3 +60,8 @@ Batch 012 requires a coupon-based trial to name the exact calibration coupon use
 
 The readiness gate is not evidence certification. It only prevents the default Customizer state from emitting an observation record. Physical provenance still depends on the operator supplying actual specimen measurements, process conditions, date, measurement method, and uncertainty.
 
+
+
+## Persistent calibration evidence
+
+Batch 013 introduces `registries/laboratory_calibration_trials.scad` as the explicit persistence boundary for reviewed physical coupon trials. It is intentionally empty in the delivered batch. The Calibration Evidence workbench can audit this registry but cannot create or promote evidence. A real trial enters the registry only through an explicit repository change after its physical values and provenance are supplied and reviewed. Synthetic contract records remain test-local and are prohibited from this registry.

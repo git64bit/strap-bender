@@ -1,0 +1,119 @@
+STRAP BENDER — BATCH 013 DELTA
+
+Base repository:
+ https://github.com/git64bit/strap-bender
+
+Required base commit:
+ 1202220
+ 1202220bf2dcf29aa696c2e9a2e32d5bbbfc0e73
+
+Scope:
+ Phase 4E persistent calibration-evidence registry boundary.
+
+This batch creates the explicit persistence point for reviewed physical
+coupon-linked calibration trials. Batch 012 can construct one transient ready
+trial from Customizer input; Batch 013 deliberately does not promote that
+transient record automatically. Persistent evidence enters the repository only
+through an explicit registry change after physical values and provenance have
+been supplied and reviewed.
+
+The new Laboratory calibration-trial registry is delivered empty. No PET
+springback value, forming recommendation, target-to-tool mapping, neutral-axis
+correction, cutting-length correction, or production fixture geometry is
+invented by this batch.
+
+The new Calibration Evidence workbench is report-only. It validates that
+persistent trial names are unique, revalidates each stored trial against the
+active strap-material and exact source-coupon registries, reports the physical
+trial count, and explicitly states that compensation fitting remains blocked
+while the registry is empty.
+
+Synthetic records used by the new contract test remain local to that test and
+are never registered as physical evidence.
+
+New files:
+ config/calibration_evidence.scad
+ registries/laboratory_calibration_trials.scad
+ tests/calibration_evidence_workbench_wrapper_contract.scad
+ tests/calibration_trial_registry_contract.scad
+ workbenches/calibration-evidence.scad
+ BATCH_013_DELTA.txt
+
+Changed files:
+ README.md
+ config/projects.scad
+ config/workbenches.scad
+ docs/ARCHITECTURE.md
+ docs/DATA_MODEL.md
+ docs/OPEN_DECISIONS.md
+ docs/PROVENANCE.md
+ docs/ROADMAP.md
+ docs/VALIDATION_CONTRACT.md
+ lib/calibration_trial_reporting.scad
+ lib/calibration_trial_validation.scad
+ lib/validation.scad
+ main.scad
+ registries/laboratory_projects.scad
+ strap_bender.scad
+ tests/README.md
+ tests/public_foundation_contract.scad
+ tests/workbench_registry_contract.scad
+
+Deleted files:
+ None.
+
+Upload:
+ 1. Confirm the repository is at commit 1202220.
+ 2. Upload all files from this archive as complete files while preserving
+    repository-relative paths.
+ 3. Create the six new files exactly as named above.
+ 4. Do not replace or modify LICENSE, earlier BATCH_*_DELTA files, or unrelated
+    source files.
+
+OpenSCAD verification:
+ 1. Open tests/public_foundation_contract.scad and press F5.
+ 2. Confirm:
+    STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+ 3. Open tests/calibration_trial_registry_contract.scad and press F5.
+ 4. Confirm the report says:
+      registered physical trials: 0
+      compensation fitting remains blocked
+    and finishes with:
+    STRAP BENDER CALIBRATION TRIAL REGISTRY CONTRACT: PASS
+ 5. Open tests/calibration_evidence_workbench_wrapper_contract.scad and press F5.
+ 6. Confirm the workbench reports CALIBRATION EVIDENCE REGISTRY, reports zero
+    physical trials, and finishes with:
+    STRAP BENDER CALIBRATION EVIDENCE WORKBENCH CONTRACT: PASS
+ 7. Open tests/workbench_registry_contract.scad and press F5.
+ 8. Confirm:
+    STRAP BENDER WORKBENCH REGISTRY CONTRACT: PASS
+ 9. Re-run tests/calibration_trial_contract.scad and press F5.
+10. Confirm:
+    STRAP BENDER CALIBRATION TRIAL CONTRACT: PASS
+11. Re-run tests/radius_observation_workbench_wrapper_contract.scad and
+    tests/radius_observation_ready_workbench_contract.scad.
+12. Confirm both Batch 012 regression tests print PASS without warnings/errors.
+13. Re-run tests/radius_calibration_coupon_contract.scad and
+    tests/long_wave_contract.scad.
+14. Confirm both accepted geometry regressions print PASS without warnings or
+    errors.
+
+Static verification performed before delivery:
+ The accepted Batch 012 source was reconciled against GitHub commit
+ 1202220bf2dcf29aa696c2e9a2e32d5bbbfc0e73 before this delta was prepared.
+ Include targets resolve within the reconstructed repository.
+ Delimiters, strings, and comments are balanced.
+ Function and module declarations are unique within the active repository tree.
+ New calibration-evidence registry validation/reporting calls resolve.
+ Every .scad file remains at or below 500 lines.
+ The archive contains only complete new and changed files plus this manifest.
+ The accepted Wave Pattern default remains show_diagnostic_preview = true.
+ The persistent calibration-trial registry is empty.
+ No empirical PET observation or compensation model is registered.
+
+OpenSCAD execution note:
+ OpenSCAD is not installed in the delivery environment. The direct-open F5 tests
+ above require execution on the user's OpenSCAD installation.
+
+After acceptance:
+ Commit the batch and provide the resulting commit SHA for reconciliation.

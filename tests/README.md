@@ -13,6 +13,7 @@ Open each `.scad` file in this directory directly and press F5. A successful tes
 - `strap_profile_workbench_wrapper_contract.scad`
 - `radius_calibration_workbench_wrapper_contract.scad`
 - `radius_observation_workbench_wrapper_contract.scad`
+- `calibration_evidence_workbench_wrapper_contract.scad`
 
 ## Analytical path kernel
 
@@ -91,3 +92,11 @@ The designed tool radius is not a predicted relaxed PET radius. Coupon geometry 
 
 No Batch 012 test value is physical PET evidence. The readiness switch only controls whether a transient evidence record is emitted; it does not validate the experimental process or measurement method itself.
 
+
+
+## Batch 013 persistent calibration-evidence contracts
+
+- `calibration_trial_registry_contract.scad` proves the delivered physical registry is empty, verifies unique-name detection, and validates a locally constructed synthetic one-trial registry without persisting it.
+- `calibration_evidence_workbench_wrapper_contract.scad` executes the report-only Calibration Evidence route and confirms that zero physical trials are registered.
+
+The synthetic record in the registry contract is test-local only. Batch 013 persists no PET springback measurement and therefore provides no basis for target-to-tool compensation.
