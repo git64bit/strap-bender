@@ -35,11 +35,12 @@ fixture = bend_post_fixture_spec(
     max_base_depth_mm = 220,
     tool_surface_chord_error_mm = 0.02,
     tool_surface_max_angle_step_degrees = 5,
-    retention_mode = "none",
+    retention_mode = "arc_follower",
+    follower_wall_thickness_mm = 2,
     notes = "Synthetic CAD contract; no PET compensation claim."
 );
 validate_bend_post_fixture(fixture, LABORATORY_STRAP_MATERIALS);
-plan = plan_bend_post_fixture(path, fixture);
+plan = plan_bend_post_fixture(path, fixture, LABORATORY_STRAP_MATERIALS);
 validate_bend_post_fixture_plan(
     plan,
     fixture,
@@ -53,11 +54,11 @@ assert(len(stations) == 4,
     "Rounded-square fixture must create one post per bend.");
 assert(sb_bounds_near(
     bend_post_fixture_plan_base_bounds(plan),
-    [-8, -8, 108, 108],
+    [-10.758, -10.758, 110.758, 110.758],
     tolerance
 ), "Rounded-square fixture base bounds failed.");
-assert(abs(bend_post_fixture_plan_base_width_mm(plan) - 116) <= tolerance &&
-    abs(bend_post_fixture_plan_base_depth_mm(plan) - 116) <= tolerance,
+assert(abs(bend_post_fixture_plan_base_width_mm(plan) - 121.516) <= tolerance &&
+    abs(bend_post_fixture_plan_base_depth_mm(plan) - 121.516) <= tolerance,
     "Rounded-square fixture base size failed.");
 assert(len([
     for (station = stations)
@@ -85,9 +86,14 @@ assert(fixture_clearance_report_issue_count(clearance) == 0,
     "Rounded-square fixture must pass clearance analysis.");
 assert(abs(
         fixture_clearance_report_required_nonlocal_path_gap_mm(clearance) -
-        (0.508 + 0.25)
+        (2 * (0.508 + 0.25) + 2)
     ) <= tolerance,
-    "Required nonlocal path gap must include strap thickness plus clearance.");
+    "Required nonlocal path gap must include both strap-slot and follower envelopes.");
+assert(abs(
+        fixture_clearance_report_required_post_gap_mm(clearance) -
+        (1 + 2 * (0.508 + 0.25 + 2))
+    ) <= tolerance,
+    "Required post-pair gap must include both follower radial envelopes.");
 validate_bend_post_fixture_clearance(
     clearance, plan, fixture, path, LABORATORY_STRAP_MATERIALS
 );

@@ -44,11 +44,15 @@ When no qualified calibration exists, fixture development continues using an exp
 
 The first production-shape software family uses a rectangular base and one full cylindrical inside-form post per analytical bend. In nominal mode the post tool center is the exact analytical target arc center. Its source command, global station interval, signed turn, target/tool radii, and separate target/tool entry/exit tangent datums remain traceable in the derived fixture plan.
 
-In `nominal_target` mode each tool radius equals the requested finished inside radius. This is an intentionally uncompensated construction used to complete fixture software before empirical PET correction exists. The base covers the analytical path and complete post circles plus margin, and validation rejects a base larger than the configured printer envelope. Posts are open at the top so the strap can be lifted vertically; no integral retention is claimed.
+In `nominal_target` mode each tool radius equals the requested finished inside radius. This is an intentionally uncompensated construction used to complete fixture software before empirical PET correction exists. Posts remain open at the top so the strap can be lifted vertically.
 
 This family is suitable for small shapes that fit one print envelope. It is not the long-form solution.
 
-Batch 016 adds a pre-render clearance analysis. Every post pair is checked by exact circle-to-circle gap. Every post is also checked against every nonlocal analytical line or arc using exact point-to-segment or point-to-arc distance. The station's own source arc and its immediate tangent neighbors are excluded because contact there is intentional. The required nonlocal path gap is nominal strap thickness plus the fixture's explicit clearance allowance. A separate minimum post-to-post material gap is also configurable. Any violation rejects the full-form fixture before geometry dispatch. This is a conservative collision screen; it does not yet define integral retention geometry.
+Batch 016 adds a pre-render clearance analysis. Every post pair is checked by exact circle-to-circle gap. Every post is also checked against every nonlocal analytical line or arc using exact point-to-segment or point-to-arc distance. The station's own source arc and its immediate tangent neighbors are excluded because contact there is intentional. Any violation rejects the full-form fixture before geometry dispatch.
+
+Batch 017 adds the first integral retention option, `arc_follower`. For each bend, an annular outer wall follows exactly the signed bend sweep. The follower inner radius is the tool-post radius plus nominal strap thickness plus configured strap clearance. The follower outer radius adds an explicit wall thickness. Because the wall ends at the bend tangent datums, the straight segments remain open and the strap can still be inserted or removed vertically. The exact partial follower bounds participate in base sizing.
+
+The pre-render collision policy remains intentionally conservative: when arc followers are enabled, post/post and post/nonlocal-path requirements are expanded as if the follower radial envelope existed around the complete post circle. This can reject a geometrically printable case that an exact partial-arc collision solver might allow, but it will not silently render a known retention envelope intrusion. A later fixture family may replace this conservative screen with a narrower exact wall-intersection policy if needed.
 
 ## Other candidate fixture families
 

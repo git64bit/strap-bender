@@ -51,9 +51,22 @@ WORKBENCH_RADIUS_OBSERVATION =
         )
         : undef;
 
-WORKBENCH_CALIBRATION_TRIAL =
+WORKBENCH_RADIUS_OBSERVATION_ISSUES =
     wb_workbench_name == "radius_observation" &&
     wb_calibration_trial_ready
+        ? radius_observation_completion_issues(
+            WORKBENCH_RADIUS_OBSERVATION,
+            STRAP_MATERIALS
+        )
+        : [];
+
+WORKBENCH_CALIBRATION_TRIAL_COMPLETE =
+    wb_workbench_name == "radius_observation" &&
+    wb_calibration_trial_ready &&
+    len(WORKBENCH_RADIUS_OBSERVATION_ISSUES) == 0;
+
+WORKBENCH_CALIBRATION_TRIAL =
+    WORKBENCH_CALIBRATION_TRIAL_COMPLETE
         ? calibration_trial_spec(
             name = wb_calibration_trial_name,
             coupon_name = wb_calibration_trial_coupon_name,

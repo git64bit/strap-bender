@@ -2,7 +2,7 @@
 // LibFile: bend_post_fixture.scad
 // Project: Strap Bender
 // FileGroup: Production Fixture Geometry
-// FileSummary: Renders the nominal full-form base and one post per bend.
+// FileSummary: Renders the full-form base, bend posts, and arc followers.
 //////////////////////////////////////////////////////////////////////
 
 module render_bend_post_station(station, fixture) {
@@ -21,6 +21,19 @@ module render_bend_post_station(station, fixture) {
         );
 }
 
+module render_bend_post_arc_follower(station, plan, fixture) {
+    strap_thickness_mm =
+        bend_post_fixture_plan_nominal_strap_thickness_mm(plan);
+    points = sb_bend_post_follower_polygon_points(
+        station,
+        fixture,
+        strap_thickness_mm
+    );
+    translate([0, 0, bend_post_fixture_base_thickness_mm(fixture)])
+        linear_extrude(height = bend_post_fixture_post_height_mm(fixture))
+            polygon(points = points);
+}
+
 module render_bend_post_fixture(plan, fixture) {
     bounds = bend_post_fixture_plan_base_bounds(plan);
     base_width = bend_post_fixture_plan_base_width_mm(plan);
@@ -37,7 +50,10 @@ module render_bend_post_fixture(plan, fixture) {
                 base_depth,
                 bend_post_fixture_base_thickness_mm(fixture)
             ]);
-        for (station = bend_post_fixture_plan_stations(plan))
+        for (station = bend_post_fixture_plan_stations(plan)) {
             render_bend_post_station(station, fixture);
+            if (sb_bend_post_retention_enabled(fixture))
+                render_bend_post_arc_follower(station, plan, fixture);
+        }
     }
 }

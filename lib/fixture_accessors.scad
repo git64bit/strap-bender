@@ -28,6 +28,8 @@ function bend_post_fixture_tool_surface_max_angle_step_degrees(fixture) =
     fixture[BF_TOOL_SURFACE_MAX_ANGLE_STEP_DEGREES];
 function bend_post_fixture_retention_mode(fixture) =
     fixture[BF_RETENTION_MODE];
+function bend_post_fixture_follower_wall_thickness_mm(fixture) =
+    fixture[BF_FOLLOWER_WALL_THICKNESS_MM];
 function bend_post_fixture_notes(fixture) = fixture[BF_NOTES];
 function bend_post_station_source_index(station) = station[BS_SOURCE_INDEX];
 function bend_post_station_label(station) = station[BS_LABEL];
@@ -56,6 +58,8 @@ function bend_post_fixture_plan_reference_axis(plan) =
 function bend_post_fixture_plan_status(plan) = plan[BP_STATUS];
 function bend_post_fixture_plan_stations(plan) = plan[BP_STATIONS];
 function bend_post_fixture_plan_base_bounds(plan) = plan[BP_BASE_BOUNDS];
+function bend_post_fixture_plan_nominal_strap_thickness_mm(plan) =
+    plan[BP_NOMINAL_STRAP_THICKNESS_MM];
 function bend_post_fixture_plan_notes(plan) = plan[BP_NOTES];
 function bend_post_fixture_plan_base_width_mm(plan) =
     sb_bounds_max_x(bend_post_fixture_plan_base_bounds(plan)) -

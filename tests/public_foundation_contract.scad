@@ -37,7 +37,7 @@ assert(STRAP_BENDER_CALIBRATION_TRIAL_CONTRACT_VERSION == 1,
     "Unexpected calibration trial contract version.");
 assert(STRAP_BENDER_CALIBRATION_EVIDENCE_REGISTRY_CONTRACT_VERSION == 1,
     "Unexpected calibration evidence registry contract version.");
-assert(STRAP_BENDER_BEND_POST_FIXTURE_CONTRACT_VERSION == 2,
+assert(STRAP_BENDER_BEND_POST_FIXTURE_CONTRACT_VERSION == 3,
     "Unexpected bend-post fixture contract version.");
 
 material = strap_material_spec(
@@ -129,7 +129,8 @@ fixture = bend_post_fixture_spec(
     220,
     0.02,
     5,
-    "none",
+    "arc_follower",
+    2,
     "Synthetic public-foundation fixture only."
 );
 project = project_spec("TEST_PROJECT", "bend_program", "laboratory");
@@ -219,7 +220,8 @@ assert(bend_post_fixture_name(fixture) == "TEST_BEND_POST_FIXTURE" &&
     bend_post_fixture_radius_mode(fixture) == "nominal_target" &&
     bend_post_fixture_strap_clearance_mm(fixture) == 0.25 &&
     bend_post_fixture_minimum_post_gap_mm(fixture) == 1 &&
-    bend_post_fixture_retention_mode(fixture) == "none",
+    bend_post_fixture_retention_mode(fixture) == "arc_follower" &&
+    bend_post_fixture_follower_wall_thickness_mm(fixture) == 2,
     "Bend-post fixture constructor or accessor contract failed.");
 assert(strap_material_name(material) == "TEST_STRAP" &&
     abs(strap_material_nominal_width_in(material) - 0.625) < 1e-9 &&

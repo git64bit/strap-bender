@@ -29,4 +29,11 @@ render_mode = "report_only";
 
 include <../main.scad>
 
+assert(WORKBENCH_CALIBRATION_TRIAL_COMPLETE,
+    "Complete synthetic observation must pass the readiness completeness gate.");
+assert(len(WORKBENCH_RADIUS_OBSERVATION_ISSUES) == 0,
+    "Complete synthetic observation must report zero completeness issues.");
+assert(!is_undef(WORKBENCH_CALIBRATION_TRIAL),
+    "Complete synthetic observation must emit a transient trial record.");
+
 echo("STRAP BENDER READY RADIUS-OBSERVATION WORKBENCH CONTRACT: PASS");

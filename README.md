@@ -77,9 +77,11 @@ Batch 013 adds the persistent calibration-evidence registry boundary. The regist
 
 Batch 014 adds non-rejecting sharp-source polygon self-intersection diagnostics. Nonadjacent source-edge crossings and touches are reported by stable edge index, while the project-wide policy for unsupported crossing fixtures remains deliberately unresolved.
 
-Batch 015 begins Phase 5 with the first production-shape fixture software family. Every exact analytical arc becomes one cylindrical inside-form post at the exact arc center, with separate target/tool centers and entry/exit tangent datums plus source-command provenance. A rectangular base is derived from the exact path/post bounds plus margin and is rejected if it exceeds the configured print envelope. Until empirical calibration exists, tool radius intentionally equals requested finished inside radius and the entire plan is marked `experimental_uncompensated`. The family is open-top and has no integral retention; segmentation and long-form tooling remain later work.
+Batch 015 begins Phase 5 with the first production-shape fixture software family. Every exact analytical arc becomes one cylindrical inside-form post at the exact arc center, with separate target/tool centers and entry/exit tangent datums plus source-command provenance. A rectangular base is derived from the exact path/post bounds plus margin and is rejected if it exceeds the configured print envelope. Until empirical calibration exists, tool radius intentionally equals requested finished inside radius and the entire plan is marked `experimental_uncompensated`.
 
 Batch 016 adds pre-render fixture clearance validation. Exact post/post gaps and exact post/nonlocal-path distances are checked against configurable policy values. Nonlocal path clearance includes the ULINE strap nominal thickness plus an explicit clearance allowance; unsafe full-form fixtures fail before geometry rendering.
+
+Batch 017 adds the first integral retention option: an open-top arc follower outside each bend post. The nominal radial slot equals strap thickness plus configured clearance, and the follower wall tracks only the signed bend sweep so entry and exit remain tangent openings. Exact follower bounds participate in base planning, while clearance checks use a conservative full-circle retention envelope before rendering. The workbenches can still select `none` when retention-free posts are wanted.
 
 ## Tests
 

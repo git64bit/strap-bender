@@ -172,6 +172,11 @@ wb_fixture_strap_clearance_mm = is_undef(fixture_strap_clearance_mm)
     ? 0.25 : fixture_strap_clearance_mm;
 wb_fixture_minimum_post_gap_mm = is_undef(fixture_minimum_post_gap_mm)
     ? 1 : fixture_minimum_post_gap_mm;
+wb_fixture_retention_mode = is_undef(fixture_retention_mode)
+    ? "arc_follower" : fixture_retention_mode;
+wb_fixture_follower_wall_thickness_mm =
+    is_undef(fixture_follower_wall_thickness_mm)
+        ? 2 : fixture_follower_wall_thickness_mm;
 wb_fixture_max_base_width_mm = is_undef(fixture_max_base_width_mm)
     ? 220 : fixture_max_base_width_mm;
 wb_fixture_max_base_depth_mm = is_undef(fixture_max_base_depth_mm)

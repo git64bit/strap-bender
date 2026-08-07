@@ -88,7 +88,7 @@ Batch 012 requires each coupon-linked calibration trial to have:
 - observation tool inside radius equal to the source coupon designed radius within the named position tolerance;
 - notes stored as a string.
 
-The Radius Observation workbench defaults to `Observation ready = false`. In that state the selected coupon is validated and reported, but no observation or calibration-trial evidence record is constructed. Enabling the gate does not certify the values as physical truth; it only allows the normal evidence validators to run.
+The Radius Observation workbench defaults to `Observation ready = false`. In that state the selected coupon is validated and reported, but no observation or calibration-trial evidence record is constructed. When `Observation ready = true`, a non-fatal completeness check reports all missing or invalid worksheet fields first. The strict evidence validators run only after that list is empty. Enabling the gate does not certify the values as physical truth.
 
 ## Persistent calibration-evidence registry
 
@@ -196,8 +196,8 @@ Batch 015 requires the bend-post fixture source and derived plan to check:
 
 - exact fixture record type and current schema version;
 - exactly one referenced strap material;
-- supported radius policy (`nominal_target`) and retention policy (`none`);
-- finite positive base thickness, post height, and printer-envelope dimensions;
+- supported radius policy (`nominal_target`) and retention policy (`none` or `arc_follower`);
+- finite positive base thickness, post height, follower wall thickness, and printer-envelope dimensions;
 - nonnegative base margin;
 - post height at least the referenced strap's nominal width;
 - positive tool-surface chord error and valid maximum angular step;
@@ -205,11 +205,11 @@ Batch 015 requires the bend-post fixture source and derived plan to check:
 - station source index, label, global station interval, target/tool centers, signed angle, target/tool radii, and target/tool tangent entry/exit points are valid;
 - nominal mode preserves tool radius, center, and tangent datums equal to their target counterparts within the named position tolerance;
 - resolved cylindrical tessellation stays within the requested ideal-circle sagitta bound;
-- fixture plan preserves fixture identity, analytical-path identity, and reference axis;
+- fixture plan preserves fixture identity, analytical-path identity, reference axis, and nominal strap thickness;
 - nominal plans are explicitly marked `experimental_uncompensated`;
 - base bounds are finite and fit within the configured printer envelope.
 
-The Batch 015 family intentionally has no integral strap-clearance channel, clamp, or segmented joints, so those validations do not yet apply. Later fixture families must additionally validate clearance/retention geometry, component identifiers, segmentation datums, closure/removal access, and supported crossing/interference policy.
+When `arc_follower` is active, validation additionally requires a positive radial slot outside every post, bounded follower tessellation, valid follower polygons, and base bounds that include the follower walls. The open-top follower has no overhanging cap, so vertical removal remains the current access policy. Segmented joints and component identifiers remain later validations.
 
 ## Tolerances
 
@@ -233,5 +233,9 @@ Tests should be opened directly and run with F5. Initial test families should co
 
 ## Batch 016 fixture-clearance validation
 
-Before a bend-post fixture renders, the application validates a derived clearance report. Distinct tool circles must meet the configured minimum post gap. Each tool circle must remain at least nominal strap thickness plus configured strap clearance from every nonlocal analytical primitive. The post's own source arc and immediately tangent neighboring primitives are excluded as intentional contact. Clearance violations are assertion failures; they are not silently rendered.
+Before a bend-post fixture renders, the material router must expose the referenced strap-product registry to that render route regardless of which shape front end produced the analytical path. The application then validates a derived clearance report. With retention disabled, the Batch 016 post-gap and nominal strap-thickness-plus-clearance policy remains unchanged. With `arc_follower` enabled, Batch 017 expands the required post-pair gap by two follower radial extensions and expands the nonlocal-path requirement by the follower radial extension plus a second nominal strap slot. This treats each partial follower conservatively as a full-circle radial envelope. The post's own source arc and immediately tangent neighboring primitives remain excluded as intentional contact. Clearance violations are assertion failures; they are not silently rendered.
+
+## Batch 017 arc-follower validation
+
+For each retained bend, the follower inner radius equals tool radius plus nominal strap thickness plus configured clearance. The follower outer radius adds positive wall thickness. The partial annular wall spans the same signed sweep as the source bend, its outer chordal approximation must satisfy the configured tool-surface chord-error bound, and its exact analytical bounds participate in fixture base sizing.
 

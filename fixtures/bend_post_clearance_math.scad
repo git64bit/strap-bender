@@ -5,6 +5,32 @@
 // FileSummary: Exact post/post and post/nonlocal-path clearance diagnostics.
 //////////////////////////////////////////////////////////////////////
 
+function sb_fixture_required_nonlocal_path_gap_mm(
+    fixture,
+    strap_thickness_mm
+) =
+    let(
+        strap_slot = sb_bend_post_follower_slot_width_mm(
+            fixture, strap_thickness_mm
+        ),
+        follower_extension = sb_bend_post_follower_outer_extension_mm(
+            fixture, strap_thickness_mm
+        )
+    )
+    sb_bend_post_retention_enabled(fixture)
+        ? follower_extension + strap_slot
+        : strap_slot;
+function sb_fixture_required_post_pair_gap_mm(
+    fixture,
+    strap_thickness_mm
+) =
+    sb_bend_post_retention_enabled(fixture)
+        ? bend_post_fixture_minimum_post_gap_mm(fixture) +
+            2 * sb_bend_post_follower_outer_extension_mm(
+                fixture, strap_thickness_mm
+            )
+        : bend_post_fixture_minimum_post_gap_mm(fixture);
+
 function sb_fixture_clamp(value, lower, upper) =
     max(lower, min(upper, value));
 function sb_fixture_point_to_segment_distance(point, start_point, end_point) =
@@ -181,9 +207,12 @@ function analyze_bend_post_fixture_clearance(
             "strap material"
         ),
         strap_thickness = strap_material_nominal_thickness_mm(material),
-        required_path_gap = strap_thickness +
-            bend_post_fixture_strap_clearance_mm(fixture),
-        required_post_gap = bend_post_fixture_minimum_post_gap_mm(fixture),
+        required_path_gap = sb_fixture_required_nonlocal_path_gap_mm(
+            fixture, strap_thickness
+        ),
+        required_post_gap = sb_fixture_required_post_pair_gap_mm(
+            fixture, strap_thickness
+        ),
         stations = bend_post_fixture_plan_stations(plan),
         post_pair_gaps = sb_fixture_post_pair_gaps(stations),
         post_path_gaps = sb_fixture_post_path_gaps(stations, path),
@@ -207,8 +236,9 @@ function analyze_bend_post_fixture_clearance(
         minimum_post_path_gap_mm = len(post_path_gaps) == 0
             ? undef : min(post_path_gaps),
         notes = str(
-            "Exact XY clearance diagnostic. Local source arc and its tangent ",
-            "neighbors are excluded from post/path checks. Nonlocal required ",
-            "gap equals nominal strap thickness plus configured clearance."
+            "Exact post distances with a conservative full-circle retention ",
+            "envelope. Local source arc and its tangent neighbors are excluded ",
+            "from post/path checks. arc_follower mode expands required gaps by ",
+            "the nominal strap slot and follower-wall radial extension."
         )
     );

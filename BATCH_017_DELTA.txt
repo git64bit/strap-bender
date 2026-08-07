@@ -1,0 +1,165 @@
+STRAP BENDER — CORRECTED BATCH 017 DELTA
+
+This archive completely supersedes the earlier uncommitted Batch 017 archive.
+Do not overlay the earlier Batch 017 first.
+
+Base repository:
+  https://github.com/git64bit/strap-bender
+
+Required base commit:
+  e82e736
+  e82e7361751b685d2e6d20dd839ee80967dcca6c
+
+Scope:
+  Phase 5 bounded continuation: first integral open-top arc-follower retention
+  for the full-form bend-post fixture family, plus the two defects found during
+  user verification before Batch 017 was committed.
+
+Development priority:
+  Application completion remains primary. Pending coupon measurements,
+  empirical springback fitting, and related calibration refinements do not
+  block this batch or subsequent application work.
+
+Corrected Batch 017 retains the original Batch 017 implementation:
+  - bend-post fixture contract version advances from 2 to 3;
+  - fixture source supports retention_mode = "none" or "arc_follower";
+  - fixture source adds explicit follower_wall_thickness_mm;
+  - all four shape workbenches expose retention mode and follower wall
+    thickness without introducing per-bend Customizer fields;
+  - the default workbench retention mode is arc_follower;
+  - the fixture plan preserves the referenced material's nominal thickness;
+  - nominal follower slot width = strap thickness + configured clearance;
+  - follower inner radius = tool-post radius + nominal slot width;
+  - follower outer radius = follower inner radius + follower wall thickness;
+  - each follower is a partial annular wall following the bend's signed sweep;
+  - follower ends coincide with tool tangent datums so straight runs remain
+    open and the strap remains vertically removable;
+  - exact partial-follower bounds participate in base sizing;
+  - follower tessellation obeys the configured chord-error and angular-step
+    controls;
+  - retention-aware clearance validation remains deliberately conservative.
+
+Correction 1 — fixture material dependency routing:
+  User-visible failure:
+    Expected exactly one strap material named 'ULINE_S_1655_BLACK'; found 0.
+  Reproduced through both vertex_polygon and bend_program fixture routes.
+  Root cause:
+    config/materials.scad exposed the material registry by workbench name, but
+    the shape-authoring workbenches were not listed even though
+    bend_post_fixture planning requires the material registry.
+  Correction:
+    Any workbench entering render_mode = "bend_post_fixture" receives the
+    Laboratory strap-material registry. The dependency is therefore keyed to
+    the physical fixture route rather than duplicated across shape front ends.
+    calibration_evidence is also explicitly material-enabled for future
+    persisted physical trials.
+
+Correction 2 — non-fatal Radius Observation completeness gate:
+  User-visible failure:
+    Setting Observation ready = true with the default incomplete worksheet
+    immediately asserted on the empty specimen ID.
+  Root cause:
+    readiness directly entered strict evidence validation before checking
+    whether all required worksheet fields had been supplied.
+  Correction:
+    - a radius-observation completeness function returns all missing/invalid
+      worksheet issues without assertions;
+    - a transient calibration-trial record is emitted only when the issue list
+      is empty;
+    - incomplete ready state reports every issue and emits no evidence record;
+    - strict validate_radius_observation() and validate_calibration_trial()
+      remain unchanged and still run for a complete ready observation;
+    - physical-evidence semantics are therefore not weakened.
+
+New regression tests:
+  - tests/fixture_material_routing_contract.scad
+  - tests/radius_observation_incomplete_workbench_contract.scad
+  - tests/radius_observation_ready_workbench_contract.scad now explicitly
+    confirms zero completeness issues and successful transient trial emission.
+
+This batch deliberately does NOT add:
+  - empirical target-to-tool radius compensation;
+  - a claim that nominal tool radius predicts relaxed PET radius;
+  - neutral-axis or cut-length correction;
+  - long-form fixture segmentation or assembly keys;
+  - Catalog promotion;
+  - forming-temperature or process recommendations.
+
+Upload:
+  1. Confirm the repository is clean and exactly at accepted Batch 016:
+       cd /root/strap-bender
+       git status --short
+       git rev-parse HEAD
+     Expected HEAD:
+       e82e7361751b685d2e6d20dd839ee80967dcca6c
+  2. Do NOT apply the earlier Batch 017 archive.
+  3. Upload this corrected archive to the orchestrator.
+  4. From /root/strap-bender, overlay every complete file while preserving
+     repository-relative paths. Example if the ZIP is in /root:
+       unzip -o /root/strap-bender-batch-017-corrected.zip -d /root/strap-bender
+  5. Confirm only the corrected Batch 017 delta is present:
+       git status --short
+
+Required OpenSCAD F5 verification:
+  1. tests/public_foundation_contract.scad
+       STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+  2. tests/bend_post_fixture_contract.scad
+       STRAP BENDER BEND-POST FIXTURE CONTRACT: PASS
+  3. tests/bend_post_retention_contract.scad
+       STRAP BENDER BEND-POST RETENTION CONTRACT: PASS
+  4. tests/bend_post_clearance_contract.scad
+       STRAP BENDER BEND-POST CLEARANCE CONTRACT: PASS
+  5. tests/bend_post_fixture_workbench_contract.scad
+       STRAP BENDER BEND-POST FIXTURE WORKBENCH CONTRACT: PASS
+  6. tests/fixture_material_routing_contract.scad
+       STRAP BENDER FIXTURE MATERIAL ROUTING CONTRACT: PASS
+  7. tests/radius_observation_incomplete_workbench_contract.scad
+     Confirm there is NO ERROR/ASSERTION, the console reports
+       STRAP BENDER RADIUS OBSERVATION: INCOMPLETE
+     followed by a list of missing/invalid fields, then:
+       STRAP BENDER INCOMPLETE RADIUS-OBSERVATION WORKBENCH CONTRACT: PASS
+  8. tests/radius_observation_ready_workbench_contract.scad
+       STRAP BENDER READY RADIUS-OBSERVATION WORKBENCH CONTRACT: PASS
+  9. tests/radius_observation_workbench_wrapper_contract.scad
+       STRAP BENDER RADIUS-OBSERVATION WORKBENCH WRAPPER CONTRACT: PASS
+ 10. tests/vertex_polygon_workbench_wrapper_contract.scad
+     Confirm final PASS message with no warnings/errors.
+ 11. tests/regular_polygon_workbench_wrapper_contract.scad
+     Confirm final PASS message with no warnings/errors.
+ 12. tests/wave_pattern_workbench_wrapper_contract.scad
+     Confirm final PASS message with no warnings/errors.
+
+Manual regression verification for the reported fixture error:
+  A. Open workbenches/vertex-polygon.scad.
+     Select Show bend post fixture = true and press F5.
+     Confirm there is no ULINE_S_1655_BLACK lookup assertion and the retained
+     bend-post fixture renders.
+  B. Open workbenches/bend-program.scad.
+     Select Show bend post fixture = true and press F5.
+     Confirm there is no ULINE_S_1655_BLACK lookup assertion and the fixture
+     renders.
+  C. Open workbenches/radius-observation.scad.
+     Leave the worksheet fields at their defaults, set Observation ready = true,
+     and press F5.
+     Confirm there is no assertion. The console must report INCOMPLETE and list
+     the fields requiring attention. No physical evidence record is emitted.
+
+Static verification performed before delivery:
+  - corrected tree was overlaid onto the accepted Batch 016 reconstruction;
+  - all include/use targets resolve;
+  - delimiter, string, and block-comment balance checks pass;
+  - project-prefixed function/module call-resolution scan passes;
+  - function/module declaration uniqueness scan passes;
+  - every .scad file remains below the 500-line project limit;
+  - Wave Pattern retains show_diagnostic_preview = true;
+  - the physical calibration-trial registry remains unmodified and empty;
+  - no empirical PET behavior is invented.
+
+OpenSCAD execution note:
+  OpenSCAD is not installed in the delivery environment. The F5 tests above
+  require execution on the user's OpenSCAD installation.
+
+After acceptance:
+  Proceed to Phase 6 long-form fixture segmentation: deterministic component
+  IDs, print-envelope partitioning, preferred straight-region splits, and
+  alignment/assembly datums, without waiting for coupon measurements.

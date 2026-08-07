@@ -133,9 +133,9 @@ Relates target geometry to fixture geometry for one physical strap and forming p
 
 ### Bend-post fixture specification
 
-Batch 015 implements the first concrete production-shape fixture source record. It stores a stable fixture name, exact strap-material name, radius policy, base thickness and margin, post height, maximum printable base width/depth, tool-surface chord-error and angular-step limits, retention mode, and notes. The initial supported values are `radius_mode = nominal_target` and `retention_mode = none`.
+Batch 015 implements the first concrete production-shape fixture source record. It stores a stable fixture name, exact strap-material name, radius policy, base thickness and margin, post height, maximum printable base width/depth, tool-surface chord-error and angular-step limits, retention mode, and notes. The supported radius policy remains `nominal_target`.
 
-Batch 016 extends the source record with two explicit collision-policy dimensions: `strap_clearance_mm`, which is added to nominal strap thickness for nonlocal path clearance, and `minimum_post_gap_mm`, the required free XY distance between distinct printed posts.
+Batch 016 extends the source record with two explicit collision-policy dimensions: `strap_clearance_mm` and `minimum_post_gap_mm`. Batch 017 adds `follower_wall_thickness_mm` and supports `retention_mode = none` or `retention_mode = arc_follower`. In arc-follower mode the nominal radial slot is derived from the referenced material thickness plus `strap_clearance_mm`; material thickness is not duplicated in the fixture source record.
 
 The source record does not contain target vertices or bend commands. It is applied to an already validated analytical path.
 
@@ -145,11 +145,11 @@ One station is created for every analytical arc. It stores source-command index 
 
 ### Derived bend-post fixture plan
 
-The plan stores fixture identity, source analytical-path identity and reference axis, explicit status, ordered bend stations, derived base bounds, and notes. `experimental_uncompensated` is mandatory for the nominal policy. Base bounds cover both the analytical target bounds and complete post circles, then add the configured margin. The plan is transient derived data; it does not replace either the target path or the fixture source specification.
+The plan stores fixture identity, source analytical-path identity and reference axis, explicit status, ordered bend stations, derived base bounds, the resolved nominal strap thickness, and notes. `experimental_uncompensated` is mandatory for the nominal policy. Base bounds cover the analytical target, complete post circles, and any exact partial arc-follower walls before adding the configured margin. The plan is transient derived data; it does not replace either the target path or the fixture source specification.
 
 ### Derived fixture-clearance report
 
-Batch 016 derives a separate report from the fixture plan, analytical path, and exact strap-material record. It stores nominal strap thickness, required nonlocal path gap, required post gap, issue lists, and minimum measured gaps. `post_post` issues compare exact tool-circle separation. `post_path` issues compare a tool circle against nonlocal analytical lines/arcs; the source arc and immediate tangent neighbors are excluded as intentional contact. Clearance data are derived diagnostics, not target-shape authority.
+Batch 016 derives a separate report from the fixture plan, analytical path, and exact strap-material record. It stores nominal strap thickness, required nonlocal path gap, required post gap, issue lists, and minimum measured gaps. `post_post` issues compare exact tool-circle separation. `post_path` issues compare a tool circle against nonlocal analytical lines/arcs; the source arc and immediate tangent neighbors are excluded as intentional contact. Batch 017 expands those required gaps when `arc_follower` is active so the conservative full-circle retention envelope is screened before render. Clearance data are derived diagnostics, not target-shape authority.
 
 ### Accepted object
 

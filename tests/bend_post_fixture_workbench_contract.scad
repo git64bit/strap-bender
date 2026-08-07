@@ -23,6 +23,8 @@ fixture_base_margin_mm = 8;
 fixture_post_height_mm = 18;
 fixture_strap_clearance_mm = 0.25;
 fixture_minimum_post_gap_mm = 1;
+fixture_retention_mode = "arc_follower";
+fixture_follower_wall_thickness_mm = 2;
 fixture_max_base_width_mm = 220;
 fixture_max_base_depth_mm = 220;
 fixture_tool_surface_chord_error_mm = 0.02;
@@ -43,7 +45,10 @@ assert(bend_post_fixture_strap_clearance_mm(WORKBENCH_BEND_POST_FIXTURE) == 0.25
     bend_post_fixture_minimum_post_gap_mm(WORKBENCH_BEND_POST_FIXTURE) == 1,
     "Fixture workbench did not preserve clearance policy values.");
 assert(bend_post_fixture_retention_mode(WORKBENCH_BEND_POST_FIXTURE) ==
-    "none",
-    "Fixture workbench must remain open-top until retention is added.");
+    "arc_follower" &&
+    bend_post_fixture_follower_wall_thickness_mm(
+        WORKBENCH_BEND_POST_FIXTURE
+    ) == 2,
+    "Fixture workbench did not preserve arc-follower retention controls.");
 
 echo("STRAP BENDER BEND-POST FIXTURE WORKBENCH CONTRACT: PASS");

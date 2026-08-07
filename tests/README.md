@@ -96,7 +96,7 @@ The designed tool radius is not a predicted relaxed PET radius. Coupon geometry 
 - `radius_observation_workbench_wrapper_contract.scad` executes the exact default Radius Observation Customizer wrapper and proves it remains gated as a draft.
 - `radius_observation_ready_workbench_contract.scad` supplies explicitly synthetic values, enables the readiness gate, and executes the complete coupon-linked trial route through `main.scad`.
 
-No Batch 012 test value is physical PET evidence. The readiness switch only controls whether a transient evidence record is emitted; it does not validate the experimental process or measurement method itself.
+No Batch 012 test value is physical PET evidence. The readiness switch requests transient evidence construction. A non-fatal completeness gate first requires every mandatory worksheet value to be valid; only then do the strict calibration-record validators run. This does not validate the experimental process or measurement method itself.
 
 
 
@@ -114,3 +114,24 @@ The synthetic record in the registry contract is test-local only. Batch 013 pers
 
 The Batch 015 fixture is a software-completion family, not a calibrated PET prediction. In `nominal_target` mode the printed post radius intentionally equals the requested finished inside radius and reports `experimental_uncompensated`. Pending coupon measurements do not block further fixture, segmentation, or Catalog software development.
 
+
+
+## Batch 016 fixture-clearance contracts
+
+- `bend_post_clearance_contract.scad` verifies post/post and post/nonlocal-path distances, preserves the retention-free Batch 016 policy, and exercises a deliberately strict post-gap issue list.
+
+## Batch 017 arc-follower retention contracts
+
+- `bend_post_retention_contract.scad` verifies nominal strap-slot width, follower inner/outer radii, exact follower-aware base bounds, bounded follower tessellation, conservative retention clearance envelopes, right-turn follower construction, and renders a retained rounded-square fixture.
+- `bend_post_fixture_contract.scad` now renders the default retained fixture with four R10 posts and four open-top arc followers.
+- `bend_post_fixture_workbench_contract.scad` verifies the Customizer route preserves `arc_follower` mode and follower wall thickness.
+
+The arc follower is still nominal/uncompensated. Its slot is derived from the vendor nominal strap thickness plus configured clearance; it does not imply a calibrated springback result.
+
+### Corrected Batch 017 regression contracts
+
+- `fixture_material_routing_contract.scad` verifies that any `bend_post_fixture` render route receives the registered ULINE strap material, independent of the shape-authoring workbench.
+- `radius_observation_incomplete_workbench_contract.scad` sets `Observation ready = true` with incomplete worksheet values and verifies that the workbench reports actionable incompleteness without emitting an evidence record or terminating on an assertion.
+- `radius_observation_ready_workbench_contract.scad` remains the strict ready-state proof: once every required field is valid, the transient trial is constructed and the existing calibration validators run unchanged.
+
+The correction does not weaken evidence validation. It adds a non-fatal completeness gate before strict validation and fixes dependency routing for physical fixture generation.

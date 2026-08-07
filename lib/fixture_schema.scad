@@ -27,7 +27,8 @@ function bend_post_fixture_spec(
     max_base_depth_mm = 220,
     tool_surface_chord_error_mm = 0.02,
     tool_surface_max_angle_step_degrees = 5,
-    retention_mode = "none",
+    retention_mode = "arc_follower",
+    follower_wall_thickness_mm = 2,
     notes = "",
     schema_version = STRAP_BENDER_SCHEMA_VERSION
 ) = [
@@ -46,6 +47,7 @@ function bend_post_fixture_spec(
     tool_surface_chord_error_mm,
     tool_surface_max_angle_step_degrees,
     retention_mode,
+    follower_wall_thickness_mm,
     notes
 ];
 function bend_post_station_spec(
@@ -87,6 +89,7 @@ function bend_post_fixture_plan_spec(
     status,
     stations,
     base_bounds,
+    nominal_strap_thickness_mm,
     notes = "",
     schema_version = STRAP_BENDER_SCHEMA_VERSION
 ) = [
@@ -98,6 +101,7 @@ function bend_post_fixture_plan_spec(
     status,
     stations,
     base_bounds,
+    nominal_strap_thickness_mm,
     notes
 ];
 function fixture_clearance_issue_spec(

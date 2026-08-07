@@ -2,7 +2,7 @@
 // LibFile: bend_post_fixture_math.scad
 // Project: Strap Bender
 // FileGroup: Fixture Planning
-// FileSummary: Plans nominal full-form bend posts from an analytical path.
+// FileSummary: Plans nominal full-form bend posts and optional arc followers.
 //////////////////////////////////////////////////////////////////////
 
 function sb_bend_post_tool_radius_mm(target_inside_radius_mm, fixture) =
@@ -48,14 +48,31 @@ function sb_bend_post_station_circle_bounds(station) =
         sb_point_y(center) + radius
     ];
 
-function sb_bend_post_contact_bounds(path, stations) =
-    len(stations) == 0
-        ? analytical_path_bounds(path)
-        : sb_bounds_union(concat(
-            [analytical_path_bounds(path)],
-            [for (station = stations)
-                sb_bend_post_station_circle_bounds(station)]
-        ));
+function sb_bend_post_contact_bounds(
+    path,
+    stations,
+    fixture,
+    strap_thickness_mm
+) =
+    let(
+        post_bounds = [
+            for (station = stations)
+                sb_bend_post_station_circle_bounds(station)
+        ],
+        follower_bounds = sb_bend_post_retention_enabled(fixture)
+            ? [
+                for (station = stations)
+                    sb_bend_post_follower_bounds(
+                        station, fixture, strap_thickness_mm
+                    )
+            ]
+            : []
+    )
+    sb_bounds_union(concat(
+        [analytical_path_bounds(path)],
+        post_bounds,
+        follower_bounds
+    ));
 
 function sb_bounds_expand_by_margin(bounds, margin_mm) = [
     sb_bounds_min_x(bounds) - margin_mm,
@@ -64,11 +81,22 @@ function sb_bounds_expand_by_margin(bounds, margin_mm) = [
     sb_bounds_max_y(bounds) + margin_mm
 ];
 
-function plan_bend_post_fixture(path, fixture) =
+function plan_bend_post_fixture(path, fixture, material_registry) =
     let(
+        material = named_record(
+            material_registry,
+            bend_post_fixture_strap_material_name(fixture),
+            "strap material"
+        ),
+        strap_thickness_mm = strap_material_nominal_thickness_mm(material),
         stations = sb_bend_post_stations(path, fixture),
         base_bounds = sb_bounds_expand_by_margin(
-            sb_bend_post_contact_bounds(path, stations),
+            sb_bend_post_contact_bounds(
+                path,
+                stations,
+                fixture,
+                strap_thickness_mm
+            ),
             bend_post_fixture_base_margin_mm(fixture)
         )
     )
@@ -81,12 +109,14 @@ function plan_bend_post_fixture(path, fixture) =
             : "unknown",
         stations = stations,
         base_bounds = base_bounds,
+        nominal_strap_thickness_mm = strap_thickness_mm,
         notes = str(
             "Full-form open-top bend-post plan. In nominal_target mode each ",
             "tool center and tangent datum equals its analytical target ",
-            "counterpart, and the ",
-            "printed post radius equals the desired finished inside radius; ",
-            "no empirical springback compensation is implied."
+            "counterpart, and the printed post radius equals the desired ",
+            "finished inside radius. arc_follower retention creates an ",
+            "open-top annular wall only across each bend sweep, with nominal ",
+            "slot width equal to strap thickness plus configured clearance."
         )
     );
 

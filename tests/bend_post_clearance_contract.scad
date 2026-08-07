@@ -28,9 +28,10 @@ fixture = bend_post_fixture_spec(
     max_base_depth_mm = 220,
     tool_surface_chord_error_mm = 0.02,
     tool_surface_max_angle_step_degrees = 5,
-    retention_mode = "none"
+    retention_mode = "none",
+    follower_wall_thickness_mm = 2
 );
-plan = plan_bend_post_fixture(path, fixture);
+plan = plan_bend_post_fixture(path, fixture, LABORATORY_STRAP_MATERIALS);
 report = analyze_bend_post_fixture_clearance(
     plan, fixture, path, LABORATORY_STRAP_MATERIALS
 );
@@ -52,9 +53,10 @@ strict_fixture = bend_post_fixture_spec(
     max_base_depth_mm = 220,
     tool_surface_chord_error_mm = 0.02,
     tool_surface_max_angle_step_degrees = 5,
-    retention_mode = "none"
+    retention_mode = "none",
+    follower_wall_thickness_mm = 2
 );
-strict_plan = plan_bend_post_fixture(path, strict_fixture);
+strict_plan = plan_bend_post_fixture(path, strict_fixture, LABORATORY_STRAP_MATERIALS);
 strict_report = analyze_bend_post_fixture_clearance(
     strict_plan, strict_fixture, path, LABORATORY_STRAP_MATERIALS
 );

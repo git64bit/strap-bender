@@ -20,7 +20,8 @@ BF_MAX_BASE_DEPTH_MM = 11;
 BF_TOOL_SURFACE_CHORD_ERROR_MM = 12;
 BF_TOOL_SURFACE_MAX_ANGLE_STEP_DEGREES = 13;
 BF_RETENTION_MODE = 14;
-BF_NOTES = 15;
+BF_FOLLOWER_WALL_THICKNESS_MM = 15;
+BF_NOTES = 16;
 // Derived bend-post station. Target and tool datums are separate so a later
 // compensated planner can move tool geometry without rewriting target intent.
 BS_RECORD_TYPE = 0;
@@ -47,7 +48,8 @@ BP_REFERENCE_AXIS = 4;
 BP_STATUS = 5;
 BP_STATIONS = 6;
 BP_BASE_BOUNDS = 7;
-BP_NOTES = 8;
+BP_NOMINAL_STRAP_THICKNESS_MM = 8;
+BP_NOTES = 9;
 // Derived clearance issue
 CI_RECORD_TYPE = 0;
 CI_SCHEMA_VERSION = 1;

@@ -20,11 +20,14 @@ WORKBENCH_BEND_POST_FIXTURE = bend_post_fixture_spec(
         wb_fixture_tool_surface_chord_error_mm,
     tool_surface_max_angle_step_degrees =
         wb_fixture_tool_surface_max_angle_step_degrees,
-    retention_mode = "none",
+    retention_mode = wb_fixture_retention_mode,
+    follower_wall_thickness_mm =
+        wb_fixture_follower_wall_thickness_mm,
     notes = str(
         "Mutable first production-shape fixture family. Full-form base with ",
         "one open-top circular inside-form post per analytical bend. ",
-        "Nonlocal strap and post/post clearances are validated before render. ",
-        "Radius mode is deliberately nominal and uncompensated."
+        "Optional arc followers preserve a nominal strap slot across each bend. ",
+        "Clearance envelopes are validated before render. Radius mode remains ",
+        "deliberately nominal and uncompensated."
     )
 );

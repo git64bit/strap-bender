@@ -22,6 +22,8 @@ module report_bend_post_fixture(fixture, level = "summary") {
         bend_post_fixture_max_base_width_mm(fixture), " x ",
         bend_post_fixture_max_base_depth_mm(fixture), " mm"));
     echo(str("Retention: ", bend_post_fixture_retention_mode(fixture)));
+    echo(str("Follower wall thickness: ",
+        bend_post_fixture_follower_wall_thickness_mm(fixture), " mm"));
     if (level == "full") {
         echo(str("Tool-surface chord error: ",
             bend_post_fixture_tool_surface_chord_error_mm(fixture), " mm"));
@@ -41,7 +43,18 @@ module report_bend_post_fixture_plan(plan, fixture, level = "summary") {
     echo(str("Reference axis: ",
         bend_post_fixture_plan_reference_axis(plan)));
     echo(str("Status: ", bend_post_fixture_plan_status(plan)));
+    strap_thickness = bend_post_fixture_plan_nominal_strap_thickness_mm(plan);
     echo(str("Bend stations: ", len(stations)));
+    echo(str("Nominal strap thickness: ", strap_thickness, " mm"));
+    if (sb_bend_post_retention_enabled(fixture)) {
+        echo(str("Arc-follower nominal slot width: ",
+            sb_bend_post_follower_slot_width_mm(fixture, strap_thickness),
+            " mm"));
+        echo(str("Arc-follower radial extension beyond post: ",
+            sb_bend_post_follower_outer_extension_mm(
+                fixture, strap_thickness
+            ), " mm"));
+    }
     echo(str("Base bounds: [", sb_bounds_min_x(bounds), ", ",
         sb_bounds_min_y(bounds), "] to [", sb_bounds_max_x(bounds), ", ",
         sb_bounds_max_y(bounds), "] mm"));
@@ -79,9 +92,12 @@ module report_bend_post_fixture_plan(plan, fixture, level = "summary") {
         "this mapping in a later revision."
     ));
     echo(str(
-        "RETENTION LIMIT: this first family is open-top and has no integral ",
-        "strap clamp or retainer. Closed or concave shapes are removed ",
-        "vertically from the posts."
+        sb_bend_post_retention_enabled(fixture)
+            ? "RETENTION: open-top arc followers preserve a nominal radial slot "
+            : "RETENTION: none; only inside-form posts are rendered. ",
+        sb_bend_post_retention_enabled(fixture)
+            ? "across each bend sweep. The strap remains vertically removable."
+            : "The strap remains vertically removable."
     ));
 }
 

@@ -8,11 +8,11 @@
 function sb_bend_post_radius_mode_valid(mode) =
     mode == "nominal_target";
 function sb_bend_post_retention_mode_valid(mode) =
-    mode == "none";
+    mode == "none" || mode == "arc_follower";
 
 module validate_bend_post_fixture(fixture, material_registry) {
-    assert(is_list(fixture) && len(fixture) == 16,
-        "Bend-post fixture records must contain sixteen fields.");
+    assert(is_list(fixture) && len(fixture) == 17,
+        "Bend-post fixture records must contain seventeen fields.");
     assert(fixture[BF_RECORD_TYPE] == STRAP_BENDER_BEND_POST_FIXTURE_RECORD,
         "Invalid bend-post fixture record type.");
     assert(sb_schema_version_valid(fixture[BF_SCHEMA_VERSION]),
@@ -67,6 +67,10 @@ module validate_bend_post_fixture(fixture, material_registry) {
             bend_post_fixture_retention_mode(fixture)),
         str("Unsupported bend-post retention mode: ",
             bend_post_fixture_retention_mode(fixture)));
+    assert(sb_finite_number(
+            bend_post_fixture_follower_wall_thickness_mm(fixture)) &&
+        bend_post_fixture_follower_wall_thickness_mm(fixture) > 0,
+        "Fixture follower wall thickness must be finite and positive.");
     assert(is_string(bend_post_fixture_notes(fixture)),
         "Bend-post fixture notes must be a string.");
 
@@ -157,8 +161,8 @@ module validate_bend_post_fixture_plan(
     material_registry
 ) {
     validate_bend_post_fixture(fixture, material_registry);
-    assert(is_list(plan) && len(plan) == 9,
-        "Bend-post fixture plan records must contain nine fields.");
+    assert(is_list(plan) && len(plan) == 10,
+        "Bend-post fixture plan records must contain ten fields.");
     assert(plan[BP_RECORD_TYPE] ==
         STRAP_BENDER_BEND_POST_FIXTURE_PLAN_RECORD,
         "Invalid bend-post fixture plan record type.");
@@ -179,6 +183,18 @@ module validate_bend_post_fixture_plan(
         "Nominal bend-post fixture plan must be marked experimental.");
     assert(is_string(bend_post_fixture_plan_notes(plan)),
         "Bend-post fixture plan notes must be a string.");
+    material = named_record(
+        material_registry,
+        bend_post_fixture_strap_material_name(fixture),
+        "strap material"
+    );
+    expected_thickness = strap_material_nominal_thickness_mm(material);
+    assert(sb_near(
+            bend_post_fixture_plan_nominal_strap_thickness_mm(plan),
+            expected_thickness,
+            SB_NUMERIC_POSITION_TOLERANCE_MM
+        ),
+        "Fixture plan must preserve the referenced nominal strap thickness.");
 
     stations = bend_post_fixture_plan_stations(plan);
     arc_count = len([
@@ -189,8 +205,24 @@ module validate_bend_post_fixture_plan(
         "Fixture plan must create exactly one station per analytical arc.");
     assert(len(stations) > 0,
         "The bend-post fixture family requires at least one bend.");
-    for (station = stations)
+    for (station = stations) {
         validate_bend_post_station(station, fixture);
+        if (sb_bend_post_retention_enabled(fixture)) {
+            assert(sb_bend_post_follower_inner_radius_mm(
+                    station, fixture, expected_thickness
+                ) > bend_post_station_tool_inside_radius_mm(station),
+                "Arc follower must remain outside the inside-form post.");
+            assert(sb_bend_post_follower_actual_surface_sagitta_mm(
+                    station, fixture, expected_thickness
+                ) <=
+                bend_post_fixture_tool_surface_chord_error_mm(fixture) + 1e-9,
+                "Resolved follower tessellation exceeds requested chord error.");
+            assert(len(sb_bend_post_follower_polygon_points(
+                    station, fixture, expected_thickness
+                )) >= 4,
+                "Arc follower polygon must contain at least four points.");
+        }
+    }
 
     bounds = bend_post_fixture_plan_base_bounds(plan);
     assert(sb_bounds_valid(bounds),
@@ -260,8 +292,12 @@ module validate_bend_post_fixture_clearance(
         "strap material"
     );
     expected_thickness = strap_material_nominal_thickness_mm(material);
-    expected_path_gap = expected_thickness +
-        bend_post_fixture_strap_clearance_mm(fixture);
+    expected_path_gap = sb_fixture_required_nonlocal_path_gap_mm(
+        fixture, expected_thickness
+    );
+    expected_post_gap = sb_fixture_required_post_pair_gap_mm(
+        fixture, expected_thickness
+    );
     assert(sb_near(
             fixture_clearance_report_nominal_strap_thickness_mm(report),
             expected_thickness,
@@ -276,7 +312,7 @@ module validate_bend_post_fixture_clearance(
         "Clearance report required path gap is inconsistent with fixture policy.");
     assert(sb_near(
             fixture_clearance_report_required_post_gap_mm(report),
-            bend_post_fixture_minimum_post_gap_mm(fixture),
+            expected_post_gap,
             SB_NUMERIC_POSITION_TOLERANCE_MM
         ),
         "Clearance report required post gap is inconsistent with fixture policy.");
@@ -297,10 +333,14 @@ module validate_bend_post_fixture_clearance(
     assert(is_string(fixture_clearance_report_notes(report)),
         "Fixture clearance report notes must be a string.");
     assert(len(pair_issues) == 0,
-        str("Fixture post/post clearance failed with ", len(pair_issues),
-            " issue(s). Increase spacing, reduce tool radii, or segment the fixture."));
+        str("Fixture post/post retention-envelope clearance failed with ",
+            len(pair_issues),
+            " issue(s). Increase spacing, reduce tool radii/follower extent, ",
+            "or segment the fixture."));
     assert(len(path_issues) == 0,
-        str("Fixture post/nonlocal-path clearance failed with ", len(path_issues),
-            " issue(s). The target path approaches an unrelated bend post too closely."));
+        str("Fixture post/nonlocal-path retention-envelope clearance failed with ",
+            len(path_issues),
+            " issue(s). The target path approaches an unrelated bend station ",
+            "too closely for the configured strap slot/follower policy."));
 }
 

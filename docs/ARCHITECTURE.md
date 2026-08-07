@@ -117,6 +117,8 @@ Line and circular-arc primitives are authoritative. Batch 003 implements this bo
 
 Batch 015 adds the first production-shape fixture planner as a consumer of the exact analytical path:
 
+Any route entering `bend_post_fixture` must also receive the strap-material registry required by fixture planning and clearance validation. That dependency is keyed to the physical render route, not to one particular authoring workbench, so bend programs, vertex polygons, regular polygons, and wave patterns share the same material boundary.
+
 ```text
 analytical path
       ↓
@@ -128,12 +130,12 @@ base bounds + print-envelope validation
       ↓
 post/post + post/nonlocal-path clearance analysis
       ↓
-full-form base and cylindrical inside-form posts
+full-form base + inside-form posts + optional arc followers
 ```
 
 The target path remains authoritative. Each derived station preserves the source command index, label, global station interval, target arc center, signed bend angle, desired finished inside radius, and target tangent entry/exit points. Separate tool center and tool tangent datums are also stored; nominal mode makes them identical to the target values. The first radius policy is `nominal_target`, so the printed post radius equals the requested target radius and the plan is explicitly `experimental_uncompensated`. Later empirical compensation may change tool radius, tool center, and tool tangent datums without changing shape authoring or the authoritative analytical target path.
 
-The Batch 015 renderer produces one rectangular base and one full cylindrical post per bend. Batch 016 inserts exact fixture-clearance analysis before that renderer. It checks tool-circle separation and the distance from each tool circle to unrelated analytical primitives using the nominal strap thickness plus an explicit clearance allowance. It remains open-top and contains no clamp or outer follower. Long-path segmentation and component assembly remain separate planners rather than changes to the bend program.
+The Batch 015 renderer produces one rectangular base and one full cylindrical post per bend. Batch 016 inserts exact fixture-clearance analysis before that renderer. Batch 017 adds optional open-top arc followers: each follower is a partial annular wall derived from the bend's tool center, signed sweep, nominal strap thickness, clearance, and follower-wall thickness. Exact follower bounds feed base sizing; a conservative full-circle retention envelope feeds clearance rejection. Long-path segmentation and component assembly remain separate planners rather than changes to the bend program.
 
 ## Target and fixture boundary
 

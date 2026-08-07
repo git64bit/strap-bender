@@ -35,7 +35,7 @@ module run_bend_post_fixture_pipeline(analytical_path) {
     report_bend_post_fixture(fixture, wb_report_level);
     echo("STRAP BENDER BEND-POST FIXTURE SOURCE VALIDATION: PASS");
 
-    plan = plan_bend_post_fixture(analytical_path, fixture);
+    plan = plan_bend_post_fixture(analytical_path, fixture, STRAP_MATERIALS);
     validate_bend_post_fixture_plan(
         plan,
         fixture,
@@ -214,6 +214,23 @@ module report_calibration_trial_draft(coupon) {
     ));
 }
 
+module report_calibration_trial_incomplete(coupon, issues) {
+    validate_radius_calibration_coupon(coupon, STRAP_MATERIALS);
+    echo("STRAP BENDER RADIUS OBSERVATION: INCOMPLETE");
+    echo(str("  selected source coupon: ", radius_coupon_name(coupon)));
+    echo(str("  designed tool radius/angle: ",
+        radius_coupon_tool_inside_radius_mm(coupon), " mm / ",
+        radius_coupon_bend_angle_degrees(coupon), " deg"));
+    echo(str("  fields requiring attention: ", len(issues)));
+    for (issue = issues)
+        echo(str("  - ", issue));
+    echo("  no radius-observation evidence record emitted");
+    echo(str(
+        "  Observation ready is non-fatal until every required field ",
+        "contains a valid value"
+    ));
+}
+
 module run_strap_bender_project() {
     validate_workbench_selection(
         wb_workbench_name,
@@ -281,13 +298,18 @@ module run_strap_bender_project() {
             wb_calibration_trial_coupon_name,
             "radius calibration coupon"
         );
-        if (wb_calibration_trial_ready) {
+        if (!wb_calibration_trial_ready) {
+            report_calibration_trial_draft(coupon);
+        } else if (WORKBENCH_CALIBRATION_TRIAL_COMPLETE) {
             run_calibration_trial_pipeline(
                 WORKBENCH_CALIBRATION_TRIAL,
                 coupon
             );
         } else {
-            report_calibration_trial_draft(coupon);
+            report_calibration_trial_incomplete(
+                coupon,
+                WORKBENCH_RADIUS_OBSERVATION_ISSUES
+            );
         }
     } else if (project_kind(project) == "calibration_evidence") {
         run_calibration_evidence_pipeline(CALIBRATION_TRIALS);
