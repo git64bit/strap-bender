@@ -11,6 +11,8 @@ polygon_name_selected = "ROUNDED_SQUARE_EXAMPLE"; // [ROUNDED_SQUARE_EXAMPLE,CON
 /* [Analytical path diagnostics] */
 path_diagnostics_enabled = true;
 path_near_threshold_mm = 1; // [0:0.1:20]
+/* [Strap material] */
+strap_material_name_selected = "ULINE_S_1655_BLACK"; // [ULINE_S_1655_BLACK]
 /* [Nominal strap cut plan] */
 cut_plan_enabled = true;
 cut_development_mode = "nominal_mid_thickness"; // [nominal_mid_thickness,custom_fraction]
@@ -28,8 +30,9 @@ manufacturing_revision = 1; // positive integer
 manufacturing_source_commit = ""; // optional while Laboratory candidate
 manufacturing_slicer_project_file = ""; // optional associated 3MF filename
 
-/* [Diagnostic preview] */
+/* [Display previews] */
 show_diagnostic_preview = true;
+show_strap_solid = false;
 sample_chord_error_mm = 0.05; // [0.001:0.001:1]
 sample_max_angle_step_degrees = 10; // [1:1:45]
 diagnostic_path_width_mm = 0.8; // [0.1:0.1:5]
@@ -39,7 +42,6 @@ tangent_marker_diameter_mm = 1.6; // [0.2:0.1:8]
 
 /* [Bend-post fixture] */
 show_bend_post_fixture = false;
-strap_material_name_selected = "ULINE_S_1655_BLACK"; // [ULINE_S_1655_BLACK]
 fixture_base_thickness_mm = 3; // [1:0.5:10]
 fixture_base_margin_mm = 8; // [0:1:30]
 fixture_post_height_mm = 18; // [15.875:0.125:30]
@@ -73,5 +75,7 @@ workbench_name = "vertex_polygon";
 render_mode = show_bend_post_fixture
     ? "bend_post_fixture"
     : show_diagnostic_preview
-        ? "diagnostic_path" : "report_only";
+        ? "diagnostic_path"
+        : show_strap_solid
+            ? "strap_solid" : "report_only";
 include <../main.scad>

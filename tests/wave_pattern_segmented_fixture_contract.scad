@@ -39,6 +39,7 @@ fixture_max_base_width_mm = 220;
 fixture_max_base_depth_mm = 220;
 fixture_tool_surface_chord_error_mm = 0.02;
 fixture_tool_surface_max_angle_step_degrees = 5;
+show_strap_solid = true;
 project_name_selected = "WAVE_PATTERN_LAB";
 workbench_name = "wave_pattern";
 render_mode = "bend_post_fixture";
@@ -53,5 +54,7 @@ assert(wb_fixture_component_index == 0,
 assert(wb_fixture_registration_mode == "pin_pair" &&
     wb_fixture_component_label_mode == "recessed_corner",
     "Long-wave fixture contract must preserve segmented setup aids.");
+assert(wb_strap_solid_enabled,
+    "Long-wave segmented fixture must preserve strap-solid coexistence.");
 
 echo("STRAP BENDER WAVE-PATTERN SEGMENTED FIXTURE CONTRACT: PASS");

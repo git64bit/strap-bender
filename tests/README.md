@@ -38,6 +38,14 @@ Open each `.scad` file in this directory directly and press F5. A successful tes
 
 The analytical path uses the finished inside edge as its explicit reference axis. Its reported station length is not a neutral-axis developed length or a cut length. The sampled polyline is display-only and its approximate chordal length is not an analytical measurement.
 
+## Batch 023 strap-solid visualization contracts
+
+- `strap_solid_contract.scad` renders synthetic open and closed nominal strap bodies using exact material width/thickness plus the bounded sampled analytical path.
+- `strap_solid_workbench_contract.scad` executes the Vertex Polygon route with strap-solid-only rendering and verifies that material routing is available independently of cut-plan, manufacturing-package, and fixture rendering.
+- `wave_pattern_segmented_fixture_contract.scad` now also enables strap-solid display while rendering component 0, exercising component-bounds clipping and the shared local XY print translation.
+
+The strap solid is a reference-centered display convention. It does not redefine the analytical finished-inside-edge target, neutral-axis position, cut length, fixture clearances, or empirical radius compensation.
+
 ## Batch 005 vertex-polygon contracts
 
 - `vertex_polygon_contract.scad` validates source records, convex turns, tangent setbacks, retained straights, source labels, closure, length, and exact bounds.

@@ -32,7 +32,8 @@ Implementation status:
 - Corrected Batch 002 covers the framework skeleton, source records, registries, validation, reporting, and arbitrary-length program routing.
 - Batch 003 covers explicit straight/bend compilation, exact poses, arc centers, stations, finished-inside-edge reference length, exact XY bounds, closure validation, and source provenance.
 - Batch 004 adds bounded-error analytical sampling, sampled-path validation and reporting, and a thin diagnostic rendering of the finished-inside-edge reference path with tangent-point markers.
-- Phase 1 is complete at the analytical and diagnostic-preview boundary. Strap solids, material behavior, and production fixtures remain later phases.
+- Batch 023 reuses that bounded sampled path for a nominal 3D strap-solid preview using the selected material width and thickness. The solid is centered on the analytical reference for one continuous visualization across alternating bend directions; it is display-only and does not alter analytical geometry or physical planning.
+- Phase 1 is complete at the analytical and diagnostic-preview boundary. Material behavior and production fixtures remain later phases. Batch 023 later adds the physical-dimension strap-solid display consumer without changing the analytical kernel.
 
 ## Phase 2 — polygon front end
 
@@ -131,3 +132,7 @@ Implementation status:
 - Batch 022 establishes the immutable-object boundary under `objects/`: future accepted recipes must pin an API version, embed the normalized bend program, exact strap record, cut policy, fixture specification, layout mode, setup-aid specification, and physical/source provenance, then call one public component renderer.
 - Batch 022 deliberately leaves `registries/catalog_projects.scad` at the no-accepted-object stub. Physical acceptance, exact accepted-object files, Catalog registration, and associated real slicer projects occur only after a fixture/formed strap has actually been approved.
 - Empirical calibration provenance may be embedded in a later accepted revision when available; its absence does not block the software packaging architecture.
+
+## Revision 1 completion status after Batch 023
+
+The planned application capabilities are now implemented through physical-dimension strap visualization. The remaining Revision 1 batch is a repository-wide completion and consistency audit: workbench behavior, validation/reporting symmetry, defaults, regression coverage, documentation synchronization, and removal of development-only inconsistencies. Coupon measurements and empirical calibration remain Revision 2 refinement work and do not block that audit.

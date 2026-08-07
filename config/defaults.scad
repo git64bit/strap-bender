@@ -182,6 +182,8 @@ wb_path_diagnostics_enabled = is_undef(path_diagnostics_enabled)
     ? true : path_diagnostics_enabled;
 wb_path_near_threshold_mm = is_undef(path_near_threshold_mm)
     ? 1 : path_near_threshold_mm;
+wb_strap_solid_enabled = is_undef(show_strap_solid)
+    ? false : show_strap_solid;
 wb_sample_chord_error_mm = is_undef(sample_chord_error_mm)
     ? SB_DEFAULT_SAMPLE_CHORD_ERROR_MM : sample_chord_error_mm;
 wb_sample_max_angle_step_degrees =

@@ -35,6 +35,7 @@ function workbench_render_mode_allowed(name, mode) =
                 name == "wave_pattern") &&
                 (mode == "report_only" ||
                     mode == "diagnostic_path" ||
+                    mode == "strap_solid" ||
                     mode == "bend_post_fixture");
 
 module validate_workbench_selection(

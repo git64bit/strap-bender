@@ -53,7 +53,7 @@ Additional shape-specific workbenches should exist only when they provide a focu
 api/          versioned public constructors and execution modules
 config/       defaults and active workbench selection
 lib/          record accessors, schedule validation, validation, reporting
-geometry/     diagnostic preview, future strap preview, and fixture solids
+geometry/     diagnostic preview, strap-solid preview, and fixture solids
 paths/        schedule resolution, shape compilation, analytical operations
 registries/   exact-name registries
 objects/      immutable accepted recipes
@@ -112,6 +112,14 @@ The compact block and instance remain authoritative. Expanded commands and resol
 ## Exact geometry and rendering boundary
 
 Line and circular-arc primitives are authoritative. Batch 003 implements this boundary for explicit bend programs using the desired finished inside edge as the named analytical reference axis. Batch 004 adds a sampled-path consumer controlled by maximum chord error and maximum angular step, plus a thin diagnostic renderer. Batch 020 performs self-intersection and near-pass analysis directly on the exact primitives rather than on sampled display chords. The sampled record is derived display data. Preview resolution may change point count and chordal display length, but it must not alter analytical validation, measurements, exact bounds, stations, or fixture datum positions.
+
+## Strap-solid visualization boundary
+
+Batch 023 adds a physical-dimension display consumer beside the thin diagnostic path. It uses the selected strap material's nominal width and thickness plus the existing bounded sampled analytical path. The strap stands on edge: width is extruded along Z and nominal thickness is swept in the XY plane. Open paths retain square cut ends; sampled interior joints are filled so the display remains continuous through straight/arc transitions.
+
+The analytical reference is named `finished_inside_edge`, but alternating left/right bends do not provide one globally consistent material face along every intervening straight. The renderer therefore centers nominal thickness on that reference instead of pretending to derive a calibrated physical boundary that the current model does not contain. This is an explicit visualization convention only. It does not change the authoritative target path, desired bend radii, nominal cut plan, neutral-axis assumptions, fixture post locations, retention clearance, or future calibration.
+
+Strap-solid rendering is an independent workbench flag. It may coexist with the diagnostic path or bend-post fixture. When full-form fixture rendering is active, the strap solid is translated to the top surface of the fixture base. For a segmented fixture, the same global strap display is clipped to the selected component base bounds and translated by that component's local print origin. This keeps visual coordinates aligned without changing station ownership or claiming that the display mesh is a clearance authority.
 
 ## Nominal developed/cut-length route
 
@@ -190,7 +198,7 @@ BOSL2 is a candidate implementation library for path and geometry operations. Th
 - Validation returns contract failures and diagnostics.
 - Reporting explains resolved records and derived measurements.
 - Mathematics compiles and measures paths.
-- Geometry renders diagnostic paths, future strap solids, or fixtures.
+- Geometry renders diagnostic paths, nominal strap solids, or fixtures.
 
 A render module must not be the only place where an invalid path is detected.
 

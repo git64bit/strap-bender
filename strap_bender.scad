@@ -100,6 +100,7 @@ include <lib/fixture_setup_validation.scad>
 include <lib/path_diagnostics_validation.scad>
 include <lib/cut_plan_validation.scad>
 include <lib/manufacturing_validation.scad>
+include <lib/strap_solid_validation.scad>
 include <lib/reporting.scad>
 include <lib/pattern_reporting.scad>
 include <lib/material_reporting.scad>
@@ -112,7 +113,9 @@ include <lib/fixture_setup_reporting.scad>
 include <lib/path_diagnostics_reporting.scad>
 include <lib/cut_plan_reporting.scad>
 include <lib/manufacturing_reporting.scad>
+include <lib/strap_solid_reporting.scad>
 include <geometry/diagnostic_path.scad>
+include <geometry/strap_solid.scad>
 include <geometry/radius_calibration_coupon.scad>
 include <geometry/bend_post_fixture.scad>
 include <manufacturing/catalog_object_render.scad>

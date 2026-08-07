@@ -1,0 +1,255 @@
+STRAP BENDER — BATCH 023 DELTA
+
+Base repository:
+  https://github.com/git64bit/strap-bender
+
+Required base commit:
+  d786e01
+  d786e013fd2d4dbe098ac85a64782cc75a4549f1
+
+Scope:
+  Revision 1 application-completion continuation: nominal physical-dimension
+  strap-solid visualization for every normalized shape front end.
+
+Development priority:
+  Application completion remains primary. Pending coupon measurements,
+  springback fitting, neutral-axis calibration, and empirical PET cut correction
+  do not block this batch.
+
+Batch 023 implements:
+  - one continuous 3D strap-body preview using the selected strap material's
+    nominal width and nominal thickness;
+  - the existing bounded sampled analytical path as display geometry only;
+  - strap width along Z and strap thickness in the XY bend plane, matching the
+    existing standing-on-edge fixture convention;
+  - square open-path ends and filled sampled interior joints;
+  - open and closed path support;
+  - Bend Program, Vertex Polygon, Regular Polygon, and Wave Pattern routing;
+  - an independent Show strap solid workbench flag;
+  - coexistence with the thin diagnostic path and with bend-post fixtures;
+  - automatic Z placement on top of the fixture base when fixture rendering is
+    active;
+  - segmented-fixture alignment by clipping the global strap display to the
+    selected component base bounds and applying the same local XY translation;
+  - strap-material routing whenever strap-solid display is enabled;
+  - a strap_solid-only render mode when no diagnostic path or fixture is shown;
+  - explicit validation and reporting before geometry dispatch;
+  - direct-open open/closed geometry and workbench-routing contract tests.
+
+Important geometry boundary:
+  The authoritative analytical axis remains named finished_inside_edge. Across
+  alternating left/right bends that reference does not identify one globally
+  consistent physical material face along every intervening straight. Batch 023
+  therefore centers nominal strap thickness on the analytical reference for one
+  continuous visualization rule. This is display-only. It does NOT redefine:
+    - requested finished bend radius;
+    - analytical line/arc geometry;
+    - nominal cut length;
+    - neutral-axis position;
+    - fixture post locations;
+    - follower clearance;
+    - target-to-tool compensation.
+
+This batch deliberately does NOT add:
+  - empirical springback compensation;
+  - calibrated neutral-axis/K-factor fitting;
+  - empirical cut-length correction;
+  - a new fixture family;
+  - physical Catalog acceptance;
+  - manufacturing semantics derived from the strap-solid mesh.
+
+New files:
+  geometry/strap_solid.scad
+  lib/strap_solid_reporting.scad
+  lib/strap_solid_validation.scad
+  tests/strap_solid_contract.scad
+  tests/strap_solid_workbench_contract.scad
+  BATCH_023_DELTA.txt
+
+Changed files:
+  README.md
+  strap_bender.scad
+  main.scad
+  config/defaults.scad
+  config/materials.scad
+  config/workbenches.scad
+  docs/ARCHITECTURE.md
+  docs/ROADMAP.md
+  tests/README.md
+  tests/wave_pattern_segmented_fixture_contract.scad
+  workbenches/bend-program.scad
+  workbenches/vertex-polygon.scad
+  workbenches/regular-polygon.scad
+  workbenches/wave-pattern.scad
+
+APPLICATION
+===========
+
+1. Confirm the exact base and a clean working tree:
+
+   cd /root/strap-bender
+   git rev-parse HEAD
+   git status --short
+
+   Expected HEAD:
+   d786e013fd2d4dbe098ac85a64782cc75a4549f1
+
+   Do not continue if the repository is not clean or HEAD differs.
+
+2. Verify the downloaded archive SHA-256 against the value supplied with the
+   ChatGPT delivery message.
+
+3. Extract the archive into a temporary directory, then overlay its complete
+   files onto the repository while preserving paths. Example:
+
+   rm -rf /tmp/strap-bender-batch-023
+   mkdir -p /tmp/strap-bender-batch-023
+   unzip -q /root/strap-bender-batch-023.zip \
+       -d /tmp/strap-bender-batch-023
+   cp -a /tmp/strap-bender-batch-023/. /root/strap-bender/
+
+4. Inspect the delta before OpenSCAD testing:
+
+   cd /root/strap-bender
+   git status --short
+   git diff --check
+   git diff --stat
+
+   Expected changed/new paths are exactly the files listed above.
+
+DIRECT-OPEN F5 VERIFICATION
+===========================
+
+Open each file directly in OpenSCAD and press F5. There should be no warnings or
+errors and each test should print its final PASS line.
+
+Required new tests:
+  tests/strap_solid_contract.scad
+    Expected final console line:
+      STRAP BENDER STRAP SOLID CONTRACT: PASS
+
+  tests/strap_solid_workbench_contract.scad
+    Expected final console line:
+      STRAP BENDER STRAP SOLID WORKBENCH CONTRACT: PASS
+
+Regression tests to rerun:
+  tests/sampled_path_contract.scad
+  tests/strap_material_records_contract.scad
+  tests/bend_post_fixture_contract.scad
+  tests/wave_pattern_segmented_fixture_contract.scad
+  tests/manufacturing_workbench_contract.scad
+  tests/public_foundation_contract.scad
+
+MANUAL WORKBENCH CHECKS
+=======================
+
+A. Vertex Polygon — strap solid only
+
+   Open:
+     workbenches/vertex-polygon.scad
+
+   Set:
+     Show diagnostic preview = false
+     Show strap solid = true
+     Show bend post fixture = false
+
+   Press F5.
+
+   Expected:
+     - no warnings or errors;
+     - a vertical nominal PET strap body is visible;
+     - console includes:
+         STRAP BENDER STRAP SOLID RENDER: PASS
+
+B. Vertex Polygon — strap solid plus fixture
+
+   In the same workbench set:
+     Show strap solid = true
+     Show bend post fixture = true
+
+   Press F5.
+
+   Expected:
+     - no warnings or errors;
+     - both the strap body and fixture render;
+     - strap Z begins at the fixture base top;
+     - if a segmented component is selected, strap display is clipped and
+       translated into the same local print coordinates;
+     - console includes both strap-solid and fixture PASS lines.
+
+   Note: the strap-solid XY placement is intentionally reference-centered and is
+   not a fixture-clearance authority. Exact fixture clearance remains the
+   analytical/fixture validation result.
+
+C. Wave Pattern — long continuous strap
+
+   Open:
+     workbenches/wave-pattern.scad
+
+   Set:
+     Show diagnostic preview = false
+     Show strap solid = true
+     Show bend post fixture = false
+
+   Keep the default 30-wave pattern and press F5.
+
+   Expected:
+     - no warnings or errors;
+     - one continuous long strap body renders from the existing sampled path;
+     - every-third-wave radius schedule remains unchanged;
+     - console includes:
+         STRAP BENDER STRAP SOLID RENDER: PASS
+
+STATIC VERIFICATION
+===================
+
+Run:
+
+  cd /root/strap-bender
+  git diff --check
+  grep -R "show_strap_solid" -n workbenches config main.scad
+  grep -R "STRAP BENDER STRAP SOLID" -n tests lib main.scad
+  find . -name '*.scad' -print0 | xargs -0 awk \
+      'FNR==1{file=FILENAME} FNR>500{print "OVER 500 LINES: " file; exit 1}'
+
+The Wave Pattern workbench must still contain:
+  show_diagnostic_preview = true;
+
+The physical calibration-trial registry must remain unchanged and may remain
+empty pending later Revision 2 measurements.
+
+COMMIT AFTER ALL TESTS PASS
+===========================
+
+Do not commit until the F5 and manual checks above pass without warnings/errors.
+Then:
+
+  cd /root/strap-bender
+  git status --short
+  git diff --check
+  git add \
+      BATCH_023_DELTA.txt \
+      README.md \
+      strap_bender.scad \
+      main.scad \
+      config/defaults.scad \
+      config/materials.scad \
+      config/workbenches.scad \
+      docs/ARCHITECTURE.md \
+      docs/ROADMAP.md \
+      geometry/strap_solid.scad \
+      lib/strap_solid_reporting.scad \
+      lib/strap_solid_validation.scad \
+      tests/strap_solid_contract.scad \
+      tests/strap_solid_workbench_contract.scad \
+      tests/README.md \
+      tests/wave_pattern_segmented_fixture_contract.scad \
+      workbenches/bend-program.scad \
+      workbenches/vertex-polygon.scad \
+      workbenches/regular-polygon.scad \
+      workbenches/wave-pattern.scad
+  git commit -m "Batch 023: add strap solid visualization"
+  git rev-parse HEAD
+  git status --short
+
+Send the resulting commit SHA for reconciliation before Batch 024.

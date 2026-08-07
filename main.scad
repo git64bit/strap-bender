@@ -106,11 +106,58 @@ module run_bend_post_fixture_pipeline(analytical_path) {
         render_bend_post_fixture_component(
             selected_component, plan, fixture, setup_aid
         );
+        if (wb_strap_solid_enabled) {
+            component_bounds = fixture_component_base_bounds(
+                selected_component
+            );
+            run_strap_solid_pipeline(
+                analytical_path,
+                [
+                    -sb_bounds_min_x(component_bounds),
+                    -sb_bounds_min_y(component_bounds)
+                ],
+                component_bounds,
+                bend_post_fixture_base_thickness_mm(fixture)
+            );
+        }
         echo("STRAP BENDER SEGMENTED BEND-POST FIXTURE RENDER: PASS");
     } else {
         render_bend_post_fixture(plan, fixture);
+        if (wb_strap_solid_enabled)
+            run_strap_solid_pipeline(
+                analytical_path,
+                [0, 0],
+                undef,
+                bend_post_fixture_base_thickness_mm(fixture)
+            );
         echo("STRAP BENDER BEND-POST FIXTURE RENDER: PASS");
     }
+}
+
+module run_strap_solid_pipeline(
+    analytical_path, xy_offset = [0, 0], clip_bounds = undef, z_offset_mm = 0
+) {
+    material = named_record(STRAP_MATERIALS, wb_strap_material_name,
+        "strap material");
+    validate_sampling_parameters(
+        wb_sample_chord_error_mm, wb_sample_max_angle_step_degrees
+    );
+    sampled_path = sample_analytical_path(analytical_path,
+        wb_sample_chord_error_mm, wb_sample_max_angle_step_degrees);
+    validate_sampled_path(sampled_path, analytical_path);
+    validate_strap_solid_render(analytical_path, sampled_path, material,
+        xy_offset, clip_bounds, z_offset_mm);
+    report_strap_solid_render(analytical_path, sampled_path, material,
+        xy_offset, clip_bounds, z_offset_mm, wb_report_level);
+    render_strap_solid(
+        analytical_path = analytical_path,
+        sampled_path = sampled_path,
+        material = material,
+        xy_offset = xy_offset,
+        clip_bounds = clip_bounds,
+        z_offset_mm = z_offset_mm
+    );
+    echo("STRAP BENDER STRAP SOLID RENDER: PASS");
 }
 
 module run_manufacturing_manifest_pipeline(
@@ -170,6 +217,10 @@ module run_normalized_shape_pipeline(
         run_manufacturing_manifest_pipeline(
             shape, source_kind, resolved_source_name
         );
+
+    if (wb_strap_solid_enabled &&
+        wb_render_mode != "bend_post_fixture")
+        run_strap_solid_pipeline(analytical_path);
 
     if (wb_render_mode == "diagnostic_path") {
         validate_sampling_parameters(
