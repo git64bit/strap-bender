@@ -146,6 +146,10 @@ wb_radius_observation_measurement_uncertainty_mm =
 wb_radius_observation_notes = is_undef(observation_notes)
     ? "" : observation_notes;
 
+wb_path_diagnostics_enabled = is_undef(path_diagnostics_enabled)
+    ? true : path_diagnostics_enabled;
+wb_path_near_threshold_mm = is_undef(path_near_threshold_mm)
+    ? 1 : path_near_threshold_mm;
 wb_sample_chord_error_mm = is_undef(sample_chord_error_mm)
     ? SB_DEFAULT_SAMPLE_CHORD_ERROR_MM : sample_chord_error_mm;
 wb_sample_max_angle_step_degrees =

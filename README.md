@@ -121,9 +121,9 @@ Batch 012 adds the guarded measurement-entry route that ties one ready observati
 
 Batch 013 adds the explicit persistence boundary for reviewed calibration trials and a report-only audit workbench. The delivered physical trial registry is empty, so the software cannot yet derive or claim any target-to-tool radius compensation.
 
-Batch 014 adds sharp-source polygon self-intersection detection and reporting without changing source acceptance policy. Analytical line/arc self-intersection and near-intersection diagnostics remain later work.
+Batch 014 adds sharp-source polygon self-intersection detection and reporting without changing source acceptance policy. Batch 020 adds the normalized analytical-path diagnostic layer: every nonadjacent line/arc primitive pair is screened by exact analytical bounds, candidate pairs receive exact line/line, line/arc, or arc/arc minimum-distance evaluation, and intersections or near passes within a configurable threshold retain primitive and source-command provenance. Adjacent continuity neighbors are intentionally excluded and the diagnostic remains non-rejecting while crossing policy is unresolved.
 
-The first nominal production-shape fixture family, long-form segmentation, and sequential setup registration are implemented. Remaining major application work includes analytical-path collision/near-intersection diagnostics, strap solid/developed-length and closure handling, manufacturing/export manifests, and Catalog-ready object packaging. Fitted forming compensation and neutral-axis correction remain evidence-dependent refinements and do not block completion of those software capabilities.
+The first nominal production-shape fixture family, long-form segmentation, sequential setup registration, and normalized analytical-path collision diagnostics are implemented. Remaining major application work includes strap solid/developed-length and closure handling, manufacturing/export manifests, and Catalog-ready object packaging. Fitted forming compensation and neutral-axis correction remain evidence-dependent refinements and do not block completion of those software capabilities.
 
 ## Design documents
 

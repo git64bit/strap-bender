@@ -23,6 +23,9 @@ radius_cycle_mm = [1.6, 1.6, 5];
 radius_interval = 3; // [1:1:100]
 radius_first_position = 3; // one-based, 1 through interval
 
+/* [Analytical path diagnostics] */
+path_diagnostics_enabled = true;
+path_near_threshold_mm = 1; // [0:0.1:20]
 /* [Diagnostic preview] */
 show_diagnostic_preview = true;
 sample_chord_error_mm = 0.1; // [0.001:0.001:1]

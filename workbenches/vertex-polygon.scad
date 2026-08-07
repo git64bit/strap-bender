@@ -8,6 +8,9 @@
 /* [Vertex polygon] */
 polygon_name_selected = "ROUNDED_SQUARE_EXAMPLE"; // [ROUNDED_SQUARE_EXAMPLE,CONCAVE_L_EXAMPLE]
 
+/* [Analytical path diagnostics] */
+path_diagnostics_enabled = true;
+path_near_threshold_mm = 1; // [0:0.1:20]
 /* [Diagnostic preview] */
 show_diagnostic_preview = true;
 sample_chord_error_mm = 0.05; // [0.001:0.001:1]

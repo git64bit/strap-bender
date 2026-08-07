@@ -20,6 +20,9 @@ scheduled_corner_radius_mm = 5; // selected radius, positive millimetres
 schedule_interval = 3; // [1:1:100]
 schedule_first_position = 3; // one-based, 1 through interval
 
+/* [Analytical path diagnostics] */
+path_diagnostics_enabled = true;
+path_near_threshold_mm = 1; // [0:0.1:20]
 /* [Diagnostic preview] */
 show_diagnostic_preview = true;
 sample_chord_error_mm = 0.05; // [0.001:0.001:1]

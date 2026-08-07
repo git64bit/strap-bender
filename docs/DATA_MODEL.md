@@ -118,6 +118,9 @@ A generated ordered container for analytical primitives. Batch 003 records the s
 ### Sampled display path
 
 A generated, non-authoritative container for a display polyline. Batch 004 records the source path name, reference axis, closure policy, sampled XY points, requested maximum chord error, maximum angular step, and explanatory notes. It deliberately does not duplicate exact analytical bounds, stations, or length. Changing sampling resolution may change point count and approximate polyline length without changing the analytical path.
+### Analytical path diagnostic report
+
+Batch 020 adds derived, non-authoritative diagnostics for the normalized analytical path. A pair record stores the two primitive indexes, both source-command indexes and labels, primitive kinds, exact minimum distance, and classification as `intersection` or `near`. The path-level report stores the source path name, configured near threshold, number of nonlocal pairs checked, number surviving the bounds prefilter, the interaction records, and explanatory notes. Adjacent continuity neighbors are excluded, including the first/last primitive pair of a closed path. The report never becomes target-shape authority and does not depend on sampled display geometry.
 
 ### Forming calibration
 

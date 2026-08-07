@@ -8,6 +8,9 @@
 /* [Bend program] */
 program_name_selected = "OPEN_MIXED_RADIUS_EXAMPLE"; // [OPEN_MIXED_RADIUS_EXAMPLE,THIRTY_SIX_BEND_SCALE_EXAMPLE]
 
+/* [Analytical path diagnostics] */
+path_diagnostics_enabled = true;
+path_near_threshold_mm = 1; // [0:0.1:20]
 /* [Diagnostic preview] */
 show_diagnostic_preview = true;
 sample_chord_error_mm = 0.05; // [0.001:0.001:1]

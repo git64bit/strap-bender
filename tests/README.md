@@ -21,6 +21,11 @@ Open each `.scad` file in this directory directly and press F5. A successful tes
 - `closed_path_contract.scad` verifies positional and tangent closure plus circular-arc extrema for a rounded square.
 - `analytical_scale_contract.scad` compiles the accepted 73-command scale example and verifies arbitrary-length continuity and source provenance.
 
+## Batch 020 analytical path diagnostics
+
+- `analytical_path_diagnostics_contract.scad` verifies exact line/line crossing and near distance, line/arc tangency and near distance, arc/arc crossing, nonadjacent-pair selection, provenance, report validation, and intersection classification.
+- The four shape workbench routes enable normalized path diagnostics by default with a configurable near threshold. Adjacent analytical continuity neighbors are excluded.
+
 ## Sampled diagnostic path
 
 - `sampled_path_contract.scad` verifies chord-error control, exact endpoint retention, nonduplicated primitive boundaries, and sampling invariance of analytical length.

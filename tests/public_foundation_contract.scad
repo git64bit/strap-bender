@@ -23,6 +23,8 @@ assert(STRAP_BENDER_VERTEX_POLYGON_CONTRACT_VERSION == 1,
     "Unexpected vertex-polygon contract version.");
 assert(STRAP_BENDER_POLYGON_INTERSECTION_DIAGNOSTIC_VERSION == 1,
     "Unexpected polygon-intersection diagnostic version.");
+assert(STRAP_BENDER_ANALYTICAL_PATH_DIAGNOSTIC_VERSION == 1,
+    "Unexpected analytical-path diagnostic version.");
 assert(STRAP_BENDER_REGULAR_POLYGON_CONTRACT_VERSION == 1,
     "Unexpected regular-polygon contract version.");
 assert(STRAP_BENDER_PATTERN_CONTRACT_VERSION == 1,
@@ -189,6 +191,12 @@ shape = bend_program_shape_spec(
     "open",
     pose
 );
+path_pair_diagnostic = path_pair_diagnostic_spec(
+    0, 2, 0, 2, "A", "B", "line", "arc", 0.5, "near"
+);
+path_diagnostic_report = path_diagnostic_report_spec(
+    "TEST_PATH", 1, 1, 1, [path_pair_diagnostic], "Synthetic diagnostics."
+);
 sampled = sampled_path_spec(
     "TEST_SHAPE",
     "finished_inside_edge",
@@ -297,6 +305,11 @@ assert(command_angle_degrees(bend) == -90 &&
 assert(shape_name(shape) == "TEST_SHAPE" &&
     len(shape_commands(shape)) == 2,
     "Shape accessor contract failed.");
+assert(path_pair_first_primitive_index(path_pair_diagnostic) == 0 &&
+    path_pair_second_primitive_index(path_pair_diagnostic) == 2 &&
+    path_pair_minimum_distance_mm(path_pair_diagnostic) == 0.5 &&
+    path_diagnostic_near_count(path_diagnostic_report) == 1,
+    "Analytical-path diagnostic constructors or accessors failed.");
 assert(sampled_path_name(sampled) == "TEST_SHAPE" &&
     len(sampled_path_points(sampled)) == 2 &&
     sampled_path_chord_error_mm(sampled) == 0.05,

@@ -1,0 +1,196 @@
+STRAP BENDER — BATCH 020 DELTA
+
+Base repository:
+ https://github.com/git64bit/strap-bender
+
+Required base commit:
+ 00f9bc5
+ 00f9bc5a07f3d567971d69fdc77d9abc21e7f816
+
+Scope:
+ Application-completion continuation: normalized analytical-path
+ self-intersection and near-intersection diagnostics.
+
+Development priority:
+ Application completion remains primary. Pending coupon measurements,
+ springback fitting, neutral-axis evaluation, and other empirical PET
+ refinements do not block this batch or subsequent application work.
+
+Batch 020 implements:
+ - analytical-path diagnostic contract version 1;
+ - exact nonlocal primitive-pair diagnostics after every shape front end has
+   normalized to the shared finished-inside-edge analytical path;
+ - intentional exclusion of sequential primitive neighbors and, for closed
+   paths, the first/last continuity pair;
+ - exact analytical-bounds prefiltering so distant primitive pairs do not
+   require more expensive pair-distance evaluation;
+ - exact finite line/line minimum-distance and crossing evaluation;
+ - exact finite line/circular-arc intersection and minimum-distance evaluation;
+ - exact circular-arc/circular-arc intersection and minimum-distance evaluation;
+ - configurable nonnegative near-pass threshold in all four shape workbenches;
+ - interaction records retaining analytical primitive indexes, source-command
+   indexes, source labels, primitive kinds, exact minimum distance, and
+   intersection/near classification;
+ - a path-level report containing the total nonlocal pair count, bounds-candidate
+   count, intersection count, and near-pass count;
+ - non-rejecting behavior: detected analytical intersections are reported but do
+   not yet change the authored shape or automatically reject it;
+ - a direct-open contract covering line/line crossing and clearance, line/arc
+   tangency and clearance, arc/arc crossing, nonadjacent-pair selection,
+   provenance, report validation, and classification;
+ - public-foundation version/constructor/accessor coverage.
+
+Important Batch 020 boundary:
+ The near threshold is a geometric diagnostic on the finished-inside-edge
+ analytical reference. It is NOT a physical strap-width, strap-thickness,
+ springback, or fixture-clearance requirement. Existing fixture-clearance
+ validation remains the physical tooling collision policy.
+
+This batch deliberately does NOT add:
+ - a rule that automatically rejects every analytical self-intersection;
+ - a crossing fixture topology;
+ - empirical target-to-tool radius compensation;
+ - neutral-axis or developed/cut-length correction;
+ - closure overlap, trimming, welding, fastening, or joining allowances;
+ - strap-solid rendering;
+ - manufacturing/export manifests;
+ - Catalog promotion.
+
+New files:
+ lib/path_diagnostics_indices.scad
+ lib/path_diagnostics_schema.scad
+ lib/path_diagnostics_accessors.scad
+ lib/path_diagnostics_validation.scad
+ lib/path_diagnostics_reporting.scad
+ paths/analytical_intersections.scad
+ tests/analytical_path_diagnostics_contract.scad
+ BATCH_020_DELTA.txt
+
+Changed files:
+ README.md
+ config/defaults.scad
+ docs/ARCHITECTURE.md
+ docs/DATA_MODEL.md
+ docs/OPEN_DECISIONS.md
+ docs/ROADMAP.md
+ docs/VALIDATION_CONTRACT.md
+ main.scad
+ strap_bender.scad
+ tests/README.md
+ tests/public_foundation_contract.scad
+ workbenches/bend-program.scad
+ workbenches/vertex-polygon.scad
+ workbenches/regular-polygon.scad
+ workbenches/wave-pattern.scad
+
+Application / verification procedure:
+
+1. Confirm the repository is clean and at accepted Batch 019:
+
+ cd /root/strap-bender
+ git status --short
+ git rev-parse HEAD
+
+Expected HEAD:
+ 00f9bc5a07f3d567971d69fdc77d9abc21e7f816
+
+2. Upload strap-bender-batch-020.zip to the orchestrator.
+
+3. Overlay the complete delta while preserving repository-relative paths.
+Example if the ZIP is in /root:
+
+ cd /root/strap-bender
+ unzip -o /root/strap-bender-batch-020.zip -d /root/strap-bender
+
+4. Confirm the expected delta only:
+
+ git status --short
+
+Required OpenSCAD F5 verification:
+
+1. tests/public_foundation_contract.scad
+   Expected final line:
+   STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+
+2. tests/analytical_path_contract.scad
+   Expected final line:
+   STRAP BENDER ANALYTICAL PATH CONTRACT: PASS
+   This proves the existing exact path kernel remains unchanged.
+
+3. tests/analytical_path_diagnostics_contract.scad
+   Expected final line:
+   STRAP BENDER ANALYTICAL PATH DIAGNOSTICS CONTRACT: PASS
+   Confirm the report contains one synthetic line/line intersection for
+   primitives 0 / 2.
+
+4. tests/polygon_self_intersection_contract.scad
+   Expected final line:
+   STRAP BENDER POLYGON SELF-INTERSECTION CONTRACT: PASS
+   This proves the earlier sharp-source diagnostic remains unchanged.
+
+5. tests/bend_post_fixture_contract.scad
+   Expected final line:
+   STRAP BENDER BEND-POST FIXTURE CONTRACT: PASS
+
+6. tests/fixture_setup_aid_contract.scad
+   Expected final line:
+   STRAP BENDER FIXTURE SETUP-AID CONTRACT: PASS
+
+7. tests/long_wave_contract.scad
+   Expected final line:
+   STRAP BENDER LONG-WAVE CONTRACT: PASS
+
+8. tests/wave_pattern_workbench_wrapper_contract.scad
+   Expected final line:
+   STRAP BENDER WAVE-PATTERN WORKBENCH WRAPPER CONTRACT: PASS
+   The wrapper now also executes normalized path diagnostics on the complete
+   30-wave analytical path. Confirm no warnings or errors.
+
+9. tests/vertex_polygon_workbench_wrapper_contract.scad
+   Expected final line:
+   STRAP BENDER VERTEX-POLYGON WORKBENCH WRAPPER CONTRACT: PASS
+
+10. tests/regular_polygon_workbench_wrapper_contract.scad
+    Expected final line:
+    STRAP BENDER REGULAR-POLYGON WORKBENCH WRAPPER CONTRACT: PASS
+
+Manual diagnostic verification:
+
+A. Open workbenches/bend-program.scad.
+B. Leave Analytical path diagnostics enabled = true and Near threshold = 1 mm.
+C. Press F5.
+D. Confirm the console includes:
+   --- Strap Bender analytical path diagnostics ---
+   STRAP BENDER ANALYTICAL PATH DIAGNOSTICS: PASS
+E. Change the near threshold to 0 and press F5 again. Intersections remain
+   detectable; positive-clearance near passes are no longer listed.
+F. Restore the threshold to 1 mm.
+
+Manual fixture regression:
+
+A. Open workbenches/vertex-polygon.scad.
+B. Set Show bend post fixture = true.
+C. Press F5.
+D. Confirm analytical diagnostics run first, followed by the existing fixture
+   source/plan/clearance validation, and the rounded-square fixture renders with
+   no warnings or errors.
+
+Static verification performed before delivery:
+ - all Batch 020 .scad files pass delimiter/comment/string balance checks;
+ - function/module declarations are unique within the delta;
+ - all new path-diagnostic family call sites resolve to declarations;
+ - all new public includes are present in the delta;
+ - every changed/new .scad file remains below the 500-line project limit;
+ - Wave Pattern retains show_diagnostic_preview = true;
+ - all four shape workbenches expose path_diagnostics_enabled = true by default;
+ - no calibration registry or physical PET evidence file is changed;
+ - no empirical PET behavior is invented.
+
+OpenSCAD execution note:
+ OpenSCAD is not installed in the delivery environment. The F5 tests above
+ require execution on the user's OpenSCAD installation.
+
+After acceptance:
+ Continue application completion with developed/cut-length and end/closure
+ handling, then manufacturing/export manifests and Catalog-ready packaging.
+ Empirical coupon-derived compensation remains a later revision refinement.

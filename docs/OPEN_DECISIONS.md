@@ -18,6 +18,7 @@
 - Batch 017 resolves the first production-shape retention topology: optional open-top arc followers surrounding each bend sweep with a nominal strap-thickness-plus-clearance slot and explicit follower wall thickness.
 - Batch 018 resolves the first long-form software strategy: deterministic sequential components split only inside analytical straight regions, with exact global station/XY/heading setup datums and local print origins.
 - Batch 019 resolves the first physical sequential alignment aid: matching keyed pin-pair holes derived from each exact interior split datum, plus a recessed zero-padded component index mark.
+- Batch 020 resolves normalized path detection: nonadjacent exact analytical line/arc primitives are checked for intersections and configurable near passes with source-command provenance. Detection remains diagnostic rather than an automatic shape rejection.
 
 ## Physical inputs still required
 
@@ -59,7 +60,7 @@ Decide whether Strap Bender requires BOSL2, vendors a fixed compatible subset, o
 
 ### Self-intersections
 
-Batch 014 detects and reports nonadjacent intersections in the sharp source polygon without rejecting the source record. Decide later whether all self-intersecting analytical target paths are rejected or whether a narrowly defined crossing fixture will be supported.
+Batch 014 detects and reports nonadjacent intersections in the sharp source polygon. Batch 020 extends detection to the normalized exact line/arc path and reports both intersections and configurable near passes. The remaining policy decision is whether analytical self-intersections are categorically rejected or whether a narrowly defined crossing fixture/topology will ever be supported.
 
 ### Part and object numbering
 

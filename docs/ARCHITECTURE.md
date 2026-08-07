@@ -96,7 +96,7 @@ Batch 008 applies the same schedule records to pattern parameters. Each paramete
 
 All authoring front ends terminate at one Strap Bender analytical path contract. Batch 005 demonstrates this by normalizing a vertex polygon to the existing ordered bend-program record before analytical compilation. Batch 006 inserts regular-polygon generation one stage earlier. Batch 007 resolves compact radius schedules before either polygon front end calculates tangent geometry. Batch 008 adds the parallel pattern route: compact instance → per-repetition parameter resolution → expanded commands with provenance → normalized bend program → analytical path. Waves and explicit bend sequences may not bypass this boundary and directly generate unrelated fixture solids.
 
-Batch 014 adds a diagnostic before normalization that compares nonadjacent sharp source edges and reports crossing or touching pairs by source edge index. This diagnostic does not mutate the source, normalized commands, or analytical path and does not by itself reject a shape.
+Batch 014 adds a diagnostic before normalization that compares nonadjacent sharp source edges and reports crossing or touching pairs by source edge index. Batch 020 adds a second diagnostic after normalization: nonadjacent analytical primitives are bounds-prefiltered, then exact line/line, line/arc, and arc/arc minimum distance is evaluated for candidates close enough to matter. This path-level layer therefore applies equally to bend programs, polygons, regular polygons, and expanded wave patterns. Both diagnostics are derived reports; neither mutates source intent or analytical geometry, and analytical crossings remain non-rejecting until fixture/crossing policy is explicitly resolved.
 
 ## Pattern expansion boundary
 
@@ -111,7 +111,7 @@ The compact block and instance remain authoritative. Expanded commands and resol
 
 ## Exact geometry and rendering boundary
 
-Line and circular-arc primitives are authoritative. Batch 003 implements this boundary for explicit bend programs using the desired finished inside edge as the named analytical reference axis. Batch 004 adds a sampled-path consumer controlled by maximum chord error and maximum angular step, plus a thin diagnostic renderer. The sampled record is derived display data. Preview resolution may change point count and chordal display length, but it must not alter analytical validation, measurements, exact bounds, stations, or fixture datum positions.
+Line and circular-arc primitives are authoritative. Batch 003 implements this boundary for explicit bend programs using the desired finished inside edge as the named analytical reference axis. Batch 004 adds a sampled-path consumer controlled by maximum chord error and maximum angular step, plus a thin diagnostic renderer. Batch 020 performs self-intersection and near-pass analysis directly on the exact primitives rather than on sampled display chords. The sampled record is derived display data. Preview resolution may change point count and chordal display length, but it must not alter analytical validation, measurements, exact bounds, stations, or fixture datum positions.
 
 ## Bend-post fixture route
 

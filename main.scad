@@ -120,6 +120,18 @@ module run_normalized_shape_pipeline(shape) {
     validate_analytical_path(analytical_path);
     report_analytical_path(analytical_path, wb_report_level);
     echo("STRAP BENDER ANALYTICAL PATH VALIDATION: PASS");
+    if (wb_path_diagnostics_enabled) {
+        assert(sb_finite_number(wb_path_near_threshold_mm) &&
+            wb_path_near_threshold_mm >= 0,
+            "Analytical path near-intersection threshold must be nonnegative.");
+        path_diagnostics = analyze_analytical_path_interactions(
+            analytical_path,
+            wb_path_near_threshold_mm
+        );
+        validate_path_diagnostic_report(path_diagnostics, analytical_path);
+        report_path_diagnostic_report(path_diagnostics, wb_report_level);
+        echo("STRAP BENDER ANALYTICAL PATH DIAGNOSTICS: PASS");
+    }
 
     if (wb_render_mode == "diagnostic_path") {
         validate_sampling_parameters(

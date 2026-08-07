@@ -48,7 +48,8 @@ Implementation status:
 - Batch 006 covers regular-polygon source and compilation records, side-length/circumradius/apothem authorities, counter-clockwise sharp-vertex generation, common or explicit radius propagation, a scalar Customizer workbench, and triangle/square/pentagon contracts.
 - Batch 007 adds native constant, explicit, periodic, and every-nth numeric schedules; routes them through both polygon front ends; adds a schedule-capable Regular Polygon Customizer; and verifies the 1.6/1.6/5 mm every-third case.
 - Batch 014 adds nonadjacent sharp-source edge-intersection detection and reporting. Detection is diagnostic only; it does not resolve the later fixture-policy decision about whether any self-crossing target may be supported.
-- Arbitrary formula schedules and analytical line/arc self-intersection or near-intersection diagnostics remain later bounded work.
+- Batch 020 adds normalized analytical line/arc self-intersection and near-intersection diagnostics after every authoring front end reaches the shared analytical path. Adjacent continuity neighbors are excluded; nonlocal pairs are bounds-prefiltered and exact line/line, line/arc, and arc/arc distances are evaluated for candidates within the configured threshold.
+- Arbitrary formula schedules remain later bounded work.
 
 ## Phase 3 — patterns and long paths
 

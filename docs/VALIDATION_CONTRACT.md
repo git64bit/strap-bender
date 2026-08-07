@@ -139,7 +139,7 @@ Batch 008 resolves parameter values once per repetition. A local element may reu
 - concave and convex turn directions are preserved;
 - the compiler reports the source vertex for every derived bend.
 
-Batch 005 implements the source and tangent-setback checks. Batch 014 adds a separate non-rejecting diagnostic for nonadjacent sharp-source edge crossings or touches and reports the exact source-edge pairs. Radius infeasibility remains an asserting validation failure, while crossing policy remains unresolved. Analytical line/arc self-intersection and near-intersection diagnostics remain later work.
+Batch 005 implements the source and tangent-setback checks. Batch 014 adds a separate non-rejecting diagnostic for nonadjacent sharp-source edge crossings or touches and reports the exact source-edge pairs. Batch 020 adds the normalized analytical-path diagnostic after compilation. Radius infeasibility remains an asserting validation failure, while crossing policy remains unresolved.
 
 ## Regular-polygon validation
 
@@ -179,16 +179,15 @@ The analytical path should report:
 
 - total straight length;
 - total arc length;
-- nominal developed length;
+- nominal developed length when that model exists;
 - endpoint pose;
 - bounds;
-- minimum non-neighboring separation;
-- self-intersections and near-intersections;
-- shortest retained straight;
-- smallest and largest requested radius;
-- source location of every failure.
+- self-intersections and near-intersections within a stated threshold;
+- shortest retained straight where the authoring front end defines one;
+- smallest and largest requested radius where applicable;
+- source location of every reported interaction.
 
-A diagnostic may be a warning only when the path remains mathematically valid and the fixture policy explicitly allows continuation.
+Batch 020 requires every nonadjacent primitive pair to be considered. Analytical bounds may safely reject a pair only when their exact bounds separation already exceeds the configured near threshold. Remaining candidates use exact finite line/line, line/arc, or arc/arc distance. Sequential primitive neighbors are intentional continuity contacts and are excluded; for closed paths the first and last primitives are also neighbors. Intersections and near passes are diagnostic records rather than assertion failures while crossing policy remains unresolved.
 
 ## Fixture validation
 
@@ -248,3 +247,8 @@ A segmented fixture must cover station zero through the exact analytical path le
 A setup-aid source must use a supported registration mode (`none` or `pin_pair`) and label mode (`none` or `recessed_corner`). Nominal pin diameter, pair spacing, normal offset, label size, and label depth must be finite and positive; diametral hole clearance must be nonnegative. Pair spacing must exceed the resolved hole diameter, normal offset must exceed hole radius, and recessed mark depth must remain below base thickness.
 
 For every segmented component, each registration-hole circle must lie completely inside that component's base bounds. Its edge must remain at least nominal strap thickness plus configured fixture clearance away from the complete analytical target path. At every adjacent component boundary, the previous component's end pair and the next component's start pair must resolve to identical global points within the named position tolerance. Component marks are deterministic zero-padded indexes and do not replace the full component ID.
+
+
+## Batch 020 analytical path diagnostic validation
+
+The near threshold must be finite and nonnegative. Every stored interaction must identify two ordered, distinct primitive indexes and their source-command provenance, use supported primitive kinds, have a finite nonnegative minimum distance no greater than the configured threshold, and classify as `intersection` only at the named numerical position tolerance or `near` otherwise. The path-level report must match the analytical path name and report candidate counts no larger than the total nonlocal pair count. Diagnostic calculations use analytical primitives only; sampled display chords are not valid evidence for an intersection result. The configurable near threshold is measured between finished-inside-edge analytical primitives and is not a substitute for physical strap-width, strap-thickness, or fixture-clearance validation.
