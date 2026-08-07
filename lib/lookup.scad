@@ -21,7 +21,10 @@ function record_name(record) =
                             : record[0] ==
                                 STRAP_BENDER_STRAP_MATERIAL_RECORD
                                 ? strap_material_name(record)
-                                : undef;
+                                : record[0] ==
+                                    STRAP_BENDER_RADIUS_OBSERVATION_RECORD
+                                    ? radius_observation_name(record)
+                                    : undef;
 
 function records_named(records, name) =
     [for (record = records) if (record_name(record) == name) record];

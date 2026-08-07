@@ -28,7 +28,13 @@ Batch 009 identifies the physical strap used for design and later calibration. T
 - vendor source title, checked date, and explicit source locator;
 - notes separating vendor nominal data from future measurements.
 
-The first confirmed record is ULINE S-1655 black PET polyester strapping: 15.875 mm nominal width, 0.508 mm nominal thickness, 750 lbf nominal break strength, and 2,850 ft nominal coil length. Imperial values are reported through deterministic unit conversions. Measured specimen values and measurement dates will use separate calibration records rather than overwriting the product identity.
+The first confirmed record is ULINE S-1655 black PET polyester strapping: 15.875 mm nominal width, 0.508 mm nominal thickness, 750 lbf nominal break strength, and 2,850 ft nominal coil length. Imperial values are reported through deterministic unit conversions. Measured specimen values and measurement dates use separate calibration records rather than overwriting the product identity.
+
+### Radius observation
+
+Batch 010 adds one immutable evidence record per physical bend observation. It stores the referenced strap-material name, specimen ID, measured width and thickness, bend angle, tool inside radius, forming method and temperature, dwell, cooling restraint, post-release rest time, measured finished inside radius, measurement method, measurement date, stated uncertainty, and notes.
+
+The record can directly derive measured finished-minus-tool radius delta and dimensionless finished/tool or tool/finished ratios. These are summaries of one observation only. They are not a fitted springback law and do not convert a target radius into a tool radius. Synthetic contract-test records are never registered as physical calibration data.
 
 ### Shape specification
 

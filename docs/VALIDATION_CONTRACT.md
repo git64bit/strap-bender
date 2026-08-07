@@ -40,6 +40,25 @@ Batch 009 requires every strap product record to have:
 
 The ULINE S-1655 contract also verifies reversible conversions for 5/8 inch width, .020 inch thickness, 750 lbf break strength, and 2,850 ft coil length. These checks validate vendor nominal identity only. They do not establish measured dimensions, forming temperature, springback, neutral-axis position, or cut length.
 
+## Radius-observation validation
+
+Batch 010 requires each physical bend observation to have:
+
+- the exact radius-observation record type and current schema version;
+- a non-empty observation name and specimen ID;
+- exactly one referenced strap material in the supplied material registry;
+- positive finite measured specimen width and thickness, with thickness smaller than width;
+- a valid nonzero bend angle below 360 degrees;
+- positive finite tool and measured finished inside radii;
+- a recognized forming method and cooling-restraint state;
+- finite recorded forming temperature;
+- nonnegative dwell and post-release rest times;
+- non-empty measurement method and measurement date;
+- finite nonnegative stated measurement uncertainty;
+- notes stored as a string.
+
+Direct springback delta and radius ratios may be calculated from a valid observation. Those quantities do not establish an interpolation, regression, or target-to-tool compensation model.
+
 ## Pattern validation
 
 - pattern blocks contain at least one valid local element;

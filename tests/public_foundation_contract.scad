@@ -27,6 +27,8 @@ assert(STRAP_BENDER_PATTERN_CONTRACT_VERSION == 1,
     "Unexpected pattern contract version.");
 assert(STRAP_BENDER_STRAP_MATERIAL_CONTRACT_VERSION == 1,
     "Unexpected strap material contract version.");
+assert(STRAP_BENDER_RADIUS_OBSERVATION_CONTRACT_VERSION == 1,
+    "Unexpected radius observation contract version.");
 
 material = strap_material_spec(
     "TEST_STRAP",
@@ -43,6 +45,25 @@ material = strap_material_spec(
     "TEST SOURCE",
     "2026-08-06",
     "https://example.invalid/test-strap"
+);
+observation = radius_observation_spec(
+    "TEST_RADIUS_OBSERVATION",
+    "TEST_STRAP",
+    "TEST-SPECIMEN",
+    15.9,
+    0.51,
+    90,
+    4,
+    "cold",
+    20,
+    30,
+    "not_applicable",
+    60,
+    5,
+    "synthetic contract method",
+    "2099-01-01",
+    0.1,
+    "Synthetic public-foundation record only."
 );
 project = project_spec("TEST_PROJECT", "bend_program", "laboratory");
 pose = start_pose_spec(10, -5, 30);
@@ -108,6 +129,11 @@ pattern_compilation = compile_pattern_instance(
 );
 
 validate_strap_material(material);
+validate_radius_observation(observation, [material]);
+assert(radius_observation_name(observation) == "TEST_RADIUS_OBSERVATION" &&
+    radius_observation_specimen_id(observation) == "TEST-SPECIMEN" &&
+    abs(radius_observation_springback_delta_mm(observation) - 1) < 1e-9,
+    "Radius observation constructor or accessor contract failed.");
 assert(strap_material_name(material) == "TEST_STRAP" &&
     abs(strap_material_nominal_width_in(material) - 0.625) < 1e-9 &&
     abs(strap_material_nominal_thickness_in(material) - 0.020) < 1e-9,

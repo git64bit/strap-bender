@@ -1,0 +1,92 @@
+
+STRAP BENDER — BATCH 010 DELTA
+
+Base repository:
+ https://github.com/git64bit/strap-bender
+
+Required base commit:
+ e51c41b
+ e51c41b1789904b423f95ee292864ec5e1db5ce4
+
+Scope:
+ Phase 4B physical radius-observation evidence contract.
+
+This batch adds the record boundary needed to preserve one real bend observation
+without inventing or fitting PET behavior. An observation records the referenced
+strap product, specimen identity and measured dimensions, bend angle, tool inside
+radius, forming method and temperature, dwell, cooling restraint, post-release
+rest time, measured finished inside radius, measurement method/date, stated
+measurement uncertainty, and notes.
+
+Direct finished-minus-tool radius delta and dimensionless radius ratios are derived
+from one valid observation. They are descriptive measurements only. This batch
+does not fit a target-to-tool compensation law, define a neutral-axis correction,
+calculate cutting length, or create calibration-coupon/production fixture geometry.
+
+No physical observation is registered by this batch. Test observations are
+explicitly synthetic and must not be treated as PET forming recommendations.
+
+New files:
+ lib/calibration_indices.scad
+ lib/calibration_schema.scad
+ lib/calibration_accessors.scad
+ lib/calibration_validation.scad
+ lib/calibration_reporting.scad
+ tests/radius_observation_contract.scad
+ BATCH_010_DELTA.txt
+
+Changed files:
+ README.md
+ strap_bender.scad
+ lib/lookup.scad
+ tests/public_foundation_contract.scad
+ tests/README.md
+ docs/DATA_MODEL.md
+ docs/ROADMAP.md
+ docs/VALIDATION_CONTRACT.md
+ docs/OPEN_DECISIONS.md
+ docs/PROVENANCE.md
+
+Deleted files:
+ None.
+
+Upload:
+ 1. Confirm the repository is at commit e51c41b.
+ 2. Upload all files from this archive as complete files while preserving
+    repository-relative paths.
+ 3. Create the seven new files exactly as named above.
+ 4. Do not replace or modify LICENSE, earlier BATCH_*_DELTA files, or unrelated
+    source files.
+
+OpenSCAD verification:
+ 1. Open tests/public_foundation_contract.scad and press F5.
+ 2. Confirm: STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+ 3. Open tests/radius_observation_contract.scad and press F5.
+ 4. Confirm the report identifies SYNTHETIC_RADIUS_TEST_A, references
+    ULINE_S_1655_BLACK, reports a 4 mm tool radius and 5 mm synthetic finished
+    radius, and explicitly labels the record as test data.
+ 5. Confirm: STRAP BENDER RADIUS OBSERVATION CONTRACT: PASS
+ 6. Re-run tests/strap_material_records_contract.scad.
+ 7. Confirm: STRAP BENDER STRAP MATERIAL RECORDS CONTRACT: PASS
+ 8. Re-run tests/workbench_registry_contract.scad.
+ 9. Confirm: STRAP BENDER WORKBENCH REGISTRY CONTRACT: PASS
+10. Re-run tests/long_wave_contract.scad and
+    tests/wave_pattern_workbench_wrapper_contract.scad.
+11. Confirm accepted regression tests print PASS without warnings or errors.
+
+Static verification performed before delivery:
+ The accepted Batch 009 state was reconstructed from the prior bounded archives,
+ including the corrected Wave Pattern default, then this delta was overlaid.
+ Include targets resolve within the reconstructed repository.
+ Delimiters and comments are balanced.
+ Function and module declarations are unique within the complete reconstructed tree.
+ Every .scad file remains at or below 500 lines.
+ The archive contains only complete new and changed files plus this manifest.
+ Synthetic calibration values exist only in contract tests and are not registered.
+
+OpenSCAD execution note:
+ OpenSCAD is not installed in the delivery environment. The direct-open F5 tests
+ above require execution on the user's OpenSCAD installation.
+
+After acceptance:
+ Commit the batch and provide the resulting commit SHA for reconciliation.

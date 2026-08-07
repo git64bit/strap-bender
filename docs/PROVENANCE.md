@@ -43,3 +43,8 @@ The bend-program grammar, line-and-arc normalization, target/fixture separation,
 ## Physical strap source
 
 Batch 009 registers ULINE product S-1655 from the official ULINE product page, checked on 2026-08-06. The record retains the product-page title and explicit source locator together with canonical metric conversions of the vendor's nominal values. Vendor data identifies the product; it does not replace measured specimen dimensions or forming calibration.
+
+
+## Calibration evidence
+
+Batch 010 adds a schema for physical radius observations. No empirical observation is registered by this batch. Values used by `tests/radius_observation_contract.scad` are synthetic contract fixtures only and carry no manufacturing or material-behavior authority. Future calibration records must reference the exact strap-material identity and preserve specimen/process/measurement provenance rather than overwriting vendor data.

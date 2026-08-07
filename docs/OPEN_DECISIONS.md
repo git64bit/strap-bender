@@ -15,17 +15,13 @@
 
 ## Physical inputs still required
 
-### Exact ULINE strap product
-
-Record the product number, nominal width, nominal thickness, roll length, surface texture, and any published material grade. Measure actual width and thickness when practical.
-
 ### Forming process
 
 Select and test cold forming, local heating, global heating, or another controlled process. Record temperature measurement, dwell, restraint, cooling, and handling method.
 
 ### Finished-radius measurement
 
-Define the practical measurement method for small radii, including whether the reported inside radius is measured immediately after release or after a stated rest period.
+Batch 010 can record the method, stated uncertainty, and post-release rest interval for each observation, but the practical measurement method for small radii still must be selected before real data are registered.
 
 ### Neutral-axis model
 
@@ -64,3 +60,7 @@ Decide whether all self-intersecting paths are rejected initially or whether a n
 Define project prefixes only after the first stable object families are known. Do not encode mutable process data into a geometry identifier without an explicit reason.
 
 The physical product identity is now fixed as ULINE S-1655 black, smooth, 5/8 inch x .020 inch PET polyester strapping. Vendor nominal values are not substitutes for the measurements above.
+
+## Calibration evidence boundary
+
+Batch 010 defines how a real radius observation will be preserved but intentionally registers no physical observation. Test records use future-dated synthetic values and explicit TEST DATA notes so they cannot be mistaken for empirical PET behavior. A target-to-tool mapping must not be introduced until real observations exist for a defined forming process and measurement method.

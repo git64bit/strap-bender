@@ -65,3 +65,10 @@ Pattern schedules resolve once per repetition. Expanded commands and resolved li
 - `strap_profile_workbench_wrapper_contract.scad` executes the report-only Strap Profile route through `main.scad`.
 
 The product record contains vendor nominal data. It does not claim measured dimensions, radius compensation, springback, neutral-axis location, or strap cutting length.
+
+
+## Batch 010 radius-observation contracts
+
+- `radius_observation_contract.scad` verifies specimen measurements, forming-condition fields, material provenance, exact-name lookup, springback delta, and finished/tool radius ratios.
+
+All values in the Batch 010 contract are explicitly synthetic test data. The repository still contains no claimed physical springback measurements and no fitted compensation curve.
