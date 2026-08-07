@@ -96,6 +96,8 @@ Batch 008 applies the same schedule records to pattern parameters. Each paramete
 
 All authoring front ends terminate at one Strap Bender analytical path contract. Batch 005 demonstrates this by normalizing a vertex polygon to the existing ordered bend-program record before analytical compilation. Batch 006 inserts regular-polygon generation one stage earlier. Batch 007 resolves compact radius schedules before either polygon front end calculates tangent geometry. Batch 008 adds the parallel pattern route: compact instance → per-repetition parameter resolution → expanded commands with provenance → normalized bend program → analytical path. Waves and explicit bend sequences may not bypass this boundary and directly generate unrelated fixture solids.
 
+Batch 014 adds a diagnostic before normalization that compares nonadjacent sharp source edges and reports crossing or touching pairs by source edge index. This diagnostic does not mutate the source, normalized commands, or analytical path and does not by itself reject a shape.
+
 ## Pattern expansion boundary
 
 A pattern block owns only reusable local topology and named parameter slots. A pattern instance owns the repetition count, parameter value sources, start pose, and closure policy. Compilation produces contiguous bend-program source indexes plus a separate provenance record for every expanded command containing:

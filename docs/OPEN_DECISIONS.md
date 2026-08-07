@@ -55,7 +55,7 @@ Decide whether Strap Bender requires BOSL2, vendors a fixed compatible subset, o
 
 ### Self-intersections
 
-Decide whether all self-intersecting paths are rejected initially or whether a narrowly defined crossing fixture will be supported later.
+Batch 014 detects and reports nonadjacent intersections in the sharp source polygon without rejecting the source record. Decide later whether all self-intersecting analytical target paths are rejected or whether a narrowly defined crossing fixture will be supported.
 
 ### Part and object numbering
 

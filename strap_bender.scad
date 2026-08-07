@@ -13,6 +13,7 @@ STRAP_BENDER_ANALYTICAL_PATH_CONTRACT_VERSION = 1;
 STRAP_BENDER_SAMPLED_PATH_CONTRACT_VERSION = 1;
 STRAP_BENDER_VALUE_SCHEDULE_CONTRACT_VERSION = 1;
 STRAP_BENDER_VERTEX_POLYGON_CONTRACT_VERSION = 1;
+STRAP_BENDER_POLYGON_INTERSECTION_DIAGNOSTIC_VERSION = 1;
 STRAP_BENDER_REGULAR_POLYGON_CONTRACT_VERSION = 1;
 STRAP_BENDER_PATTERN_CONTRACT_VERSION = 1;
 STRAP_BENDER_STRAP_MATERIAL_CONTRACT_VERSION = 1;
@@ -43,6 +44,7 @@ include <paths/pattern_math.scad>
 include <paths/analytical_math.scad>
 include <paths/analytical_bounds.scad>
 include <paths/polygon_math.scad>
+include <paths/polygon_intersections.scad>
 include <paths/regular_polygon_math.scad>
 include <paths/compile_bend_program.scad>
 include <paths/compile_vertex_polygon.scad>

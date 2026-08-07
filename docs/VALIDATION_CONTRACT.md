@@ -139,7 +139,7 @@ Batch 008 resolves parameter values once per repetition. A local element may reu
 - concave and convex turn directions are preserved;
 - the compiler reports the source vertex for every derived bend.
 
-Batch 005 implements these checks except polygon self-intersection analysis, which remains a separate later diagnostic. Radius infeasibility is exposed both as a Boolean predicate for non-failing contract tests and as an asserting source-record validator for production routing.
+Batch 005 implements the source and tangent-setback checks. Batch 014 adds a separate non-rejecting diagnostic for nonadjacent sharp-source edge crossings or touches and reports the exact source-edge pairs. Radius infeasibility remains an asserting validation failure, while crossing policy remains unresolved. Analytical line/arc self-intersection and near-intersection diagnostics remain later work.
 
 ## Regular-polygon validation
 

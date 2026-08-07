@@ -37,6 +37,12 @@ The analytical path uses the finished inside edge as its explicit reference axis
 - `vertex_polygon_workbench_wrapper_contract.scad` executes the complete named-polygon route through `main.scad`.
 
 
+## Batch 014 polygon-intersection diagnostic contract
+
+- `polygon_self_intersection_contract.scad` verifies that adjacent shared endpoints are ignored, a simple concave polygon remains non-crossing, and a synthetic crossing polygon reports source edges 1 and 3 without becoming an asserting validation failure.
+
+The diagnostic operates on the ordered sharp source polygon. It does not yet claim complete intersection or near-intersection analysis for the rounded analytical line/arc path.
+
 ## Batch 006 regular-polygon contracts
 
 - `regular_polygon_contract.scad` verifies equilateral-triangle generation, resolved sharp dimensions, convex turns, and exact closure.

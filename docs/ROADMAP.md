@@ -43,7 +43,8 @@ Implementation status:
 - Batch 005 covers named closed vertex-polygon records, common or explicit per-corner radii, orientation-independent convex/concave classification, exact circular tangent setbacks, retained-edge feasibility, normalized bend-program generation, source edge/vertex provenance, a diagnostic workbench, and explicit-program equivalence testing.
 - Batch 006 covers regular-polygon source and compilation records, side-length/circumradius/apothem authorities, counter-clockwise sharp-vertex generation, common or explicit radius propagation, a scalar Customizer workbench, and triangle/square/pentagon contracts.
 - Batch 007 adds native constant, explicit, periodic, and every-nth numeric schedules; routes them through both polygon front ends; adds a schedule-capable Regular Polygon Customizer; and verifies the 1.6/1.6/5 mm every-third case.
-- Arbitrary formula schedules and polygon self-intersection diagnostics remain later bounded work.
+- Batch 014 adds nonadjacent sharp-source edge-intersection detection and reporting. Detection is diagnostic only; it does not resolve the later fixture-policy decision about whether any self-crossing target may be supported.
+- Arbitrary formula schedules and analytical line/arc self-intersection or near-intersection diagnostics remain later bounded work.
 
 ## Phase 3 — patterns and long paths
 

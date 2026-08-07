@@ -1,0 +1,92 @@
+STRAP BENDER — BATCH 014 DELTA
+
+Base repository:
+ https://github.com/git64bit/strap-bender
+
+Required base commit:
+ d59502a
+ d59502a78222451804f2b9fcad8289f043c61f07
+
+Scope:
+ Phase 2 bounded follow-up: sharp-source polygon self-intersection diagnostics.
+
+This batch is intentionally independent of the blocked physical-calibration path.
+No PET springback values, target-to-tool mapping, neutral-axis model, cut-length
+correction, or production fixture topology are introduced.
+
+The diagnostic compares only nonadjacent edges of the ordered sharp source
+polygon. Shared endpoints of adjacent edges are expected and are ignored.
+Nonadjacent proper crossings, touches, and collinear contacts are reported as
+stable source-edge index pairs.
+
+This batch deliberately does NOT reject a polygon merely because the diagnostic
+finds an intersection. The project still has an open fixture-policy decision
+about whether any self-crossing analytical target can ever be supported.
+Analytical line/arc self-intersection and near-intersection analysis remain later
+work.
+
+New files:
+ paths/polygon_intersections.scad
+ tests/polygon_self_intersection_contract.scad
+ BATCH_014_DELTA.txt
+
+Changed files:
+ README.md
+ docs/ARCHITECTURE.md
+ docs/OPEN_DECISIONS.md
+ docs/ROADMAP.md
+ docs/VALIDATION_CONTRACT.md
+ lib/reporting.scad
+ strap_bender.scad
+ tests/README.md
+ tests/public_foundation_contract.scad
+
+Deleted files:
+ None.
+
+Upload:
+ 1. Confirm the repository is at commit d59502a.
+ 2. Upload all files from this archive as complete files while preserving
+    repository-relative paths.
+ 3. Create the two new .scad files exactly as named above.
+ 4. Do not replace or modify LICENSE, earlier BATCH_*_DELTA files, or unrelated
+    source files.
+
+OpenSCAD verification:
+ 1. Open tests/public_foundation_contract.scad and press F5.
+ 2. Confirm:
+      STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+ 3. Open tests/polygon_self_intersection_contract.scad and press F5.
+ 4. Confirm the console reports:
+      Sharp-source self-intersections: 1
+    and identifies:
+      Sharp source edges 1 and 3 intersect.
+    then finishes with:
+      STRAP BENDER POLYGON SELF-INTERSECTION CONTRACT: PASS
+ 5. Re-run tests/vertex_polygon_contract.scad and press F5.
+ 6. Confirm its final PASS message appears without warnings/errors.
+ 7. Re-run tests/concave_polygon_contract.scad and press F5.
+ 8. Confirm its final PASS message appears without warnings/errors.
+ 9. Re-run tests/regular_polygon_contract.scad and press F5.
+10. Confirm its final PASS message appears without warnings/errors.
+11. Re-run tests/long_wave_contract.scad and press F5.
+12. Confirm its final PASS message appears without warnings/errors.
+
+Static verification performed before delivery:
+ The accepted Batch 013 source was reconstructed and reconciled against GitHub
+ commit d59502a78222451804f2b9fcad8289f043c61f07 before this delta was prepared.
+ Include targets resolve within the reconstructed repository.
+ Delimiters, strings, and comments are balanced.
+ Function and module declarations are unique within the active repository tree.
+ Every .scad file remains at or below 500 lines.
+ The archive contains only complete new and changed files plus this manifest.
+ The accepted Wave Pattern default remains show_diagnostic_preview = true.
+ The persistent physical calibration-trial registry remains empty.
+ No empirical PET observation or compensation model is registered.
+
+OpenSCAD execution note:
+ OpenSCAD is not installed in the delivery environment. The direct-open F5 tests
+ above require execution on the user's OpenSCAD installation.
+
+After acceptance:
+ Commit the batch and provide the resulting commit SHA for reconciliation.

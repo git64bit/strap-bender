@@ -21,6 +21,8 @@ assert(STRAP_BENDER_VALUE_SCHEDULE_CONTRACT_VERSION == 1,
     "Unexpected value-schedule contract version.");
 assert(STRAP_BENDER_VERTEX_POLYGON_CONTRACT_VERSION == 1,
     "Unexpected vertex-polygon contract version.");
+assert(STRAP_BENDER_POLYGON_INTERSECTION_DIAGNOSTIC_VERSION == 1,
+    "Unexpected polygon-intersection diagnostic version.");
 assert(STRAP_BENDER_REGULAR_POLYGON_CONTRACT_VERSION == 1,
     "Unexpected regular-polygon contract version.");
 assert(STRAP_BENDER_PATTERN_CONTRACT_VERSION == 1,

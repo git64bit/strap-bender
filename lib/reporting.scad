@@ -214,6 +214,7 @@ module report_vertex_polygon(polygon, report_level = "full") {
     concave_count = len(corners) - convex_count;
     radius_source = vertex_polygon_corner_radii(polygon);
     radii = sb_vertex_polygon_resolved_corner_radii(polygon);
+    intersection_pairs = sb_polygon_self_intersection_pairs(vertices);
 
     echo("--- Strap Bender vertex polygon ---");
     echo(str("Polygon: ", vertex_polygon_name(polygon)));
@@ -227,6 +228,8 @@ module report_vertex_polygon(polygon, report_level = "full") {
         max(radii), " mm"));
     echo(str("Start vertex: ",
         vertex_polygon_start_vertex_index(polygon)));
+    echo(str("Sharp-source self-intersections: ",
+        len(intersection_pairs)));
     echo(str("Shortest retained straight: ", min([
         for (edge = edges) polygon_edge_retained_length(edge)
     ]), " mm"));
@@ -240,6 +243,12 @@ module report_vertex_polygon(polygon, report_level = "full") {
             );
         else
             echo(str("Resolved radius list: ", radii));
+        if (len(intersection_pairs) > 0)
+            for (pair = intersection_pairs)
+                echo(str(
+                    "Sharp source edges ", pair[0], " and ", pair[1],
+                    " intersect. Diagnostic only; rejection policy is unresolved."
+                ));
         for (corner = corners)
             echo(str(
                 "Vertex ", polygon_corner_source_vertex_index(corner),

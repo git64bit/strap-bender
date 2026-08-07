@@ -75,6 +75,8 @@ Batch 012 adds a guarded Radius Observation workbench and a coupon-linked calibr
 
 Batch 013 adds the persistent calibration-evidence registry boundary. The registry is deliberately empty until real measured trials are supplied and reviewed. The Calibration Evidence workbench validates unique trial names, revalidates every registered trial against its strap material and exact source coupon, and reports that compensation fitting remains blocked while no physical evidence is registered.
 
+Batch 014 adds non-rejecting sharp-source polygon self-intersection diagnostics. Nonadjacent source-edge crossings and touches are reported by stable edge index, while the project-wide policy for unsupported crossing fixtures remains deliberately unresolved.
+
 ## Tests
 
 Open each file under `tests/` directly and use F5. Every successful contract prints a final `PASS` message in the OpenSCAD console.
@@ -109,7 +111,9 @@ Batch 012 adds the guarded measurement-entry route that ties one ready observati
 
 Batch 013 adds the explicit persistence boundary for reviewed calibration trials and a report-only audit workbench. The delivered physical trial registry is empty, so the software cannot yet derive or claim any target-to-tool radius compensation.
 
-No arbitrary formula schedule, polygon self-intersection analysis, strap solid, fitted forming compensation, neutral-axis cut-length correction, or production-shape fixture family is implemented yet.
+Batch 014 adds sharp-source polygon self-intersection detection and reporting without changing source acceptance policy. Analytical line/arc self-intersection and near-intersection diagnostics remain later work.
+
+No arbitrary formula schedule, analytical-path self-intersection analysis, strap solid, fitted forming compensation, neutral-axis cut-length correction, or production-shape fixture family is implemented yet.
 
 ## Design documents
 
