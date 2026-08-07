@@ -23,6 +23,7 @@ include <config/regular_polygons.scad>
 include <config/patterns.scad>
 include <config/materials.scad>
 include <config/calibration_coupons.scad>
+include <config/calibration_trials.scad>
 include <config/workbenches.scad>
 
 module run_normalized_shape_pipeline(shape) {
@@ -134,6 +135,30 @@ module run_radius_calibration_coupon_pipeline(coupon) {
     }
 }
 
+module run_calibration_trial_pipeline(trial, coupon) {
+    validate_calibration_trial(
+        trial,
+        STRAP_MATERIALS,
+        RADIUS_CALIBRATION_COUPONS
+    );
+    report_calibration_trial(trial, coupon, wb_report_level);
+    echo("STRAP BENDER CALIBRATION TRIAL VALIDATION: PASS");
+}
+
+module report_calibration_trial_draft(coupon) {
+    validate_radius_calibration_coupon(coupon, STRAP_MATERIALS);
+    echo("STRAP BENDER RADIUS OBSERVATION: DRAFT");
+    echo(str("  selected source coupon: ", radius_coupon_name(coupon)));
+    echo(str("  designed tool radius/angle: ",
+        radius_coupon_tool_inside_radius_mm(coupon), " mm / ",
+        radius_coupon_bend_angle_degrees(coupon), " deg"));
+    echo("  no radius-observation evidence record emitted");
+    echo(str(
+        "  replace all specimen, process, and measurement fields, then set ",
+        "Observation ready = true"
+    ));
+}
+
 module run_strap_bender_project() {
     validate_workbench_selection(
         wb_workbench_name,
@@ -195,6 +220,20 @@ module run_strap_bender_project() {
             "radius calibration coupon"
         );
         run_radius_calibration_coupon_pipeline(coupon);
+    } else if (project_kind(project) == "calibration_trial") {
+        coupon = named_record(
+            RADIUS_CALIBRATION_COUPONS,
+            wb_calibration_trial_coupon_name,
+            "radius calibration coupon"
+        );
+        if (wb_calibration_trial_ready) {
+            run_calibration_trial_pipeline(
+                WORKBENCH_CALIBRATION_TRIAL,
+                coupon
+            );
+        } else {
+            report_calibration_trial_draft(coupon);
+        }
     } else {
         echo("Strap Bender Catalog contains no accepted geometry.");
     }

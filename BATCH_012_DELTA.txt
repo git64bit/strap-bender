@@ -1,0 +1,126 @@
+STRAP BENDER — BATCH 012 DELTA
+
+Base repository:
+ https://github.com/git64bit/strap-bender
+
+Required base commit:
+ 8074d4a
+ 8074d4a27a81f1a9844657a7ea9712205c4113e9
+
+Scope:
+ Phase 4D guarded coupon-linked radius-observation entry.
+
+This batch adds the evidence-entry bridge between the printable radius coupons
+from Batch 011 and the radius-observation record from Batch 010. The new Radius
+Observation workbench selects one exact Laboratory coupon and defaults to a
+DRAFT state. While Observation ready is false, the coupon is validated and
+reported but no radius-observation evidence record is constructed.
+
+When the operator explicitly enables Observation ready, specimen dimensions,
+forming conditions, finished-radius measurement, method, date, uncertainty,
+and notes are used to construct one transient radius observation. Strap material,
+signed bend angle, and designed tool radius are derived from the selected coupon,
+not retyped by the operator.
+
+A new calibration-trial record preserves the exact coupon name together with the
+embedded observation. Trial validation resolves that coupon by exact name and
+requires the observation material, signed bend angle, and tool radius to match.
+This is provenance and consistency checking only. It is not a springback model,
+forming recommendation, target-to-tool mapping, or certification that entered
+values are physical measurements.
+
+No real PET observation is registered by this batch. All ready-state contract
+values are explicitly synthetic and future-dated.
+
+New files:
+ config/calibration_trials.scad
+ lib/calibration_trial_accessors.scad
+ lib/calibration_trial_indices.scad
+ lib/calibration_trial_reporting.scad
+ lib/calibration_trial_schema.scad
+ lib/calibration_trial_validation.scad
+ tests/calibration_trial_contract.scad
+ tests/radius_observation_ready_workbench_contract.scad
+ tests/radius_observation_workbench_wrapper_contract.scad
+ workbenches/radius-observation.scad
+ BATCH_012_DELTA.txt
+
+Changed files:
+ README.md
+ config/calibration_coupons.scad
+ config/defaults.scad
+ config/materials.scad
+ config/projects.scad
+ config/workbenches.scad
+ docs/ARCHITECTURE.md
+ docs/DATA_MODEL.md
+ docs/OPEN_DECISIONS.md
+ docs/PROVENANCE.md
+ docs/ROADMAP.md
+ docs/VALIDATION_CONTRACT.md
+ lib/lookup.scad
+ lib/validation.scad
+ main.scad
+ registries/laboratory_projects.scad
+ strap_bender.scad
+ tests/README.md
+ tests/public_foundation_contract.scad
+ tests/workbench_registry_contract.scad
+
+Deleted files:
+ None.
+
+Upload:
+ 1. Confirm the repository is at commit 8074d4a.
+ 2. Upload all files from this archive as complete files while preserving
+    repository-relative paths.
+ 3. Create the eleven new files exactly as named above.
+ 4. Do not replace or modify LICENSE, earlier BATCH_*_DELTA files, or unrelated
+    source files.
+
+OpenSCAD verification:
+ 1. Open tests/public_foundation_contract.scad and press F5.
+ 2. Confirm: STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+ 3. Open tests/calibration_trial_contract.scad and press F5.
+ 4. Confirm the report names SYNTHETIC_COUPON_LINK_TRIAL and source coupon
+    ULINE_R90_TOOL_R1_6_EXPERIMENTAL, then prints:
+    STRAP BENDER CALIBRATION TRIAL CONTRACT: PASS
+ 5. Open tests/radius_observation_workbench_wrapper_contract.scad and press F5.
+ 6. Confirm the default route reports STRAP BENDER RADIUS OBSERVATION: DRAFT,
+    states that no radius-observation evidence record was emitted, and prints:
+    STRAP BENDER RADIUS-OBSERVATION WORKBENCH WRAPPER CONTRACT: PASS
+ 7. Open tests/radius_observation_ready_workbench_contract.scad and press F5.
+ 8. Confirm the synthetic ready route reports source coupon
+    ULINE_R90_TOOL_R1_6_EXPERIMENTAL, 1.6 mm / 90 deg tool geometry, and prints:
+    STRAP BENDER READY RADIUS-OBSERVATION WORKBENCH CONTRACT: PASS
+ 9. Re-run tests/workbench_registry_contract.scad.
+10. Confirm: STRAP BENDER WORKBENCH REGISTRY CONTRACT: PASS
+11. Re-run tests/radius_observation_contract.scad and
+    tests/radius_calibration_coupon_contract.scad.
+12. Confirm both accepted Phase 4 regression tests print PASS without warnings
+    or errors.
+13. Re-run tests/long_wave_contract.scad and
+    tests/wave_pattern_workbench_wrapper_contract.scad.
+14. Confirm both accepted long-wave regression tests print PASS without
+    warnings/errors and the Wave Pattern workbench still renders by default.
+
+Static verification performed before delivery:
+ The accepted Batch 011 state was reconstructed at commit 8074d4a, including
+ the accepted Wave Pattern default show_diagnostic_preview = true, then this
+ delta was overlaid.
+ Include targets resolve within the reconstructed repository.
+ Delimiters, strings, and comments are balanced.
+ Function and module declarations are unique within the active repository tree.
+ New calibration-trial constructors, accessors, validators, and reporters resolve.
+ Every .scad file remains at or below 500 lines.
+ The archive contains only complete new and changed files plus this manifest.
+ The Radius Observation default is gated as a draft and emits no evidence record.
+ No empirical PET observation, compensation mapping, neutral-axis correction,
+ cut-length correction, or production fixture geometry is registered.
+
+OpenSCAD execution note:
+ OpenSCAD is not installed in the delivery environment. The direct-open F5 tests
+ above require execution on the user's OpenSCAD installation.
+
+After acceptance:
+ Commit the batch and provide the resulting commit SHA for reconciliation.

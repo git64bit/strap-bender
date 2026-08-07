@@ -29,6 +29,7 @@ WORKBENCH_RADIUS_CALIBRATION_COUPON = radius_calibration_coupon_spec(
 RADIUS_CALIBRATION_COUPONS =
     wb_workbench_name == "radius_calibration"
         ? [WORKBENCH_RADIUS_CALIBRATION_COUPON]
-        : wb_workbench_name == "development"
+        : wb_workbench_name == "radius_observation" ||
+          wb_workbench_name == "development"
             ? LABORATORY_RADIUS_CALIBRATION_COUPONS
             : [];

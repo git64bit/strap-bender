@@ -18,6 +18,7 @@ function sb_project_kind_valid(kind) =
     kind == "pattern" ||
     kind == "strap_material" ||
     kind == "radius_calibration" ||
+    kind == "calibration_trial" ||
     kind == "catalog";
 function sb_project_status_valid(status) =
     status == "stub" ||

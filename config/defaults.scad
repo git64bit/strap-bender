@@ -109,6 +109,43 @@ wb_radius_coupon_tool_surface_max_angle_step_degrees =
     is_undef(tool_surface_max_angle_step_degrees)
         ? 5 : tool_surface_max_angle_step_degrees;
 
+wb_calibration_trial_ready = is_undef(observation_ready)
+    ? false : observation_ready;
+wb_calibration_trial_coupon_name = is_undef(radius_coupon_name_selected)
+    ? "ULINE_R90_TOOL_R1_6_EXPERIMENTAL" : radius_coupon_name_selected;
+wb_calibration_trial_name = is_undef(calibration_trial_name_selected)
+    ? "CUSTOM_CALIBRATION_TRIAL" : calibration_trial_name_selected;
+wb_radius_observation_name = is_undef(radius_observation_name_selected)
+    ? "CUSTOM_RADIUS_OBSERVATION" : radius_observation_name_selected;
+wb_radius_observation_specimen_id = is_undef(specimen_id)
+    ? "" : specimen_id;
+wb_radius_observation_measured_width_mm = is_undef(measured_width_mm)
+    ? 0 : measured_width_mm;
+wb_radius_observation_measured_thickness_mm = is_undef(measured_thickness_mm)
+    ? 0 : measured_thickness_mm;
+wb_radius_observation_forming_method = is_undef(forming_method)
+    ? "unset" : forming_method;
+wb_radius_observation_forming_temperature_c = is_undef(forming_temperature_c)
+    ? 0 : forming_temperature_c;
+wb_radius_observation_dwell_seconds = is_undef(dwell_seconds)
+    ? 0 : dwell_seconds;
+wb_radius_observation_cooling_restraint = is_undef(cooling_restraint)
+    ? "unset" : cooling_restraint;
+wb_radius_observation_release_rest_seconds = is_undef(release_rest_seconds)
+    ? 0 : release_rest_seconds;
+wb_radius_observation_finished_radius_mm =
+    is_undef(measured_finished_inside_radius_mm)
+        ? 0 : measured_finished_inside_radius_mm;
+wb_radius_observation_measurement_method = is_undef(measurement_method)
+    ? "" : measurement_method;
+wb_radius_observation_measured_date = is_undef(measured_date)
+    ? "" : measured_date;
+wb_radius_observation_measurement_uncertainty_mm =
+    is_undef(measurement_uncertainty_mm)
+        ? 0 : measurement_uncertainty_mm;
+wb_radius_observation_notes = is_undef(observation_notes)
+    ? "" : observation_notes;
+
 wb_sample_chord_error_mm = is_undef(sample_chord_error_mm)
     ? SB_DEFAULT_SAMPLE_CHORD_ERROR_MM : sample_chord_error_mm;
 wb_sample_max_angle_step_degrees =

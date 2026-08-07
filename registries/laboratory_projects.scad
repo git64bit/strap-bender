@@ -67,5 +67,15 @@ LABORATORY_PROJECTS = [
             "and bend angle so physical observations can be collected ",
             "without asserting a springback compensation law."
         )
+    ),
+    project_spec(
+        name = "RADIUS_OBSERVATION_LAB",
+        kind = "calibration_trial",
+        status = "laboratory",
+        notes = str(
+            "Guarded physical-observation worksheet. A ready trial links ",
+            "one measured radius observation to one exact named calibration ",
+            "coupon and verifies material, tool radius, and bend angle."
+        )
     )
 ];

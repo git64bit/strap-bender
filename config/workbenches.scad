@@ -13,6 +13,7 @@ WORKBENCH_NAMES = [
     "wave_pattern",
     "strap_profile",
     "radius_calibration",
+    "radius_observation",
     "catalog"
 ];
 
@@ -21,7 +22,8 @@ function workbench_name_valid(name) =
         if (candidate == name) candidate]) == 1;
 
 function workbench_render_mode_allowed(name, mode) =
-    name == "catalog" || name == "strap_profile"
+    name == "catalog" || name == "strap_profile" ||
+    name == "radius_observation"
         ? mode == "report_only"
         : name == "radius_calibration"
             ? (mode == "report_only" || mode == "calibration_coupon")

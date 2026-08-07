@@ -53,3 +53,10 @@ Batch 010 adds a schema for physical radius observations. No empirical observati
 ## Calibration tooling provenance
 
 Batch 011 adds printable experimental radius-coupon geometry derived only from explicit CAD dimensions and the registered ULINE strap identity. The included R1.6 and R5 values identify designed tool surfaces, not measured PET outcomes or forming recommendations. No empirical radius observation is added or inferred by the coupon registry.
+
+## Calibration trial provenance
+
+Batch 012 requires a coupon-based trial to name the exact calibration coupon used. The embedded observation may repeat the material, signed angle, and tool-radius values needed for standalone analysis, but trial validation must prove those values agree with the named coupon. This prevents a measurement worksheet from silently combining evidence with unrelated tool geometry.
+
+The readiness gate is not evidence certification. It only prevents the default Customizer state from emitting an observation record. Physical provenance still depends on the operator supplying actual specimen measurements, process conditions, date, measurement method, and uncertainty.
+

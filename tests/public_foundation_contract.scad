@@ -31,6 +31,8 @@ assert(STRAP_BENDER_RADIUS_OBSERVATION_CONTRACT_VERSION == 1,
     "Unexpected radius observation contract version.");
 assert(STRAP_BENDER_RADIUS_CALIBRATION_COUPON_CONTRACT_VERSION == 1,
     "Unexpected radius calibration coupon contract version.");
+assert(STRAP_BENDER_CALIBRATION_TRIAL_CONTRACT_VERSION == 1,
+    "Unexpected calibration trial contract version.");
 
 material = strap_material_spec(
     "TEST_STRAP",
@@ -81,6 +83,31 @@ coupon = radius_calibration_coupon_spec(
     0.02,
     5,
     "Synthetic public-foundation coupon only."
+);
+trial_observation = radius_observation_spec(
+    "TEST_LINKED_RADIUS_OBSERVATION",
+    "TEST_STRAP",
+    "TEST-LINKED-SPECIMEN",
+    15.9,
+    0.51,
+    90,
+    2,
+    "cold",
+    20,
+    30,
+    "not_applicable",
+    60,
+    2.5,
+    "synthetic linked contract method",
+    "2099-01-01",
+    0.1,
+    "Synthetic linked public-foundation record only."
+);
+trial = calibration_trial_spec(
+    "TEST_CALIBRATION_TRIAL",
+    "TEST_RADIUS_COUPON",
+    trial_observation,
+    "Synthetic public-foundation trial only."
 );
 project = project_spec("TEST_PROJECT", "bend_program", "laboratory");
 pose = start_pose_spec(10, -5, 30);
@@ -148,6 +175,8 @@ pattern_compilation = compile_pattern_instance(
 validate_strap_material(material);
 validate_radius_observation(observation, [material]);
 validate_radius_calibration_coupon(coupon, [material]);
+validate_radius_observation(trial_observation, [material]);
+validate_calibration_trial(trial, [material], [coupon]);
 assert(radius_observation_name(observation) == "TEST_RADIUS_OBSERVATION" &&
     radius_observation_specimen_id(observation) == "TEST-SPECIMEN" &&
     abs(radius_observation_springback_delta_mm(observation) - 1) < 1e-9,
@@ -157,6 +186,10 @@ assert(radius_coupon_name(coupon) == "TEST_RADIUS_COUPON" &&
     abs(radius_coupon_tool_inside_radius_mm(coupon) - 2) < 1e-9 &&
     sb_point_distance(radius_coupon_exit_tangent_point(coupon), [2, 2]) < 1e-9,
     "Radius calibration coupon constructor or accessor contract failed.");
+assert(calibration_trial_name(trial) == "TEST_CALIBRATION_TRIAL" &&
+    calibration_trial_coupon_name(trial) == "TEST_RADIUS_COUPON" &&
+    calibration_trial_observation(trial) == trial_observation,
+    "Calibration trial constructor or accessor contract failed.");
 assert(strap_material_name(material) == "TEST_STRAP" &&
     abs(strap_material_nominal_width_in(material) - 0.625) < 1e-9 &&
     abs(strap_material_nominal_thickness_in(material) - 0.020) < 1e-9,

@@ -36,6 +36,14 @@ Batch 010 adds one immutable evidence record per physical bend observation. It s
 
 The record can directly derive measured finished-minus-tool radius delta and dimensionless finished/tool or tool/finished ratios. These are summaries of one observation only. They are not a fitted springback law and do not convert a target radius into a tool radius. Synthetic contract-test records are never registered as physical calibration data.
 
+### Calibration trial
+
+Batch 012 adds a thin provenance wrapper around one radius observation. A calibration trial stores a stable trial name, the exact source calibration-coupon name, the embedded observation record, and notes. It does not duplicate coupon dimensions.
+
+Validation resolves the named coupon and requires the embedded observation's strap material, signed bend angle, and tool inside radius to match the coupon. This keeps the generic radius-observation record usable for other controlled tools while preserving exact printed-coupon provenance when the Strap Bender coupon family is used.
+
+No physical trial is registered by Batch 012. The Customizer workbench constructs a transient trial only after an explicit readiness gate is enabled.
+
 ### Radius calibration coupon
 
 Batch 011 adds an experimental printable-tool record for collecting radius observations. It stores stable coupon name, referenced strap material, designed tool inside radius, signed tool bend angle, entry and exit tangent lengths, form depth and height, base thickness and margin, tool-surface chord-error limit, maximum angular facet step, and notes.

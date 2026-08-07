@@ -21,7 +21,7 @@ Select and test cold forming, local heating, global heating, or another controll
 
 ### Finished-radius measurement
 
-Batch 010 can record the method, stated uncertainty, and post-release rest interval for each observation, but the practical measurement method for small radii still must be selected before real data are registered.
+Batch 010 can record the method, stated uncertainty, and post-release rest interval for each observation. Batch 012 adds a guarded entry workbench, but the practical measurement method for small radii still must be selected before real data are registered.
 
 ### Neutral-axis model
 
@@ -65,4 +65,4 @@ The physical product identity is now fixed as ULINE S-1655 black, smooth, 5/8 in
 
 ## Calibration evidence boundary
 
-Batch 010 defines how a real radius observation will be preserved but intentionally registers no physical observation. Batch 011 supplies experimental printable tool geometry for producing those observations. Test records use future-dated synthetic values and explicit TEST DATA notes so they cannot be mistaken for empirical PET behavior. A target-to-tool mapping must not be introduced until real observations exist for a defined forming process and measurement method.
+Batch 010 defines how a real radius observation will be preserved but intentionally registers no physical observation. Batch 011 supplies experimental printable tool geometry for producing those observations. Batch 012 adds a coupon-linked calibration-trial wrapper and a Radius Observation workbench whose default state is deliberately not ready; no evidence record is emitted until the gate is explicitly enabled. Test records use future-dated synthetic values and explicit TEST DATA notes so they cannot be mistaken for empirical PET behavior. A target-to-tool mapping must not be introduced until real observations exist for a defined forming process and measurement method.

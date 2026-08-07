@@ -32,7 +32,7 @@ geometry dispatch
 
 ## Workbench plan
 
-The Bend Program, Vertex Polygon, Regular Polygon, Wave Pattern, Radius Calibration, and Catalog routes are implemented:
+The Bend Program, Vertex Polygon, Regular Polygon, Wave Pattern, Radius Calibration, Radius Observation, and Catalog routes are implemented:
 
 ```text
 workbenches/bend-program.scad      explicit ordered straights and bends
@@ -40,6 +40,7 @@ workbenches/vertex-polygon.scad    named ordered vertices and corner radii
 workbenches/regular-polygon.scad   schedule-capable regular polygon generator
 workbenches/wave-pattern.scad      compact repeated S-wave generator
 workbenches/radius-calibration.scad experimental printable radius coupon
+workbenches/radius-observation.scad guarded coupon-linked observation entry
 workbenches/catalog.scad           read-only accepted-object route
 ```
 
@@ -71,6 +72,12 @@ Folders should be created only when the first implementation requires them.
 Batch 011 adds a calibration-tool branch beside the target-path compiler. The Radius Calibration workbench constructs one native coupon record, validates its material provenance and geometry, reports exact contact datums and tessellation error, and dispatches printable coupon geometry. It does not pass through the target finished-inside-edge path compiler because its radius is explicitly a tool radius rather than a desired finished radius.
 
 The printable coupon keeps analytical tool intent separate from tessellation: the radius and tangent datums remain exact record-derived quantities while polygon facets are generated only for rendering.
+
+## Calibration-observation route
+
+Batch 012 adds a report-only Radius Observation branch. The workbench first selects one exact Laboratory calibration coupon. While `Observation ready` is false, it validates and reports only that coupon and emits no radius-observation evidence record. When explicitly enabled, the route constructs one transient radius observation from user-entered specimen/process/measurement values while deriving strap material, signed bend angle, and designed tool radius from the selected coupon. A calibration-trial wrapper preserves the coupon name and validation proves those duplicated observation fields still match the source coupon.
+
+The workbench is an evidence-entry aid, not a database and not a calibration fitter. Synthetic contract values remain local to tests. Persistent physical trials may be registered only after actual measurements are supplied and reviewed.
 
 ## Schedule boundary
 

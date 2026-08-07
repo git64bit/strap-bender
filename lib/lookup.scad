@@ -27,7 +27,10 @@ function record_name(record) =
                                     : record[0] ==
                                         STRAP_BENDER_RADIUS_CALIBRATION_COUPON_RECORD
                                         ? radius_coupon_name(record)
-                                        : undef;
+                                        : record[0] ==
+                                            STRAP_BENDER_CALIBRATION_TRIAL_RECORD
+                                            ? calibration_trial_name(record)
+                                            : undef;
 
 function records_named(records, name) =
     [for (record = records) if (record_name(record) == name) record];

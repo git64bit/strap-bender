@@ -75,6 +75,21 @@ Batch 011 requires each printable calibration coupon to have:
 
 These checks validate CAD geometry, not printer accuracy or PET behavior. A valid coupon still carries no claim about the relaxed finished radius.
 
+## Calibration-trial validation
+
+Batch 012 requires each coupon-linked calibration trial to have:
+
+- the exact calibration-trial record type and current schema version;
+- a non-empty stable trial name and source coupon name;
+- one valid embedded radius observation;
+- exactly one matching source coupon in the supplied coupon registry;
+- observation strap material identical to the source coupon material;
+- observation signed bend angle equal to the source coupon angle within the named angular tolerance;
+- observation tool inside radius equal to the source coupon designed radius within the named position tolerance;
+- notes stored as a string.
+
+The Radius Observation workbench defaults to `Observation ready = false`. In that state the selected coupon is validated and reported, but no observation or calibration-trial evidence record is constructed. Enabling the gate does not certify the values as physical truth; it only allows the normal evidence validators to run.
+
 ## Pattern validation
 
 - pattern blocks contain at least one valid local element;

@@ -44,6 +44,11 @@ radius_calibration_project = named_record(
     "RADIUS_CALIBRATION_LAB",
     "project"
 );
+radius_observation_project = named_record(
+    all_projects,
+    "RADIUS_OBSERVATION_LAB",
+    "project"
+);
 catalog_project = named_record(
     all_projects,
     "CATALOG_WORKBENCH_STUB",
@@ -121,6 +126,7 @@ validate_project(regular_project);
 validate_project(pattern_project);
 validate_project(strap_project);
 validate_project(radius_calibration_project);
+validate_project(radius_observation_project);
 validate_project(catalog_project);
 validate_bend_program_shape(small_program);
 validate_bend_program_shape(scale_program);
@@ -223,6 +229,8 @@ assert(workbench_name_valid("strap_profile"),
     "Strap Profile workbench must be registered.");
 assert(workbench_name_valid("radius_calibration"),
     "Radius Calibration workbench must be registered.");
+assert(workbench_name_valid("radius_observation"),
+    "Radius Observation workbench must be registered.");
 assert(workbench_render_mode_allowed("bend_program", "report_only"),
     "Bend Program report-only route must be allowed.");
 assert(workbench_render_mode_allowed("bend_program", "diagnostic_path"),
@@ -289,6 +297,16 @@ assert(!workbench_render_mode_allowed(
         "diagnostic_path"
     ),
     "Radius Calibration must reject diagnostic-path rendering.");
+assert(workbench_render_mode_allowed(
+        "radius_observation",
+        "report_only"
+    ),
+    "Radius Observation must allow report-only routing.");
+assert(!workbench_render_mode_allowed(
+        "radius_observation",
+        "diagnostic_path"
+    ),
+    "Radius Observation must reject geometry rendering.");
 assert(len(records_named(
         LABORATORY_RADIUS_CALIBRATION_COUPONS,
         "ULINE_R90_TOOL_R1_6_EXPERIMENTAL"
