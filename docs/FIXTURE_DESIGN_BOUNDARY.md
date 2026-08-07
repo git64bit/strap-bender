@@ -4,7 +4,7 @@
 
 A Strap Bender fixture exists to reproduce the target tangent locations, straight lengths, bend directions, and compensated tool radii as closely as practical for the specified PET strap and forming process.
 
-This document defines fixture requirements. Batch 015 selects the first software topology: an open-top bend-post fixture. Batch 018 adds deterministic sequential segmentation when the full plan exceeds the print envelope. Tool radii remain deliberately nominal and uncompensated until physical calibration is available.
+This document defines fixture requirements. Batch 015 selects the first software topology: an open-top bend-post fixture. Batch 018 adds deterministic sequential segmentation when the full plan exceeds the print envelope. Batch 019 adds shared split-datum registration holes and physical component index marks for sequential setup. Tool radii remain deliberately nominal and uncompensated until physical calibration is available.
 
 ## Required separation
 
@@ -109,3 +109,11 @@ Printed coupons and measured relaxed results will establish the evidence needed 
 ## Sequential long-form boundary
 
 Batch 018 chooses `sequential_straight_split` as the first long-form strategy. It is a software segmentation and setup contract, not a claim that printed component bases mechanically join. Interior boundaries are restricted to straight analytical regions so a bend post or follower is never divided. Components may have overlapping global base-margin coverage because they are rendered and used as sequential modules. Future mechanical joiners or tiled fixtures must preserve the same component station and tangent-pose provenance rather than redefining the target path.
+
+## Sequential registration policy
+
+Batch 019 defines the first physical alignment aid for the Batch 018 sequential strategy. Only interior `component_split` boundaries receive registration holes. A keyed pair is derived from the exact split point and heading: the pair is shifted to the left-normal side of the strap reference and spaced along the tangent. Neighboring components therefore receive exactly matching global hole centers at their shared boundary.
+
+The printed hole diameter equals nominal pin diameter plus an explicit diametral clearance allowance. Validation requires the two holes to remain distinct, remain fully inside each component base, and preserve clearance from the complete analytical strap path. The registration policy is intended for transfer pins or a common setup board. It is not a male/female butt joint and does not authorize simultaneous assembly of globally overlapping sequential bases.
+
+A recessed three-digit component index is cut into a base-margin corner. This mark is manufacturing identification only; deterministic component IDs and source datums remain authoritative in records and reports.

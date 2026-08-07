@@ -29,6 +29,16 @@ fixture_retention_mode = "arc_follower"; // [arc_follower,none]
 fixture_follower_wall_thickness_mm = 2; // [0.8:0.2:6]
 fixture_layout_mode = "auto"; // [auto,full_form,segmented]
 fixture_component_index = 0; // nonnegative; used when segmented
+
+/* [Segmented setup aids] */
+fixture_registration_mode = "pin_pair"; // [pin_pair,none]
+fixture_registration_pin_diameter_mm = 3; // [1:0.1:8]
+fixture_registration_hole_clearance_mm = 0.3; // [0:0.05:1]
+fixture_registration_tangent_spacing_mm = 8; // [4:0.5:20]
+fixture_registration_normal_offset_mm = 3; // [2:0.5:15]
+fixture_component_label_mode = "recessed_corner"; // [recessed_corner,none]
+fixture_component_label_size_mm = 2.5; // [1:0.25:6]
+fixture_component_label_depth_mm = 0.4; // [0.1:0.1:1]
 fixture_max_base_width_mm = 220; // positive millimetres
 fixture_max_base_depth_mm = 220; // positive millimetres
 fixture_tool_surface_chord_error_mm = 0.02; // [0.001:0.001:0.2]

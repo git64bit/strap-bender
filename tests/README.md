@@ -142,3 +142,10 @@ The correction does not weaken evidence validation. It adds a non-fatal complete
 - `wave_pattern_segmented_fixture_contract.scad` executes the complete 30-wave Customizer source through `main.scad` with `fixture_layout_mode = "segmented"` and component 0 selected for render.
 
 Interior segmentation boundaries are generated only inside analytical straight primitives, never through a bend post or arc follower. The first long-form strategy is sequential: component records preserve exact global station/XY/heading setup datums, while each printable component is translated to its own local XY origin. These components are not represented as mechanically butt-jointed tiles in Batch 018.
+
+## Batch 019 segmented fixture setup-aid contracts
+
+- `fixture_setup_aid_contract.scad` verifies the default 3 mm pin / 3.3 mm printed-hole policy, exact shared registration pairs across all 22 interior boundaries of the 23-component long-wave reference, base/path clearance validation, deterministic `001` through `023` physical index marks, and setup-aid rendering on component 0.
+- `wave_pattern_segmented_fixture_contract.scad` now also verifies that the complete Customizer route preserves `pin_pair` registration and recessed component marking before rendering the selected segmented component.
+
+Batch 019 registration holes are sequential transfer/common-board datums. They do not represent a butt-jointed or simultaneously assembled tile strategy.

@@ -1,0 +1,214 @@
+STRAP BENDER — BATCH 019 DELTA
+
+Base repository:
+  https://github.com/git64bit/strap-bender
+
+Required base commit:
+  dae5a38
+  dae5a387c0f33f502df9a911ac202d87ee92352a
+
+Scope:
+  Phase 6 continuation: physical setup registration and component identification
+  for the deterministic sequential fixture components introduced by Batch 018.
+
+Development priority:
+  Application completion remains primary. Pending coupon measurements,
+  springback fitting, neutral-axis evaluation, and other empirical PET
+  refinements do not block this batch or subsequent application work.
+
+Batch 019 implements:
+  - new fixture setup-aid contract version 1;
+  - a setup-aid source record separate from target geometry, bend-post fixture
+    policy, and the derived segmentation manifest;
+  - registration_mode = pin_pair | none;
+  - nominal registration-pin diameter plus explicit diametral printed-hole
+    clearance;
+  - configurable tangent spacing and left-normal offset for the pin pair;
+  - a keyed two-hole pattern derived from each exact interior component-split
+    point and heading;
+  - the previous component end and next component start independently derive
+    numerically identical global registration-hole centers;
+  - only interior component_split datums receive registration holes; path start
+    and final path end are not drilled by this policy;
+  - through-holes are rendered into the selected segmented component after its
+    normal local-print-origin translation;
+  - registration-hole validation requires each complete hole circle to remain
+    inside that component base;
+  - hole edges must remain clear of the complete analytical strap path by at
+    least nominal strap thickness plus configured fixture clearance;
+  - hole edges must also preserve the configured minimum gap from every bend
+    post / conservative follower envelope;
+  - component_label_mode = recessed_corner | none;
+  - each segmented component receives a recessed zero-padded physical index
+    mark (001, 002, ...), while the full deterministic component ID remains the
+    data-model identity;
+  - the mark is placed in the protected base-margin corner and has configurable
+    text size and recess depth;
+  - full reports include both global and local registration-hole coordinates;
+  - all four fixture-capable shape workbenches expose the segmented setup-aid
+    controls;
+  - the complete Wave Pattern segmented route validates the setup-aid policy
+    before rendering the selected component.
+
+Important Batch 019 boundary:
+  The Batch 018 components remain sequential station modules. Their global base
+  coverage may overlap. Batch 019 pin pairs are transfer/common-board alignment
+  datums; they do NOT convert the components into mechanically butt-jointed
+  tiles and do not assert that all components can be assembled simultaneously.
+
+Default setup-aid values:
+  registration mode                 pin_pair
+  nominal pin diameter              3.0 mm
+  diametral printed-hole clearance  0.3 mm
+  resulting hole diameter           3.3 mm
+  tangent center spacing            8.0 mm
+  left-normal offset                3.0 mm
+  physical component mark           recessed_corner
+  mark size                         2.5 mm
+  mark depth                        0.4 mm
+
+This batch deliberately does NOT add:
+  - empirical target-to-tool radius compensation;
+  - neutral-axis or strap cut-length correction;
+  - a claim that nominal tool radius predicts relaxed PET radius;
+  - male/female inter-component keys or a butt-jointed tile strategy;
+  - a common setup board or rail model;
+  - Catalog promotion;
+  - forming-temperature/process recommendations.
+
+New files:
+  config/fixture_setup.scad
+  fixtures/bend_post_setup_math.scad
+  lib/fixture_setup_accessors.scad
+  lib/fixture_setup_indices.scad
+  lib/fixture_setup_reporting.scad
+  lib/fixture_setup_schema.scad
+  lib/fixture_setup_validation.scad
+  tests/fixture_setup_aid_contract.scad
+
+Changed files:
+  README.md
+  config/defaults.scad
+  docs/ARCHITECTURE.md
+  docs/DATA_MODEL.md
+  docs/FIXTURE_DESIGN_BOUNDARY.md
+  docs/OPEN_DECISIONS.md
+  docs/ROADMAP.md
+  docs/VALIDATION_CONTRACT.md
+  geometry/bend_post_fixture.scad
+  main.scad
+  strap_bender.scad
+  tests/README.md
+  tests/public_foundation_contract.scad
+  tests/wave_pattern_segmented_fixture_contract.scad
+  workbenches/bend-program.scad
+  workbenches/regular-polygon.scad
+  workbenches/vertex-polygon.scad
+  workbenches/wave-pattern.scad
+
+Application / verification procedure:
+  1. Confirm the repository is clean and at accepted Batch 018:
+       cd /root/strap-bender
+       git status --short
+       git rev-parse HEAD
+     Expected HEAD:
+       dae5a387c0f33f502df9a911ac202d87ee92352a
+
+  2. Upload strap-bender-batch-019.zip to the orchestrator.
+
+  3. Overlay the complete delta while preserving repository-relative paths.
+     Example if the ZIP is in /root:
+       cd /root/strap-bender
+       unzip -o /root/strap-bender-batch-019.zip -d /root/strap-bender
+
+  4. Confirm the expected delta only:
+       git status --short
+
+Required OpenSCAD F5 verification:
+  1. tests/public_foundation_contract.scad
+       STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+
+  2. tests/bend_post_fixture_contract.scad
+       STRAP BENDER BEND-POST FIXTURE CONTRACT: PASS
+     This proves the existing one-piece fixture route remains unchanged.
+
+  3. tests/bend_post_retention_contract.scad
+       STRAP BENDER BEND-POST RETENTION CONTRACT: PASS
+
+  4. tests/bend_post_clearance_contract.scad
+       STRAP BENDER BEND-POST CLEARANCE CONTRACT: PASS
+
+  5. tests/fixture_segmentation_contract.scad
+       STRAP BENDER FIXTURE SEGMENTATION CONTRACT: PASS
+     This proves Batch 018 station/component planning remains unchanged.
+
+  6. tests/fixture_setup_aid_contract.scad
+       STRAP BENDER FIXTURE SETUP-AID CONTRACT: PASS
+     Confirm the 30-wave reference remains 23 components, every shared split
+     resolves one exact matching pin pair, and component 0 renders with setup
+     aids.
+
+  7. tests/wave_pattern_segmented_fixture_contract.scad
+       STRAP BENDER WAVE-PATTERN SEGMENTED FIXTURE CONTRACT: PASS
+     This executes the complete 30-wave Customizer route through main.scad with
+     pin-pair registration and recessed component marking enabled.
+
+  8. tests/wave_pattern_workbench_wrapper_contract.scad
+       STRAP BENDER WAVE-PATTERN WORKBENCH WRAPPER CONTRACT: PASS
+     Confirm the default diagnostic path still renders with no warnings/errors.
+
+  9. tests/vertex_polygon_workbench_wrapper_contract.scad
+       STRAP BENDER VERTEX-POLYGON WORKBENCH WRAPPER CONTRACT: PASS
+
+ 10. tests/regular_polygon_workbench_wrapper_contract.scad
+       STRAP BENDER REGULAR-POLYGON WORKBENCH WRAPPER CONTRACT: PASS
+
+Manual long-form setup-aid verification:
+  A. Open workbenches/wave-pattern.scad.
+  B. Set Show bend post fixture = true.
+  C. Leave Fixture layout mode = auto and Fixture component index = 0.
+  D. Leave Registration mode = pin_pair and Component label mode =
+     recessed_corner.
+  E. Press F5.
+  F. Confirm the console reports:
+       Fixture layout mode: auto; full form fits envelope: false
+       STRAP BENDER FIXTURE SEGMENTATION VALIDATION: PASS
+       STRAP BENDER FIXTURE SETUP-AID VALIDATION: PASS
+  G. Confirm component 0 contains one two-hole registration pair and a recessed
+     physical mark "001".
+  H. Change Fixture component index to 1 and press F5.
+  I. Confirm component 1 contains two registration pairs (four holes total) and
+     recessed mark "002".
+  J. In a full report, confirm component 0 end registration coordinates equal
+     component 1 start registration coordinates globally even though their
+     local print coordinates differ.
+
+Manual small-shape regression:
+  A. Open workbenches/vertex-polygon.scad.
+  B. Set Show bend post fixture = true and leave Fixture layout mode = auto.
+  C. Press F5.
+  D. Confirm the rounded-square one-piece fixture still renders and reports
+       full form fits envelope: true
+     without entering segmentation or adding segmented setup holes.
+
+Static verification performed before delivery:
+  - Batch 019 was developed as a delta over the accepted Batch 018 tree
+    represented by commit dae5a38;
+  - all include/use targets resolve;
+  - project-prefixed function/module call-resolution scan passes;
+  - function/module declaration uniqueness scan passes;
+  - delimiter/comment/string checks pass on every .scad file;
+  - every .scad file remains below the 500-line project limit;
+  - no files are deleted;
+  - Wave Pattern retains show_diagnostic_preview = true;
+  - physical calibration-trial registry remains empty and unmodified;
+  - no empirical PET behavior is invented.
+
+OpenSCAD execution note:
+  OpenSCAD is not installed in the delivery environment. The F5 tests above
+  require execution on the user's OpenSCAD installation.
+
+After acceptance:
+  Continue application completion with analytical line/arc self-intersection
+  and near-intersection diagnostics, then developed/cut-length and closure
+  handling, followed by manufacturing manifests and Catalog-ready packaging.

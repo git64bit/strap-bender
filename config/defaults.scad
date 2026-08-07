@@ -191,3 +191,26 @@ wb_fixture_tool_surface_chord_error_mm =
 wb_fixture_tool_surface_max_angle_step_degrees =
     is_undef(fixture_tool_surface_max_angle_step_degrees)
         ? 5 : fixture_tool_surface_max_angle_step_degrees;
+
+wb_fixture_registration_mode = is_undef(fixture_registration_mode)
+    ? "pin_pair" : fixture_registration_mode;
+wb_fixture_registration_pin_diameter_mm =
+    is_undef(fixture_registration_pin_diameter_mm)
+        ? 3 : fixture_registration_pin_diameter_mm;
+wb_fixture_registration_hole_clearance_mm =
+    is_undef(fixture_registration_hole_clearance_mm)
+        ? 0.3 : fixture_registration_hole_clearance_mm;
+wb_fixture_registration_tangent_spacing_mm =
+    is_undef(fixture_registration_tangent_spacing_mm)
+        ? 8 : fixture_registration_tangent_spacing_mm;
+wb_fixture_registration_normal_offset_mm =
+    is_undef(fixture_registration_normal_offset_mm)
+        ? 3 : fixture_registration_normal_offset_mm;
+wb_fixture_component_label_mode = is_undef(fixture_component_label_mode)
+    ? "recessed_corner" : fixture_component_label_mode;
+wb_fixture_component_label_size_mm =
+    is_undef(fixture_component_label_size_mm)
+        ? 2.5 : fixture_component_label_size_mm;
+wb_fixture_component_label_depth_mm =
+    is_undef(fixture_component_label_depth_mm)
+        ? 0.4 : fixture_component_label_depth_mm;

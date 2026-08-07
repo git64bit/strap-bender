@@ -209,7 +209,7 @@ Batch 015 requires the bend-post fixture source and derived plan to check:
 - nominal plans are explicitly marked `experimental_uncompensated`;
 - base bounds are finite and fit within the configured printer envelope.
 
-When `arc_follower` is active, validation additionally requires a positive radial slot outside every post, bounded follower tessellation, valid follower polygons, and base bounds that include the follower walls. The open-top follower has no overhanging cap, so vertical removal remains the current access policy. Segmented joints and component identifiers remain later validations.
+When `arc_follower` is active, validation additionally requires a positive radial slot outside every post, bounded follower tessellation, valid follower polygons, and base bounds that include the follower walls. The open-top follower has no overhanging cap, so vertical removal remains the current access policy. Segmentation and setup-aid validation remain separate from the full-form fixture record.
 
 ## Tolerances
 
@@ -242,3 +242,9 @@ For each retained bend, the follower inner radius equals tool radius plus nomina
 ## Long-form segmentation validation
 
 A segmented fixture must cover station zero through the exact analytical path length with contiguous component intervals. IDs must derive deterministically from fixture identity and zero-based component index. Adjacent components must share the same split station, XY point, and heading; interior split datums must be `component_split` records generated inside straight primitives. Every original bend station must be assigned exactly once, and every component base must fit the configured print envelope independently. Full-path clearance validation remains global and is not weakened by segmentation.
+
+## Batch 019 segmented setup-aid validation
+
+A setup-aid source must use a supported registration mode (`none` or `pin_pair`) and label mode (`none` or `recessed_corner`). Nominal pin diameter, pair spacing, normal offset, label size, and label depth must be finite and positive; diametral hole clearance must be nonnegative. Pair spacing must exceed the resolved hole diameter, normal offset must exceed hole radius, and recessed mark depth must remain below base thickness.
+
+For every segmented component, each registration-hole circle must lie completely inside that component's base bounds. Its edge must remain at least nominal strap thickness plus configured fixture clearance away from the complete analytical target path. At every adjacent component boundary, the previous component's end pair and the next component's start pair must resolve to identical global points within the named position tolerance. Component marks are deterministic zero-padded indexes and do not replace the full component ID.

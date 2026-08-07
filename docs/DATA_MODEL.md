@@ -203,3 +203,9 @@ No public record may require a BOSL2 data structure or a source file from Grid S
 ## Long-form fixture records
 
 Batch 018 adds three derived record families: assembly/setup datum, printable fixture component, and fixture segmentation plan. A datum stores exact analytical station, global XY point, heading, role, and source-command identity. A component stores deterministic ID/index, contiguous station interval, start/end datums, the complete bend stations assigned to that interval, and its independently printable base bounds. The segmentation plan stores source fixture/path identity, strategy, ordered components, boundary stations, print envelope, status, and notes. These records contain no new target-shape intent and no empirical PET behavior.
+
+### Segmented fixture setup-aid specification
+
+Batch 019 adds a source record that is independent of the bend-post fixture specification and the derived segmentation plan. It stores registration mode, nominal pin diameter, diametral printed-hole clearance, tangent spacing, left-normal offset, component-mark mode, mark size/depth, and notes. Registration-hole diameter is derived from nominal pin diameter plus the explicit diametral allowance.
+
+The setup record does not store per-component hole coordinates. Those coordinates are derived from each exact `component_split` datum, so adjacent components independently reproduce one identical global registration pair. The physical zero-padded component mark is likewise derived from the component index rather than stored as a second identifier.

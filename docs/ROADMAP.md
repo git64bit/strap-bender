@@ -98,7 +98,7 @@ Implementation status:
 - Post height is validated against nominal strap width, and post circular tessellation is bounded by both chord error and maximum angular step.
 - Batch 016 adds exact post/post gap analysis and exact post/nonlocal-path clearance analysis. Local source arcs and their tangent neighbors are intentionally excluded. Unsafe full-form fixtures are rejected before rendering.
 - Batch 017 adds optional `arc_follower` retention. Each follower is an open-top annular wall spanning exactly one signed bend sweep. Its nominal slot width is strap thickness plus configured clearance; wall thickness is explicit. Follower bounds are included in the base plan and retention-mode clearance uses a conservative full-circle envelope.
-- Fixture segmentation, component labels, and assembly datums remain the next bounded Phase 6 work.
+- Phase 5 fixture planning now feeds the Phase 6 segmentation and setup-aid layers; empirical physical refinement remains later.
 
 ## Phase 6 — long-form fixture strategy
 
@@ -111,7 +111,9 @@ Implementation status:
 - Batch 018 implements the first long-form strategy as deterministic sequential station modules. `auto` layout keeps a full-form fixture when it fits and otherwise partitions at exact stations located inside analytical straight primitives.
 - The greedy partitioner chooses the farthest available straight-region split that keeps each component inside the configured XY print envelope. Long individual straight primitives receive additional deterministic internal candidates so segmentation is not limited to one midpoint per line.
 - Every component preserves a stable zero-padded ID, complete station interval, exact start/end XY and heading datums, source-command identity, assigned bend stations, global base bounds, and local print-origin datum coordinates. No analytical bend or arc follower is split between components.
-- The first strategy is explicitly sequential rather than a physical butt-jointed tile system. Component boundaries and margins may overlap in global XY coverage; the station/tangent manifest is the setup authority. Mechanical inter-component joiners, optional tiled assembly, and long-form setup aids remain later Phase 6 work.
+- The first strategy is explicitly sequential rather than a physical butt-jointed tile system. Component boundaries and margins may overlap in global XY coverage; the station/tangent manifest is the setup authority.
+- Batch 019 adds physical sequential setup aids without changing the station partition: matching keyed registration-hole pairs are derived from exact shared split poses, and recessed zero-padded component marks are rendered in protected base-margin corners. Registration geometry is validated against the component base and complete analytical strap path.
+- A true simultaneously assembled tiled/rail-connected fixture remains optional later work; Batch 019 registration is for sequential transfer/common-board setup and does not turn overlapping components into butt-jointed tiles.
 
 ## Phase 7 — accepted objects and Catalog
 

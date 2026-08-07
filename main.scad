@@ -27,6 +27,7 @@ include <config/calibration_coupons.scad>
 include <config/calibration_trials.scad>
 include <config/calibration_evidence.scad>
 include <config/fixtures.scad>
+include <config/fixture_setup.scad>
 include <config/workbenches.scad>
 
 module run_bend_post_fixture_pipeline(analytical_path) {
@@ -83,6 +84,15 @@ module run_bend_post_fixture_pipeline(analytical_path) {
         );
         echo("STRAP BENDER FIXTURE SEGMENTATION VALIDATION: PASS");
 
+        setup_aid = WORKBENCH_FIXTURE_SETUP_AID;
+        validate_fixture_setup_aid(
+            setup_aid, segmentation, plan, fixture, analytical_path
+        );
+        report_fixture_setup_aid(
+            setup_aid, segmentation, wb_report_level
+        );
+        echo("STRAP BENDER FIXTURE SETUP-AID VALIDATION: PASS");
+
         components = fixture_segmentation_plan_components(segmentation);
         assert(wb_fixture_component_index < len(components),
             str("Fixture component index ", wb_fixture_component_index,
@@ -92,7 +102,7 @@ module run_bend_post_fixture_pipeline(analytical_path) {
         echo(str("Rendering fixture component ", wb_fixture_component_index,
             ": ", fixture_component_id(selected_component)));
         render_bend_post_fixture_component(
-            selected_component, plan, fixture
+            selected_component, plan, fixture, setup_aid
         );
         echo("STRAP BENDER SEGMENTED BEND-POST FIXTURE RENDER: PASS");
     } else {

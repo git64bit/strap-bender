@@ -23,6 +23,7 @@ STRAP_BENDER_CALIBRATION_TRIAL_CONTRACT_VERSION = 1;
 STRAP_BENDER_CALIBRATION_EVIDENCE_REGISTRY_CONTRACT_VERSION = 1;
 STRAP_BENDER_BEND_POST_FIXTURE_CONTRACT_VERSION = 3;
 STRAP_BENDER_FIXTURE_SEGMENTATION_CONTRACT_VERSION = 1;
+STRAP_BENDER_FIXTURE_SETUP_AID_CONTRACT_VERSION = 1;
 
 include <lib/indices.scad>
 include <lib/material_indices.scad>
@@ -31,6 +32,7 @@ include <lib/calibration_coupon_indices.scad>
 include <lib/calibration_trial_indices.scad>
 include <lib/fixture_indices.scad>
 include <lib/fixture_segmentation_indices.scad>
+include <lib/fixture_setup_indices.scad>
 include <lib/schema.scad>
 include <lib/pattern_schema.scad>
 include <lib/material_schema.scad>
@@ -39,6 +41,7 @@ include <lib/calibration_coupon_schema.scad>
 include <lib/calibration_trial_schema.scad>
 include <lib/fixture_schema.scad>
 include <lib/fixture_segmentation_schema.scad>
+include <lib/fixture_setup_schema.scad>
 include <lib/accessors.scad>
 include <lib/material_accessors.scad>
 include <lib/calibration_accessors.scad>
@@ -46,6 +49,7 @@ include <lib/calibration_coupon_accessors.scad>
 include <lib/calibration_trial_accessors.scad>
 include <lib/fixture_accessors.scad>
 include <lib/fixture_segmentation_accessors.scad>
+include <lib/fixture_setup_accessors.scad>
 include <lib/lookup.scad>
 include <paths/value_schedules.scad>
 include <paths/pattern_math.scad>
@@ -64,6 +68,7 @@ include <fixtures/bend_post_retention_math.scad>
 include <fixtures/bend_post_fixture_math.scad>
 include <fixtures/bend_post_clearance_math.scad>
 include <fixtures/bend_post_segmentation_math.scad>
+include <fixtures/bend_post_setup_math.scad>
 include <lib/validation.scad>
 include <lib/value_schedule_validation.scad>
 include <lib/polygon_validation.scad>
@@ -75,6 +80,7 @@ include <lib/calibration_coupon_validation.scad>
 include <lib/calibration_trial_validation.scad>
 include <lib/fixture_validation.scad>
 include <lib/fixture_segmentation_validation.scad>
+include <lib/fixture_setup_validation.scad>
 include <lib/reporting.scad>
 include <lib/pattern_reporting.scad>
 include <lib/material_reporting.scad>
@@ -83,6 +89,7 @@ include <lib/calibration_coupon_reporting.scad>
 include <lib/calibration_trial_reporting.scad>
 include <lib/fixture_reporting.scad>
 include <lib/fixture_segmentation_reporting.scad>
+include <lib/fixture_setup_reporting.scad>
 include <geometry/diagnostic_path.scad>
 include <geometry/radius_calibration_coupon.scad>
 include <geometry/bend_post_fixture.scad>

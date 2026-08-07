@@ -17,6 +17,7 @@
 - Batch 016 resolves the first fixture collision policy: exact post/post gaps and post/nonlocal-path gaps are checked before rendering.
 - Batch 017 resolves the first production-shape retention topology: optional open-top arc followers surrounding each bend sweep with a nominal strap-thickness-plus-clearance slot and explicit follower wall thickness.
 - Batch 018 resolves the first long-form software strategy: deterministic sequential components split only inside analytical straight regions, with exact global station/XY/heading setup datums and local print origins.
+- Batch 019 resolves the first physical sequential alignment aid: matching keyed pin-pair holes derived from each exact interior split datum, plus a recessed zero-padded component index mark.
 
 ## Physical inputs still required
 
@@ -45,7 +46,7 @@ Batch 011 resolves the small calibration-tool topology. Batch 015 additionally s
 - fixture height relative to strap width;
 - printer build envelope;
 - fixture mounting surface and available fasteners;
-- physical alignment hardware or mounting method for sequential/segmented tools;
+- final pin material, fit allowance, and common setup-board/mounting method for the Batch 019 registration holes;
 - whether a later tiled or rail-connected strategy is also needed in addition to the Batch 018 sequential strategy;
 - acceptable fixture deflection and dimensional tolerance;
 - removal strategy for closed and concave shapes.

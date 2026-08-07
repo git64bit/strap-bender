@@ -41,6 +41,8 @@ assert(STRAP_BENDER_BEND_POST_FIXTURE_CONTRACT_VERSION == 3,
     "Unexpected bend-post fixture contract version.");
 assert(STRAP_BENDER_FIXTURE_SEGMENTATION_CONTRACT_VERSION == 1,
     "Unexpected fixture-segmentation contract version.");
+assert(STRAP_BENDER_FIXTURE_SETUP_AID_CONTRACT_VERSION == 1,
+    "Unexpected fixture setup-aid contract version.");
 
 material = strap_material_spec(
     "TEST_STRAP",
@@ -165,6 +167,18 @@ fixture_segmentation = fixture_segmentation_plan_spec(
     "experimental_uncompensated",
     "Synthetic segmentation record."
 );
+fixture_setup = fixture_setup_aid_spec(
+    "TEST_FIXTURE_SETUP",
+    "pin_pair",
+    3,
+    0.3,
+    8,
+    3,
+    "recessed_corner",
+    2.5,
+    0.4,
+    "Synthetic fixture setup-aid record."
+);
 project = project_spec("TEST_PROJECT", "bend_program", "laboratory");
 pose = start_pose_spec(10, -5, 30);
 straight = straight_command(0, 25, "TEST_STRAIGHT");
@@ -234,6 +248,7 @@ validate_radius_calibration_coupon(coupon, [material]);
 validate_radius_observation(trial_observation, [material]);
 validate_calibration_trial(trial, [material], [coupon]);
 validate_bend_post_fixture(fixture, [material]);
+validate_fixture_setup_aid_source(fixture_setup);
 assert(radius_observation_name(observation) == "TEST_RADIUS_OBSERVATION" &&
     radius_observation_specimen_id(observation) == "TEST-SPECIMEN" &&
     abs(radius_observation_springback_delta_mm(observation) - 1) < 1e-9,
@@ -255,6 +270,11 @@ assert(bend_post_fixture_name(fixture) == "TEST_BEND_POST_FIXTURE" &&
     bend_post_fixture_retention_mode(fixture) == "arc_follower" &&
     bend_post_fixture_follower_wall_thickness_mm(fixture) == 2,
     "Bend-post fixture constructor or accessor contract failed.");
+assert(fixture_setup_aid_name(fixture_setup) == "TEST_FIXTURE_SETUP" &&
+    fixture_setup_aid_registration_mode(fixture_setup) == "pin_pair" &&
+    sb_near(fixture_setup_aid_hole_diameter_mm(fixture_setup), 3.3, 1e-9) &&
+    fixture_setup_aid_label_mode(fixture_setup) == "recessed_corner",
+    "Fixture setup-aid constructor or accessor contract failed.");
 assert(fixture_datum_station_mm(fixture_datum) == 25 &&
     fixture_datum_point(fixture_datum) == [30, 40] &&
     fixture_component_id(fixture_component) ==

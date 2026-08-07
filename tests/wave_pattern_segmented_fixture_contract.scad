@@ -27,6 +27,14 @@ fixture_retention_mode = "arc_follower";
 fixture_follower_wall_thickness_mm = 2;
 fixture_layout_mode = "segmented";
 fixture_component_index = 0;
+fixture_registration_mode = "pin_pair";
+fixture_registration_pin_diameter_mm = 3;
+fixture_registration_hole_clearance_mm = 0.3;
+fixture_registration_tangent_spacing_mm = 8;
+fixture_registration_normal_offset_mm = 3;
+fixture_component_label_mode = "recessed_corner";
+fixture_component_label_size_mm = 2.5;
+fixture_component_label_depth_mm = 0.4;
 fixture_max_base_width_mm = 220;
 fixture_max_base_depth_mm = 220;
 fixture_tool_surface_chord_error_mm = 0.02;
@@ -42,5 +50,8 @@ assert(wb_fixture_layout_mode == "segmented",
     "Long-wave fixture contract must preserve segmented layout mode.");
 assert(wb_fixture_component_index == 0,
     "Long-wave fixture contract must preserve selected component index.");
+assert(wb_fixture_registration_mode == "pin_pair" &&
+    wb_fixture_component_label_mode == "recessed_corner",
+    "Long-wave fixture contract must preserve segmented setup aids.");
 
 echo("STRAP BENDER WAVE-PATTERN SEGMENTED FIXTURE CONTRACT: PASS");
