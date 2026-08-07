@@ -199,3 +199,7 @@ Diagnostics can trace a normalized primitive to its expanded command index. Batc
 ## External-library boundary
 
 No public record may require a BOSL2 data structure or a source file from Grid Stack or Polygon Stack. External libraries may implement internal operations behind Strap Bender-native constructors and accessors.
+
+## Long-form fixture records
+
+Batch 018 adds three derived record families: assembly/setup datum, printable fixture component, and fixture segmentation plan. A datum stores exact analytical station, global XY point, heading, role, and source-command identity. A component stores deterministic ID/index, contiguous station interval, start/end datums, the complete bend stations assigned to that interval, and its independently printable base bounds. The segmentation plan stores source fixture/path identity, strategy, ordered components, boundary stations, print envelope, status, and notes. These records contain no new target-shape intent and no empirical PET behavior.

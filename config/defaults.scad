@@ -177,6 +177,10 @@ wb_fixture_retention_mode = is_undef(fixture_retention_mode)
 wb_fixture_follower_wall_thickness_mm =
     is_undef(fixture_follower_wall_thickness_mm)
         ? 2 : fixture_follower_wall_thickness_mm;
+wb_fixture_layout_mode = is_undef(fixture_layout_mode)
+    ? "auto" : fixture_layout_mode;
+wb_fixture_component_index = is_undef(fixture_component_index)
+    ? 0 : fixture_component_index;
 wb_fixture_max_base_width_mm = is_undef(fixture_max_base_width_mm)
     ? 220 : fixture_max_base_width_mm;
 wb_fixture_max_base_depth_mm = is_undef(fixture_max_base_depth_mm)

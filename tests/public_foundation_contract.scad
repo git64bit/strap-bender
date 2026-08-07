@@ -39,6 +39,8 @@ assert(STRAP_BENDER_CALIBRATION_EVIDENCE_REGISTRY_CONTRACT_VERSION == 1,
     "Unexpected calibration evidence registry contract version.");
 assert(STRAP_BENDER_BEND_POST_FIXTURE_CONTRACT_VERSION == 3,
     "Unexpected bend-post fixture contract version.");
+assert(STRAP_BENDER_FIXTURE_SEGMENTATION_CONTRACT_VERSION == 1,
+    "Unexpected fixture-segmentation contract version.");
 
 material = strap_material_spec(
     "TEST_STRAP",
@@ -133,6 +135,36 @@ fixture = bend_post_fixture_spec(
     2,
     "Synthetic public-foundation fixture only."
 );
+fixture_datum = fixture_assembly_datum_spec(
+    25,
+    [30, 40],
+    15,
+    "component_split",
+    2,
+    "TEST_SPLIT"
+);
+fixture_component = fixture_component_spec(
+    "TEST_BEND_POST_FIXTURE__C001",
+    0,
+    0,
+    25,
+    fixture_assembly_datum_spec(0, [0, 0], 0, "path_start", 0, "START"),
+    fixture_datum,
+    [],
+    [-5, -5, 35, 45],
+    "Synthetic component record."
+);
+fixture_segmentation = fixture_segmentation_plan_spec(
+    "TEST_BEND_POST_FIXTURE",
+    "TEST_PATH",
+    "sequential_straight_split",
+    [fixture_component],
+    [0, 25],
+    220,
+    220,
+    "experimental_uncompensated",
+    "Synthetic segmentation record."
+);
 project = project_spec("TEST_PROJECT", "bend_program", "laboratory");
 pose = start_pose_spec(10, -5, 30);
 straight = straight_command(0, 25, "TEST_STRAIGHT");
@@ -223,6 +255,12 @@ assert(bend_post_fixture_name(fixture) == "TEST_BEND_POST_FIXTURE" &&
     bend_post_fixture_retention_mode(fixture) == "arc_follower" &&
     bend_post_fixture_follower_wall_thickness_mm(fixture) == 2,
     "Bend-post fixture constructor or accessor contract failed.");
+assert(fixture_datum_station_mm(fixture_datum) == 25 &&
+    fixture_datum_point(fixture_datum) == [30, 40] &&
+    fixture_component_id(fixture_component) ==
+        "TEST_BEND_POST_FIXTURE__C001" &&
+    fixture_segmentation_plan_component_count(fixture_segmentation) == 1,
+    "Fixture segmentation constructor or accessor contract failed.");
 assert(strap_material_name(material) == "TEST_STRAP" &&
     abs(strap_material_nominal_width_in(material) - 0.625) < 1e-9 &&
     abs(strap_material_nominal_thickness_in(material) - 0.020) < 1e-9,

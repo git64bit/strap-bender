@@ -1,0 +1,192 @@
+STRAP BENDER — BATCH 018 DELTA
+
+Base repository:
+  https://github.com/git64bit/strap-bender
+
+Required base commit:
+  540ed0a
+  540ed0a86ebbb01ead686371ed5ca30e483c39ba
+
+Scope:
+  Phase 6 bounded start: deterministic long-form bend-post fixture segmentation,
+  print-envelope partitioning, straight-region split policy, component manifests,
+  exact setup datums, and one-component-at-a-time printable rendering.
+
+Development priority:
+  Application completion remains primary. Pending coupon measurements,
+  springback fitting, neutral-axis evaluation, and other empirical PET
+  refinements do not block this batch or subsequent application work.
+
+Batch 018 implements:
+  - new fixture-segmentation contract version 1;
+  - new assembly-datum, printable-component, and segmentation-plan records;
+  - fixture_layout_mode = auto | full_form | segmented on all four shape
+    workbenches;
+  - fixture_component_index selects the component rendered for STL export;
+  - auto mode preserves the existing one-piece fixture when its complete base
+    fits the configured print envelope;
+  - auto mode enters segmentation when the one-piece base is oversized;
+  - segmented mode forces component planning even when one piece would fit;
+  - full_form mode preserves the prior asserting print-envelope contract;
+  - global full-path fixture and clearance validation still occurs before
+    segmentation, so segmentation does not hide an unsafe path interaction;
+  - interior split candidates occur only strictly inside analytical straight
+    primitives; no bend post or arc follower is split;
+  - long individual straight primitives receive additional deterministic split
+    candidates based on the configured print envelope;
+  - a greedy deterministic planner chooses the farthest candidate that keeps
+    each component inside the print envelope;
+  - component IDs are stable and zero-padded, for example
+      WAVE_PATTERN_LAB_BEND_POST_FIXTURE__C001
+  - each component preserves exact global station start/end, global XY point,
+    heading, source-command identity, assigned bend stations, and base bounds;
+  - adjacent components share an exact station/point/heading boundary datum;
+  - each bend station is assigned to exactly one component;
+  - component rendering translates the selected global component to a local
+    XY print origin without changing its internal geometry;
+  - reporting prints the complete component manifest and global/local setup
+    datums;
+  - the first long-form strategy is explicitly sequential_straight_split.
+
+Important Batch 018 boundary:
+  These components are sequential station modules, not mechanically butt-jointed
+  tiles. Their global base-margin coverage may overlap. Exact station and tangent
+  datums are the setup authority. Physical joiners, mounting keys, datum marks,
+  tiled assembly, and other long-form setup aids remain later Phase 6 work.
+
+This batch deliberately does NOT add:
+  - empirical target-to-tool radius compensation;
+  - neutral-axis or strap cut-length correction;
+  - a claim that nominal tool radius predicts relaxed PET radius;
+  - mechanical inter-component keys or butt joints;
+  - Catalog promotion;
+  - forming-temperature/process recommendations.
+
+New files:
+  fixtures/bend_post_segmentation_math.scad
+  lib/fixture_segmentation_accessors.scad
+  lib/fixture_segmentation_indices.scad
+  lib/fixture_segmentation_reporting.scad
+  lib/fixture_segmentation_schema.scad
+  lib/fixture_segmentation_validation.scad
+  tests/fixture_segmentation_contract.scad
+  tests/wave_pattern_segmented_fixture_contract.scad
+
+Changed files:
+  README.md
+  config/defaults.scad
+  config/fixtures.scad
+  docs/ARCHITECTURE.md
+  docs/DATA_MODEL.md
+  docs/FIXTURE_DESIGN_BOUNDARY.md
+  docs/OPEN_DECISIONS.md
+  docs/ROADMAP.md
+  docs/VALIDATION_CONTRACT.md
+  geometry/bend_post_fixture.scad
+  lib/fixture_validation.scad
+  main.scad
+  strap_bender.scad
+  tests/README.md
+  tests/public_foundation_contract.scad
+  workbenches/bend-program.scad
+  workbenches/regular-polygon.scad
+  workbenches/vertex-polygon.scad
+  workbenches/wave-pattern.scad
+
+Application / verification procedure:
+  1. Confirm the repository is clean and at accepted Batch 017:
+       cd /root/strap-bender
+       git status --short
+       git rev-parse HEAD
+     Expected HEAD:
+       540ed0a86ebbb01ead686371ed5ca30e483c39ba
+
+  2. Upload strap-bender-batch-018.zip to the orchestrator.
+
+  3. Overlay the complete delta while preserving repository-relative paths.
+     Example if the ZIP is in /root:
+       cd /root/strap-bender
+       unzip -o /root/strap-bender-batch-018.zip -d /root/strap-bender
+
+  4. Confirm the expected delta only:
+       git status --short
+
+Required OpenSCAD F5 verification:
+  1. tests/public_foundation_contract.scad
+       STRAP BENDER PUBLIC FOUNDATION CONTRACT: PASS
+
+  2. tests/bend_post_fixture_contract.scad
+       STRAP BENDER BEND-POST FIXTURE CONTRACT: PASS
+     This proves existing small full-form fixture behavior remains intact.
+
+  3. tests/bend_post_retention_contract.scad
+       STRAP BENDER BEND-POST RETENTION CONTRACT: PASS
+
+  4. tests/bend_post_clearance_contract.scad
+       STRAP BENDER BEND-POST CLEARANCE CONTRACT: PASS
+
+  5. tests/fixture_material_routing_contract.scad
+       STRAP BENDER FIXTURE MATERIAL ROUTING CONTRACT: PASS
+
+  6. tests/fixture_segmentation_contract.scad
+       STRAP BENDER FIXTURE SEGMENTATION CONTRACT: PASS
+     Confirm that the 30-wave fixture produces multiple printable components,
+     each no larger than 220 x 220 mm, and component 0 renders.
+
+  7. tests/wave_pattern_segmented_fixture_contract.scad
+       STRAP BENDER WAVE-PATTERN SEGMENTED FIXTURE CONTRACT: PASS
+     This executes the complete 30-wave authoring route through main.scad and
+     renders selected component 0.
+
+  8. tests/wave_pattern_workbench_wrapper_contract.scad
+       STRAP BENDER WAVE-PATTERN WORKBENCH WRAPPER CONTRACT: PASS
+     Confirm the default diagnostic path still renders with no warnings/errors.
+
+  9. tests/vertex_polygon_workbench_wrapper_contract.scad
+       STRAP BENDER VERTEX-POLYGON WORKBENCH WRAPPER CONTRACT: PASS
+
+ 10. tests/regular_polygon_workbench_wrapper_contract.scad
+       STRAP BENDER REGULAR-POLYGON WORKBENCH WRAPPER CONTRACT: PASS
+
+Manual long-form verification:
+  A. Open workbenches/wave-pattern.scad.
+  B. Set Show bend post fixture = true.
+  C. Leave Fixture layout mode = auto and Fixture component index = 0.
+  D. Press F5.
+  E. Confirm the console reports:
+       Fixture layout mode: auto; full form fits envelope: false
+       STRAP BENDER FIXTURE SEGMENTATION VALIDATION: PASS
+     followed by a component manifest and a selected component render.
+  F. Change Fixture component index to 1 and press F5.
+     Confirm the next component ID renders at its own local print origin.
+  G. Return Fixture component index to 0 after verification if desired.
+
+Manual small-shape regression:
+  A. Open workbenches/vertex-polygon.scad.
+  B. Set Show bend post fixture = true and leave Fixture layout mode = auto.
+  C. Press F5.
+  D. Confirm the rounded-square one-piece fixture renders and the console reports
+       full form fits envelope: true
+     rather than entering segmentation.
+
+Static verification performed before delivery:
+  - Batch 018 was developed as a delta over the accepted corrected Batch 017
+    tree represented by commit 540ed0a;
+  - all include/use targets resolve;
+  - project-prefixed function/module call-resolution scan passes;
+  - function/module declaration uniqueness scan passes;
+  - delimiter checks pass on every new/changed .scad file;
+  - every .scad file remains below the 500-line project limit;
+  - no files are deleted;
+  - Wave Pattern retains show_diagnostic_preview = true;
+  - physical calibration-trial registry remains empty and unmodified;
+  - no empirical PET behavior is invented.
+
+OpenSCAD execution note:
+  OpenSCAD is not installed in the delivery environment. The F5 tests above
+  require execution on the user's OpenSCAD installation.
+
+After acceptance:
+  Continue Phase 6 with physical component setup aids/identification and then
+  finish the remaining application/Catalog architecture without waiting for
+  coupon measurements.

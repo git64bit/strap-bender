@@ -24,10 +24,11 @@ WORKBENCH_BEND_POST_FIXTURE = bend_post_fixture_spec(
     follower_wall_thickness_mm =
         wb_fixture_follower_wall_thickness_mm,
     notes = str(
-        "Mutable first production-shape fixture family. Full-form base with ",
-        "one open-top circular inside-form post per analytical bend. ",
-        "Optional arc followers preserve a nominal strap slot across each bend. ",
-        "Clearance envelopes are validated before render. Radius mode remains ",
-        "deliberately nominal and uncompensated."
+        "Mutable first production-shape fixture family. One open-top circular ",
+        "inside-form post is derived per analytical bend. Optional arc followers ",
+        "preserve a nominal strap slot across each bend. A full-form base is ",
+        "used when printable; Batch 018 may partition the same validated plan ",
+        "into sequential station components. Radius mode remains deliberately ",
+        "nominal and uncompensated."
     )
 );

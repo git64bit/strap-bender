@@ -239,3 +239,6 @@ Before a bend-post fixture renders, the material router must expose the referenc
 
 For each retained bend, the follower inner radius equals tool radius plus nominal strap thickness plus configured clearance. The follower outer radius adds positive wall thickness. The partial annular wall spans the same signed sweep as the source bend, its outer chordal approximation must satisfy the configured tool-surface chord-error bound, and its exact analytical bounds participate in fixture base sizing.
 
+## Long-form segmentation validation
+
+A segmented fixture must cover station zero through the exact analytical path length with contiguous component intervals. IDs must derive deterministically from fixture identity and zero-based component index. Adjacent components must share the same split station, XY point, and heading; interior split datums must be `component_split` records generated inside straight primitives. Every original bend station must be assigned exactly once, and every component base must fit the configured print envelope independently. Full-path clearance validation remains global and is not weakened by segmentation.

@@ -4,7 +4,7 @@
 
 A Strap Bender fixture exists to reproduce the target tangent locations, straight lengths, bend directions, and compensated tool radii as closely as practical for the specified PET strap and forming process.
 
-This document defines fixture requirements. Batch 015 selects the first software topology: a full-form open-top bend-post fixture. It is deliberately nominal and uncompensated until physical calibration is available.
+This document defines fixture requirements. Batch 015 selects the first software topology: an open-top bend-post fixture. Batch 018 adds deterministic sequential segmentation when the full plan exceeds the print envelope. Tool radii remain deliberately nominal and uncompensated until physical calibration is available.
 
 ## Required separation
 
@@ -46,7 +46,7 @@ The first production-shape software family uses a rectangular base and one full 
 
 In `nominal_target` mode each tool radius equals the requested finished inside radius. This is an intentionally uncompensated construction used to complete fixture software before empirical PET correction exists. Posts remain open at the top so the strap can be lifted vertically.
 
-This family is suitable for small shapes that fit one print envelope. It is not the long-form solution.
+A one-piece base is suitable for small shapes that fit one print envelope. Batch 018 reuses the same exact bend stations and retention geometry for long-form sequential components rather than redefining the target path.
 
 Batch 016 adds a pre-render clearance analysis. Every post pair is checked by exact circle-to-circle gap. Every post is also checked against every nonlocal analytical line or arc using exact point-to-segment or point-to-arc distance. The station's own source arc and its immediate tangent neighbors are excluded because contact there is intentional. Any violation rejects the full-form fixture before geometry dispatch.
 
@@ -105,3 +105,7 @@ Batch 011 implements the first calibration-tool family as an open inside-form co
 Reference Laboratory coupons are provided for 90-degree R1.6 and R5 designed tool radii, and the workbench can author other nonzero signed angles through 180 degrees. Tool-surface facets obey a requested chord-error bound and maximum angular step. Tessellation error is reported separately from printer dimensional accuracy.
 
 Printed coupons and measured relaxed results will establish the evidence needed for a future target-radius-to-tool-radius mapping for the exact strap and process. Batch 011 itself contains no such mapping. Batch 015 proceeds independently with nominal/uncompensated production-shape fixture software; later calibration replaces the radius mapping without redefining the target path.
+
+## Sequential long-form boundary
+
+Batch 018 chooses `sequential_straight_split` as the first long-form strategy. It is a software segmentation and setup contract, not a claim that printed component bases mechanically join. Interior boundaries are restricted to straight analytical regions so a bend post or follower is never divided. Components may have overlapping global base-margin coverage because they are rendered and used as sequential modules. Future mechanical joiners or tiled fixtures must preserve the same component station and tangent-pose provenance rather than redefining the target path.

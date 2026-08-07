@@ -16,6 +16,7 @@
 - Batch 015 selects the first production-shape software fixture family: a full-form open-top bend-post base, with one cylindrical inside-form post per analytical bend.
 - Batch 016 resolves the first fixture collision policy: exact post/post gaps and post/nonlocal-path gaps are checked before rendering.
 - Batch 017 resolves the first production-shape retention topology: optional open-top arc followers surrounding each bend sweep with a nominal strap-thickness-plus-clearance slot and explicit follower wall thickness.
+- Batch 018 resolves the first long-form software strategy: deterministic sequential components split only inside analytical straight regions, with exact global station/XY/heading setup datums and local print origins.
 
 ## Physical inputs still required
 
@@ -44,9 +45,8 @@ Batch 011 resolves the small calibration-tool topology. Batch 015 additionally s
 - fixture height relative to strap width;
 - printer build envelope;
 - fixture mounting surface and available fasteners;
-- alignment system for segmented tools;
-- whether long shapes are formed in place, in sections, or sequentially;
-- whether bends may be split across fixture components;
+- physical alignment hardware or mounting method for sequential/segmented tools;
+- whether a later tiled or rail-connected strategy is also needed in addition to the Batch 018 sequential strategy;
 - acceptable fixture deflection and dimensional tolerance;
 - removal strategy for closed and concave shapes.
 

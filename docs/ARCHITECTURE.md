@@ -177,3 +177,7 @@ A render module must not be the only place where an invalid path is detected.
 ## Catalog boundary
 
 Laboratory presets are mutable. After physical testing, an accepted path, strap specification, calibration, fixture specification, and provenance record may be embedded in an immutable Catalog object with a versioned API.
+
+## Long-form fixture segmentation
+
+Batch 018 adds a derived segmentation layer after the complete analytical path, bend-post plan, and clearance report. The authoritative path is never cut or rewritten. Oversized fixtures are partitioned by analytical station only after global geometry and clearance have passed validation. Interior split candidates lie strictly inside straight primitives. Each derived component retains global station and tangent-pose datums but renders translated to a local print origin. This keeps source intent, exact path geometry, full fixture planning, long-form partitioning, and printable component geometry as separate layers.

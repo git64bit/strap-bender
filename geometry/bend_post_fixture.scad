@@ -57,3 +57,32 @@ module render_bend_post_fixture(plan, fixture) {
         }
     }
 }
+
+module render_bend_post_fixture_component(component, plan, fixture) {
+    bounds = fixture_component_base_bounds(component);
+    base_width = fixture_component_base_width_mm(component);
+    base_depth = fixture_component_base_depth_mm(component);
+
+    translate([
+        -sb_bounds_min_x(bounds),
+        -sb_bounds_min_y(bounds),
+        0
+    ])
+        union() {
+            translate([
+                sb_bounds_min_x(bounds),
+                sb_bounds_min_y(bounds),
+                0
+            ])
+                cube([
+                    base_width,
+                    base_depth,
+                    bend_post_fixture_base_thickness_mm(fixture)
+                ]);
+            for (station = fixture_component_bend_stations(component)) {
+                render_bend_post_station(station, fixture);
+                if (sb_bend_post_retention_enabled(fixture))
+                    render_bend_post_arc_follower(station, plan, fixture);
+            }
+        }
+}

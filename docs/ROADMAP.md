@@ -107,6 +107,12 @@ Implementation status:
 - repeated-wave assembly and verification;
 - component manifests and setup instructions.
 
+Implementation status:
+- Batch 018 implements the first long-form strategy as deterministic sequential station modules. `auto` layout keeps a full-form fixture when it fits and otherwise partitions at exact stations located inside analytical straight primitives.
+- The greedy partitioner chooses the farthest available straight-region split that keeps each component inside the configured XY print envelope. Long individual straight primitives receive additional deterministic internal candidates so segmentation is not limited to one midpoint per line.
+- Every component preserves a stable zero-padded ID, complete station interval, exact start/end XY and heading datums, source-command identity, assigned bend stations, global base bounds, and local print-origin datum coordinates. No analytical bend or arc follower is split between components.
+- The first strategy is explicitly sequential rather than a physical butt-jointed tile system. Component boundaries and margins may overlap in global XY coverage; the station/tangent manifest is the setup authority. Mechanical inter-component joiners, optional tiled assembly, and long-form setup aids remain later Phase 6 work.
+
 ## Phase 7 — accepted objects and Catalog
 
 - versioned public API;

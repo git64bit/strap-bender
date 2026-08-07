@@ -27,7 +27,7 @@ Polygon point lists, regular-polygon generators, wave generators, and other auth
 
 Every finished shape uses one continuous, unbranched strap. The project does not describe shapes made from disconnected pieces, multiple straps, internal cutouts, or branched networks.
 
-The strap path and the bending fixture are separate objects. Batch 015 selects the first software fixture family: a full-form open-top base with one circular inside-form post per analytical bend. Long paths will later require segmented, modular, or sequential tooling; those strategies must preserve the same global analytical path. Physical calibration refines tool dimensions later and does not block application development.
+The strap path and the bending fixture are separate objects. Batch 015 selects the first software fixture family: an open-top base with one circular inside-form post per analytical bend. Batch 018 adds deterministic sequential segmentation when a full fixture exceeds the configured print envelope. Every component preserves global station and tangent-pose setup datums while rendering at a local print origin. Physical calibration refines tool dimensions later and does not block application development.
 
 ## Active workbenches
 
@@ -82,6 +82,8 @@ Batch 015 begins Phase 5 with the first production-shape fixture software family
 Batch 016 adds pre-render fixture clearance validation. Exact post/post gaps and exact post/nonlocal-path distances are checked against configurable policy values. Nonlocal path clearance includes the ULINE strap nominal thickness plus an explicit clearance allowance; unsafe full-form fixtures fail before geometry rendering.
 
 Batch 017 adds the first integral retention option: an open-top arc follower outside each bend post. The nominal radial slot equals strap thickness plus configured clearance, and the follower wall tracks only the signed bend sweep so entry and exit remain tangent openings. Exact follower bounds participate in base planning, while clearance checks use a conservative full-circle retention envelope before rendering. The workbenches can still select `none` when retention-free posts are wanted.
+
+Batch 018 begins Phase 6 with deterministic long-form fixture segmentation. `fixture_layout_mode = "auto"` preserves one-piece fixtures when they fit the configured print envelope and automatically partitions oversized paths otherwise. Interior boundaries are generated only inside analytical straight primitives, so no bend post or arc follower is cut. Each printable sequential component has a stable zero-padded ID, exact analytical station range, global XY/heading boundary datums, local print-origin datum coordinates, bend-station manifest, and independently validated base bounds. `fixture_component_index` selects the one component rendered for STL export. The first strategy is explicitly sequential; components are not claimed to be butt-jointed tiles in this revision.
 
 ## Tests
 

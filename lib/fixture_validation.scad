@@ -158,7 +158,8 @@ module validate_bend_post_fixture_plan(
     plan,
     fixture,
     analytical_path,
-    material_registry
+    material_registry,
+    enforce_print_envelope = true
 ) {
     validate_bend_post_fixture(fixture, material_registry);
     assert(is_list(plan) && len(plan) == 10,
@@ -227,18 +228,20 @@ module validate_bend_post_fixture_plan(
     bounds = bend_post_fixture_plan_base_bounds(plan);
     assert(sb_bounds_valid(bounds),
         "Fixture base bounds must be finite and ordered.");
-    assert(bend_post_fixture_plan_base_width_mm(plan) <=
-        bend_post_fixture_max_base_width_mm(fixture) +
-            SB_NUMERIC_POSITION_TOLERANCE_MM,
-        str("Fixture base width ", bend_post_fixture_plan_base_width_mm(plan),
-            " mm exceeds configured print envelope ",
-            bend_post_fixture_max_base_width_mm(fixture), " mm."));
-    assert(bend_post_fixture_plan_base_depth_mm(plan) <=
-        bend_post_fixture_max_base_depth_mm(fixture) +
-            SB_NUMERIC_POSITION_TOLERANCE_MM,
-        str("Fixture base depth ", bend_post_fixture_plan_base_depth_mm(plan),
-            " mm exceeds configured print envelope ",
-            bend_post_fixture_max_base_depth_mm(fixture), " mm."));
+    if (enforce_print_envelope) {
+        assert(bend_post_fixture_plan_base_width_mm(plan) <=
+            bend_post_fixture_max_base_width_mm(fixture) +
+                SB_NUMERIC_POSITION_TOLERANCE_MM,
+            str("Fixture base width ", bend_post_fixture_plan_base_width_mm(plan),
+                " mm exceeds configured print envelope ",
+                bend_post_fixture_max_base_width_mm(fixture), " mm."));
+        assert(bend_post_fixture_plan_base_depth_mm(plan) <=
+            bend_post_fixture_max_base_depth_mm(fixture) +
+                SB_NUMERIC_POSITION_TOLERANCE_MM,
+            str("Fixture base depth ", bend_post_fixture_plan_base_depth_mm(plan),
+                " mm exceeds configured print envelope ",
+                bend_post_fixture_max_base_depth_mm(fixture), " mm."));
+    }
 }
 
 module validate_fixture_clearance_issue(issue) {

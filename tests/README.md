@@ -135,3 +135,10 @@ The arc follower is still nominal/uncompensated. Its slot is derived from the ve
 - `radius_observation_ready_workbench_contract.scad` remains the strict ready-state proof: once every required field is valid, the transient trial is constructed and the existing calibration validators run unchanged.
 
 The correction does not weaken evidence validation. It adds a non-fatal completeness gate before strict validation and fixes dependency routing for physical fixture generation.
+
+## Batch 018 long-form fixture segmentation contracts
+
+- `fixture_segmentation_contract.scad` expands the accepted 30-wave source, proves the one-piece retained fixture exceeds a 220 x 220 mm print envelope, partitions it into deterministic sequential components, validates exact contiguous station coverage, shared split poses, one-time bend assignment, independently printable bounds, stable component IDs, and renders component 0 at a local print origin.
+- `wave_pattern_segmented_fixture_contract.scad` executes the complete 30-wave Customizer source through `main.scad` with `fixture_layout_mode = "segmented"` and component 0 selected for render.
+
+Interior segmentation boundaries are generated only inside analytical straight primitives, never through a bend post or arc follower. The first long-form strategy is sequential: component records preserve exact global station/XY/heading setup datums, while each printable component is translated to its own local XY origin. These components are not represented as mechanically butt-jointed tiles in Batch 018.

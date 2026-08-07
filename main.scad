@@ -31,18 +31,28 @@ include <config/workbenches.scad>
 
 module run_bend_post_fixture_pipeline(analytical_path) {
     fixture = WORKBENCH_BEND_POST_FIXTURE;
+    assert(sb_fixture_layout_mode_valid(wb_fixture_layout_mode),
+        str("Unsupported fixture layout mode: ", wb_fixture_layout_mode));
+    assert(sb_nonnegative_integer(wb_fixture_component_index),
+        "Fixture component index must be a nonnegative integer.");
     validate_bend_post_fixture(fixture, STRAP_MATERIALS);
     report_bend_post_fixture(fixture, wb_report_level);
     echo("STRAP BENDER BEND-POST FIXTURE SOURCE VALIDATION: PASS");
 
     plan = plan_bend_post_fixture(analytical_path, fixture, STRAP_MATERIALS);
+    full_form_fits = sb_fixture_plan_fits_print_envelope(plan, fixture);
+    use_segmentation = wb_fixture_layout_mode == "segmented" ||
+        (wb_fixture_layout_mode == "auto" && !full_form_fits);
     validate_bend_post_fixture_plan(
         plan,
         fixture,
         analytical_path,
-        STRAP_MATERIALS
+        STRAP_MATERIALS,
+        enforce_print_envelope = !use_segmentation
     );
     report_bend_post_fixture_plan(plan, fixture, wb_report_level);
+    echo(str("Fixture layout mode: ", wb_fixture_layout_mode,
+        "; full form fits envelope: ", full_form_fits));
     echo("STRAP BENDER BEND-POST FIXTURE PLAN VALIDATION: PASS");
 
     clearance_report = analyze_bend_post_fixture_clearance(
@@ -61,8 +71,34 @@ module run_bend_post_fixture_pipeline(analytical_path) {
     );
     echo("STRAP BENDER BEND-POST FIXTURE CLEARANCE VALIDATION: PASS");
 
-    render_bend_post_fixture(plan, fixture);
-    echo("STRAP BENDER BEND-POST FIXTURE RENDER: PASS");
+    if (use_segmentation) {
+        segmentation = plan_bend_post_fixture_segmentation(
+            analytical_path, plan, fixture
+        );
+        validate_bend_post_fixture_segmentation(
+            segmentation, plan, fixture, analytical_path
+        );
+        report_bend_post_fixture_segmentation(
+            segmentation, wb_report_level
+        );
+        echo("STRAP BENDER FIXTURE SEGMENTATION VALIDATION: PASS");
+
+        components = fixture_segmentation_plan_components(segmentation);
+        assert(wb_fixture_component_index < len(components),
+            str("Fixture component index ", wb_fixture_component_index,
+                " is outside the available range 0..", len(components) - 1,
+                "."));
+        selected_component = components[wb_fixture_component_index];
+        echo(str("Rendering fixture component ", wb_fixture_component_index,
+            ": ", fixture_component_id(selected_component)));
+        render_bend_post_fixture_component(
+            selected_component, plan, fixture
+        );
+        echo("STRAP BENDER SEGMENTED BEND-POST FIXTURE RENDER: PASS");
+    } else {
+        render_bend_post_fixture(plan, fixture);
+        echo("STRAP BENDER BEND-POST FIXTURE RENDER: PASS");
+    }
 }
 
 module run_normalized_shape_pipeline(shape) {
